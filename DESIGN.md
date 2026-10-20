@@ -106,7 +106,7 @@ Feature-library review is complete for local preview after keyboard/input cancel
 
 ## Do's and Don'ts
 
-The language selector displays native language names without flags. Eleven locales share the existing visual identity. Arabic uses RTL document flow and Noto Sans Arabic; the Zadex wordmark, real editor film and code retain their original direction. Layouts allow translated text to wrap, and mobile headers retain the language selector and navigation toggle. Non-English hero type scales to accommodate longer copy. Dictionaries load on demand; selection persists in local storage and a shareable `lang` query parameter. The playground remounts on language changes so localized sample defaults and walkthroughs stay consistent.
+The language selector displays native language names without flags. Eleven locales share the existing visual identity. Arabic uses RTL document flow and Tajawal; the Zadex wordmark, real editor film and code retain their original direction. Layouts allow translated text to wrap, and mobile headers retain the language selector and navigation toggle. Non-English hero type scales to accommodate longer copy. Dictionaries load on demand; selection persists in local storage and a shareable `lang` query parameter. The playground remounts on language changes so localized sample defaults and walkthroughs stay consistent.
 
 - **Do** preserve the blue-dot identity and cool desk/white sheet relationship.
 - **Do** keep real editor evidence central and distinguish illustrative material explicitly.

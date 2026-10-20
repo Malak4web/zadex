@@ -8,7 +8,7 @@
 .sim button,.sim label,.lab-play{overflow-wrap:anywhere}.sim input,.sim textarea,.sim select,.lab-search input,.lab-category select{font-family:inherit}.sim-tablist{flex-wrap:wrap}.sim-segments{flex-wrap:wrap}
 html:not([lang=en]) h1{font-size:clamp(36px,5vw,72px)}html:not([lang=en]) .hero-intro{grid-template-columns:1.2fr .8fr;gap:44px}
 html:not([lang=en]) h1,html:not([lang=en]) h2{overflow-wrap:break-word;hyphens:auto}
-html[lang=ar]{font-family:'Noto Sans Arabic',sans-serif}html[lang=ar] h1,html[lang=ar] h2,html[lang=ar] h3,html[lang=ar] .study-headline,html[lang=ar] .lab-demonstration>h3,html[lang=ar] .sim-sheet h4{font-family:'Noto Sans Arabic',sans-serif;letter-spacing:0;line-height:1.55}
+html[lang=ar]{font-family:'Tajawal',sans-serif}html[lang=ar] h1,html[lang=ar] h2,html[lang=ar] h3,html[lang=ar] .study-headline,html[lang=ar] .lab-demonstration>h3,html[lang=ar] .sim-sheet h4{font-family:'Tajawal',sans-serif;letter-spacing:0;line-height:1.55}
 html[lang=ar] .brand{font-family:Sora,sans-serif;letter-spacing:-1.1px}html[lang=ar] .hero-aside p{line-height:1.95}
 [dir=rtl] .feature-choices>button>svg:last-child{margin-left:0;margin-inline-start:auto}
 [dir=rtl] .faq-answer{padding:0 0 23px 30px}[dir=rtl] .illustration-label{text-align:end}

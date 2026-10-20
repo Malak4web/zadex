@@ -69,11 +69,11 @@ The local WordPress capture server is loopback-only on port 8896. Its auto-login
 
 Product claims are based on the supplied `FEATURES.md`. No customers, testimonials or performance statistics were invented. The lower-page design-system illustration is explicitly labeled as an illustration.
 
-Sora, Public Sans and Noto Sans Arabic are loaded from Google Fonts. Icons are from Lucide. The small favicon is a provisional website asset, not a replacement for the plugin wordmark.
+Sora, Public Sans and Tajawal are loaded from Google Fonts. Icons are from Lucide. The small favicon is a provisional website asset, not a replacement for the plugin wordmark.
 
 ## Languages
 
-The website supports English, Arabic, Spanish, German, Japanese, French, Brazilian Portuguese, Italian, Dutch, Polish and Russian. The header selector saves the choice locally. A `?lang=ar` parameter takes precedence and preserves section links. Language files load on demand from this project; there are no translation-service requests during a visit. Arabic sets the document direction to RTL and uses Noto Sans Arabic. Demo option values remain stable internal identifiers while their visible labels are translated.
+The website supports English, Arabic, Spanish, German, Japanese, French, Brazilian Portuguese, Italian, Dutch, Polish and Russian. The header selector saves the choice locally. A `?lang=ar` parameter takes precedence and preserves section links. Language files load on demand from this project; there are no translation-service requests during a visit. Arabic sets the document direction to RTL and uses Tajawal. Demo option values remain stable internal identifiers while their visible labels are translated.
 
 Coverage includes marketing content, FAQs, accessibility labels, all 185 feature titles/descriptions, 38 walkthrough families, validation messages and editable initial sample content. Search includes localized text and original English terms. Changing language resets the illustrative canvas; entered demo content is temporary. The original recorded editor video and code identifiers remain in their original language.
 
