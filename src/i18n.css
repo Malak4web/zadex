@@ -1,0 +1,21 @@
+.language-picker{position:relative;min-width:0}
+.language-picker label{display:flex;align-items:center;gap:6px;color:var(--soft)}
+.language-picker select{font:inherit;font-size:12px;background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:6px;max-width:135px;min-height:38px;padding:8px 5px;cursor:pointer}
+.language-picker p{position:absolute;inset-block-start:100%;inset-inline-end:0;z-index:10;background:white;padding:12px;width:220px;box-shadow:0 6px 20px #1a1d231c;font-size:12px;line-height:1.6}
+.button{white-space:normal;text-align:center}.site-header,.header-end{gap:16px}.desktop-nav{gap:18px}.brand{direction:ltr;unicode-bidi:isolate;flex-shrink:0}
+.chapter,.feature-choices>button,.faq-list h3 button,.lab-feature,.sim-accordion>button,.sim-walkthrough button{text-align:start}
+.sim-control,.sim-sheet,.lab-demo-title,.lab-canvas-toolbar{min-width:0}.lab-demo-title,.lab-canvas-toolbar{flex-wrap:wrap}.lab-simulation-badge{white-space:normal}.lab-category select,.sim select{min-width:0;max-width:100%}
+.sim button,.sim label,.lab-play{overflow-wrap:anywhere}.sim input,.sim textarea,.sim select,.lab-search input,.lab-category select{font-family:inherit}.sim-tablist{flex-wrap:wrap}.sim-segments{flex-wrap:wrap}
+html:not([lang=en]) h1{font-size:clamp(36px,5vw,72px)}html:not([lang=en]) .hero-intro{grid-template-columns:1.2fr .8fr;gap:44px}
+html:not([lang=en]) h1,html:not([lang=en]) h2{overflow-wrap:break-word;hyphens:auto}
+html[lang=ar]{font-family:'Noto Sans Arabic',sans-serif}html[lang=ar] h1,html[lang=ar] h2,html[lang=ar] h3,html[lang=ar] .study-headline,html[lang=ar] .lab-demonstration>h3,html[lang=ar] .sim-sheet h4{font-family:'Noto Sans Arabic',sans-serif;letter-spacing:0;line-height:1.55}
+html[lang=ar] .brand{font-family:Sora,sans-serif;letter-spacing:-1.1px}html[lang=ar] .hero-aside p{line-height:1.95}
+[dir=rtl] .feature-choices>button>svg:last-child{margin-left:0;margin-inline-start:auto}
+[dir=rtl] .faq-answer{padding:0 0 23px 30px}[dir=rtl] .illustration-label{text-align:end}
+[dir=rtl] .lab-category{padding-left:0;padding-inline-start:18px;border-left:0;border-inline-start:1px solid var(--line)}
+[dir=rtl] .lab-category select{padding:9px 0 9px 22px}
+[dir=rtl] .lucide-arrow-left,[dir=rtl] .lucide-arrow-right,[dir=rtl] .lucide-arrow-up-right,[dir=rtl] .lucide-chevron-right{transform:scaleX(-1)}
+.editor-film,.film-progress,.sim-local-video,pre,code{direction:ltr;unicode-bidi:isolate}
+@media(max-width:1180px){.desktop-nav{display:none}.menu-toggle{display:inline-flex}.header-download{font-size:11px}}
+@media(max-width:760px){html:not([lang=en]) .hero-intro{grid-template-columns:1fr;gap:28px}html:not([lang=en]) h1{font-size:clamp(34px,10vw,56px)}.site-header{min-height:80px;height:auto;padding:17px 0;gap:10px}.header-end{gap:8px}.language-picker select{max-width:125px;font-size:12px}.language-picker label>svg{display:none}.header-download{display:none}.section-intro h2{overflow-wrap:break-word}.chapter{flex:1}.chapters{gap:12px}.chapter strong{line-height:1.6}.lab-play{max-width:180px;text-align:start}.playback-actions{flex-wrap:wrap}.play-toggle{white-space:normal;text-align:start}}
+@media(max-width:650px){[dir=rtl] .lab-category{border-inline-start:0;padding-inline-start:4px}.sim-control{grid-template-columns:minmax(0,1fr)}.language-picker select{max-width:122px}}

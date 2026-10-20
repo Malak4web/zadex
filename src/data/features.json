@@ -1,0 +1,2839 @@
+{
+  "groups": {
+    "editor": "Editor",
+    "elements": "Elements",
+    "design": "Element settings",
+    "site": "Site settings",
+    "theme": "Theme builder",
+    "dynamic": "Dynamic content",
+    "popup": "Popups",
+    "forms": "Forms & integrations",
+    "reuse": "Templates & reuse",
+    "assets": "Fonts & icons",
+    "team": "Team & permissions",
+    "performance": "Performance & privacy",
+    "admin": "WordPress admin",
+    "commerce": "WooCommerce"
+  },
+  "catalog": [
+    {
+      "id": "live-editing",
+      "title": "Live page editing",
+      "description": "Edit on the real WordPress page, with your actual theme around it.",
+      "group": "editor",
+      "kind": "edit",
+      "type": "live-editing",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "inline-formatting",
+      "title": "Inline text & formatting",
+      "description": "Write headings, text and button labels in place; format text with the inline toolbar.",
+      "group": "editor",
+      "kind": "edit",
+      "type": "inline-formatting",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "drag-and-drop",
+      "title": "Drag & drop",
+      "description": "Move widgets between containers and reorder them on the canvas.",
+      "group": "editor",
+      "kind": "organize",
+      "type": "drag-and-drop",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "element-toolbar",
+      "title": "Element toolbar",
+      "description": "Select a parent, split columns, duplicate or delete from the element toolbar.",
+      "group": "editor",
+      "kind": "organize",
+      "type": "element-toolbar",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "context-menu",
+      "title": "Copy, paste & style transfer",
+      "description": "Copy elements or their styles, duplicate them and save templates or components.",
+      "group": "editor",
+      "kind": "organize",
+      "type": "context-menu",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "section-picker",
+      "title": "12 column structures",
+      "description": "Insert a section between existing sections with a ready-made column structure.",
+      "group": "editor",
+      "kind": "layout",
+      "type": "section-picker",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "resplit",
+      "title": "Re-split without losing content",
+      "description": "Change a section's columns and keep its contents. Undo the split in one step.",
+      "group": "editor",
+      "kind": "layout",
+      "type": "resplit",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "empty-page",
+      "title": "Start from a blank page",
+      "description": "Choose the first section's structure directly from the empty canvas.",
+      "group": "editor",
+      "kind": "layout",
+      "type": "empty-page",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "navigator",
+      "title": "Navigator",
+      "description": "Rename, reorder, hide and lock elements in the page tree.",
+      "group": "editor",
+      "kind": "organize",
+      "type": "navigator",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "quick-search",
+      "title": "Quick search & shortcuts",
+      "description": "Find widgets and settings with Ctrl+K and discover the keyboard shortcuts.",
+      "group": "editor",
+      "kind": "search",
+      "type": "quick-search",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "undo",
+      "title": "Undo, redo & history",
+      "description": "Step backward and forward through your design changes using the history panel.",
+      "group": "editor",
+      "kind": "history",
+      "type": "undo",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "revisions",
+      "title": "Saved revisions",
+      "description": "Compare and restore a previously saved version of the page.",
+      "group": "editor",
+      "kind": "history",
+      "type": "revisions",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "save-publish",
+      "title": "Draft, save & publish",
+      "description": "Keep a draft or publish your page; preview without editing controls.",
+      "group": "editor",
+      "kind": "workflow",
+      "type": "save-publish",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "breakpoints",
+      "title": "Seven responsive breakpoints",
+      "description": "Enable and customize mobile, tablet, laptop, desktop and widescreen widths.",
+      "group": "editor",
+      "kind": "responsive",
+      "type": "breakpoints",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "responsive-values",
+      "title": "Responsive & inherited values",
+      "description": "Set values per screen and hover state. See which values inherit from a larger device.",
+      "group": "editor",
+      "kind": "responsive",
+      "type": "responsive-values",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "dark-mode",
+      "title": "Dark mode",
+      "description": "Switch the editor chrome to a dark appearance while keeping the page in view.",
+      "group": "editor",
+      "kind": "appearance",
+      "type": "dark-mode",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "arabic",
+      "title": "Arabic & right-to-left",
+      "description": "Use the translated Arabic editor with a fully mirrored right-to-left interface.",
+      "group": "editor",
+      "kind": "appearance",
+      "type": "arabic",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "content-style-advanced",
+      "title": "Content, Style & Advanced",
+      "description": "Keep content, appearance and advanced element controls in separate tabs.",
+      "group": "design",
+      "kind": "style",
+      "type": "content-style-advanced",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "box-model",
+      "title": "Spacing, size & alignment",
+      "description": "Adjust margins, padding, width, height, alignment and order.",
+      "group": "design",
+      "kind": "style",
+      "type": "box-model",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "position",
+      "title": "Position & layers",
+      "description": "Place elements with fixed or absolute positioning and control their stacking.",
+      "group": "design",
+      "kind": "style",
+      "type": "position",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "visibility",
+      "title": "Device visibility",
+      "description": "Hide an element on selected screen sizes.",
+      "group": "design",
+      "kind": "responsive",
+      "type": "visibility",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "attributes",
+      "title": "IDs, classes & safe attributes",
+      "description": "Add identifiers, classes and allowed custom attributes. Script-capable attributes are rejected.",
+      "group": "design",
+      "kind": "code",
+      "type": "attributes",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "entrance",
+      "title": "Entrance animations",
+      "description": "Choose how an element appears when it enters view.",
+      "group": "design",
+      "kind": "motion",
+      "type": "entrance",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "motion-effects",
+      "title": "Scroll & mouse effects",
+      "description": "Explore parallax, opacity, blur, rotation, scale, mouse tracking and 3D tilt.",
+      "group": "design",
+      "kind": "motion",
+      "type": "motion-effects",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "keyframes",
+      "title": "Scroll-linked keyframes",
+      "description": "Connect an animation's keyframes to progress through the page.",
+      "group": "design",
+      "kind": "motion",
+      "type": "keyframes",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "interactions",
+      "title": "Interaction timelines",
+      "description": "Use page load, visibility, hover or click to animate, toggle classes, show elements or open popups.",
+      "group": "design",
+      "kind": "motion",
+      "type": "interactions",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "sticky",
+      "title": "Sticky elements",
+      "description": "Keep an element at the top or bottom and change its appearance after scrolling.",
+      "group": "design",
+      "kind": "motion",
+      "type": "sticky",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "display-conditions",
+      "title": "Display conditions",
+      "description": "Show content by role, login, time, page, query parameter or dynamic field.",
+      "group": "design",
+      "kind": "conditions",
+      "type": "display-conditions",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "global-colors",
+      "title": "Global colors",
+      "description": "Change a shared color and update the elements that reference it.",
+      "group": "site",
+      "kind": "style",
+      "type": "global-colors",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "global-fonts",
+      "title": "Global fonts",
+      "description": "Define reusable typography and change linked text consistently.",
+      "group": "site",
+      "kind": "style",
+      "type": "global-fonts",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "spacing-variables",
+      "title": "Spacing variables",
+      "description": "Use shared spacing values across your design.",
+      "group": "site",
+      "kind": "style",
+      "type": "spacing-variables",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "global-classes",
+      "title": "Global classes",
+      "description": "Apply a saved style to multiple elements, with class import and export.",
+      "group": "site",
+      "kind": "style",
+      "type": "global-classes",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "theme-style",
+      "title": "Site-wide theme styles",
+      "description": "Set consistent headings, buttons, links and form appearance.",
+      "group": "site",
+      "kind": "style",
+      "type": "theme-style",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "site-layout",
+      "title": "Content width & default gaps",
+      "description": "Set the content width and default container spacing for the site.",
+      "group": "site",
+      "kind": "layout",
+      "type": "site-layout",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "lightbox",
+      "title": "Image lightbox",
+      "description": "Open images in an enlarged view with a consistent site-wide style.",
+      "group": "site",
+      "kind": "media",
+      "type": "lightbox",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "transitions",
+      "title": "Page transitions & loading",
+      "description": "Choose a transition between pages and a loading screen.",
+      "group": "site",
+      "kind": "motion",
+      "type": "transitions",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "floating-buttons",
+      "title": "Floating contact buttons",
+      "description": "Add floating WhatsApp, phone, email and back-to-top actions.",
+      "group": "site",
+      "kind": "links",
+      "type": "floating-buttons",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "maintenance",
+      "title": "Maintenance & coming soon",
+      "description": "Choose a visitor-facing page and allowed roles. Maintenance returns HTTP 503.",
+      "group": "site",
+      "kind": "conditions",
+      "type": "maintenance",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "theme-templates",
+      "title": "Headers, footers & page templates",
+      "description": "Design single, archive, search, 404, loop item and popup templates, plus product and shop templates.",
+      "group": "theme",
+      "kind": "theme",
+      "type": "theme-templates",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "theme-conditions",
+      "title": "Template display rules",
+      "description": "Assign templates to the site, home, post types, terms, pages and archives with exclusions.",
+      "group": "theme",
+      "kind": "conditions",
+      "type": "theme-conditions",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "header-behavior",
+      "title": "Sticky & transparent headers",
+      "description": "Keep a header visible or place a transparent header above the content.",
+      "group": "theme",
+      "kind": "theme",
+      "type": "header-behavior",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "theme-compatibility",
+      "title": "Classic & block themes",
+      "description": "Work with block and classic themes, including dedicated compatibility for common WordPress themes.",
+      "group": "theme",
+      "kind": "theme",
+      "type": "theme-compatibility",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "post-data",
+      "title": "Post data bindings",
+      "description": "Connect titles, excerpts, content, dates, authors, URLs, terms, featured images and comment counts.",
+      "group": "dynamic",
+      "kind": "dynamic",
+      "type": "post-data",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "site-data",
+      "title": "Site, user & archive data",
+      "description": "Bind site identity, user information, archive titles, the current date and URL parameters.",
+      "group": "dynamic",
+      "kind": "dynamic",
+      "type": "site-data",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "custom-fields",
+      "title": "Custom fields & integrations",
+      "description": "Read custom fields, including ACF, Pods, Toolset and Meta Box when installed.",
+      "group": "dynamic",
+      "kind": "dynamic",
+      "type": "custom-fields",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "loop-builder",
+      "title": "Visual loop builder",
+      "description": "Design one item and repeat it for any post type in a grid or carousel.",
+      "group": "dynamic",
+      "kind": "collection",
+      "type": "loop-builder",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "loop-pagination",
+      "title": "Pagination & load more",
+      "description": "Choose numbered pages, load more or infinite scrolling for a loop.",
+      "group": "dynamic",
+      "kind": "collection",
+      "type": "loop-pagination",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "loop-filters",
+      "title": "Live taxonomy filters",
+      "description": "Let visitors filter by category or tag without reloading the page.",
+      "group": "dynamic",
+      "kind": "collection",
+      "type": "loop-filters",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "alternate-loop",
+      "title": "Alternate loop templates",
+      "description": "Use another item template for selected positions, such as every third item.",
+      "group": "dynamic",
+      "kind": "collection",
+      "type": "alternate-loop",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "popup-layouts",
+      "title": "Popup layouts & appearance",
+      "description": "Choose a centered, slide-in, fullscreen, top-bar or bottom-bar layout; control overlay and closing behavior.",
+      "group": "popup",
+      "kind": "popup",
+      "type": "popup-layouts",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "popup-triggers",
+      "title": "Popup triggers",
+      "description": "Trigger by delay, scroll, element, click, inactivity, exit intent or ad-block detection.",
+      "group": "popup",
+      "kind": "popup",
+      "type": "popup-triggers",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "popup-targeting",
+      "title": "Popup targeting & frequency",
+      "description": "Limit by visits, pages, referrer, login or device, with a view cap and cooldown after closing.",
+      "group": "popup",
+      "kind": "conditions",
+      "type": "popup-targeting",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "popup-actions",
+      "title": "Open popups from anywhere",
+      "description": "Open from buttons, links, form submissions or countdown completion.",
+      "group": "popup",
+      "kind": "popup",
+      "type": "popup-actions",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "form-fields",
+      "title": "15 form field types",
+      "description": "Use text, email, phone, number, date, time, select, radio, checkbox, acceptance, upload, password, hidden and HTML fields.",
+      "group": "forms",
+      "kind": "form",
+      "type": "form-fields",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "multi-step",
+      "title": "Multi-step forms",
+      "description": "Guide visitors through steps with progress and validation at each stage.",
+      "group": "forms",
+      "kind": "form",
+      "type": "multi-step",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "spam",
+      "title": "Spam protection",
+      "description": "Use a honeypot, submission limits and optional reCAPTCHA v2 or v3.",
+      "group": "forms",
+      "kind": "workflow",
+      "type": "spam",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "email-actions",
+      "title": "Email & follow-up actions",
+      "description": "Send two independent emails, redirect visitors or open a popup after submission.",
+      "group": "forms",
+      "kind": "workflow",
+      "type": "email-actions",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "webhooks",
+      "title": "Webhooks & automatic retries",
+      "description": "Send to Zapier, Make or n8n endpoints and retry when delivery fails.",
+      "group": "forms",
+      "kind": "workflow",
+      "type": "webhooks",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "email-marketing",
+      "title": "Email marketing integrations",
+      "description": "Connect Mailchimp, ActiveCampaign, GetResponse, Kit, MailerLite or Drip.",
+      "group": "forms",
+      "kind": "workflow",
+      "type": "email-marketing",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "notifications",
+      "title": "Slack & Discord notifications",
+      "description": "Route submission notifications to an optional Slack or Discord integration.",
+      "group": "forms",
+      "kind": "workflow",
+      "type": "notifications",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "submissions",
+      "title": "Submission inbox & CSV",
+      "description": "Review stored form messages, mark them read, delete them or export a CSV.",
+      "group": "forms",
+      "kind": "admin",
+      "type": "submissions",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "starter-library",
+      "title": "Starter section library",
+      "description": "Start with hero, features, testimonials, pricing, CTA, FAQ, contact or footer sections and a Link in bio page.",
+      "group": "reuse",
+      "kind": "reuse",
+      "type": "starter-library",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "save-template",
+      "title": "Save sections & pages",
+      "description": "Save a section or whole page as a template and use it again.",
+      "group": "reuse",
+      "kind": "reuse",
+      "type": "save-template",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "components",
+      "title": "Connected components",
+      "description": "Edit a shared component once; keep all instances linked, with selected properties overridable per instance.",
+      "group": "reuse",
+      "kind": "reuse",
+      "type": "components",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "global-widgets",
+      "title": "Global widgets",
+      "description": "Keep a single shared widget synchronized wherever it appears.",
+      "group": "reuse",
+      "kind": "reuse",
+      "type": "global-widgets",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "page-json",
+      "title": "Page JSON import & export",
+      "description": "Move a page between sites using a JSON file.",
+      "group": "reuse",
+      "kind": "transfer",
+      "type": "page-json",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "site-kits",
+      "title": "Complete site kits",
+      "description": "Move pages, templates, settings and images in a ZIP, with links adjusted for the destination.",
+      "group": "reuse",
+      "kind": "transfer",
+      "type": "site-kits",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "custom-fonts",
+      "title": "Custom font uploads",
+      "description": "Use WOFF2, WOFF or TTF families with multiple weights and styles.",
+      "group": "assets",
+      "kind": "assets",
+      "type": "custom-fonts",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "adobe-fonts",
+      "title": "Adobe Fonts",
+      "description": "Connect a project ID to use your Adobe Fonts collection.",
+      "group": "assets",
+      "kind": "assets",
+      "type": "adobe-fonts",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "font-awesome",
+      "title": "Included Font Awesome icons",
+      "description": "Choose from the bundled Font Awesome Free library.",
+      "group": "assets",
+      "kind": "assets",
+      "type": "font-awesome",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "custom-icons",
+      "title": "Custom icon sets",
+      "description": "Import icon sets from Fontello, IcoMoon or Fontastic.",
+      "group": "assets",
+      "kind": "assets",
+      "type": "custom-icons",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "notes",
+      "title": "Notes, replies & mentions",
+      "description": "Pin comments to elements, reply, mention teammates by email and resolve or reopen threads.",
+      "group": "team",
+      "kind": "team",
+      "type": "notes",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "roles",
+      "title": "Role Manager",
+      "description": "Choose no access, content-only or full access per role. Content-only restrictions are also enforced on the server.",
+      "group": "team",
+      "kind": "team",
+      "type": "roles",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "design-lock",
+      "title": "Lock design elements",
+      "description": "Protect selected elements from editing.",
+      "group": "team",
+      "kind": "team",
+      "type": "design-lock",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "clean-html",
+      "title": "Clean HTML output",
+      "description": "Render each widget without unnecessary wrapper elements.",
+      "group": "performance",
+      "kind": "performance",
+      "type": "clean-html",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "generated-css",
+      "title": "CSS generated at save time",
+      "description": "Generate styling when saving and load it in the page head.",
+      "group": "performance",
+      "kind": "performance",
+      "type": "generated-css",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "conditional-js",
+      "title": "Only the scripts you need",
+      "description": "Load widget runtimes such as sliders and popups only when a page needs them.",
+      "group": "performance",
+      "kind": "performance",
+      "type": "conditional-js",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "local-assets",
+      "title": "Local assets & optional services",
+      "description": "Load bundled assets locally, with external requests only for services you choose to use.",
+      "group": "performance",
+      "kind": "performance",
+      "type": "local-assets",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "privacy",
+      "title": "No developer tracking",
+      "description": "Zadex does not track visitors or send their data to its developers.",
+      "group": "performance",
+      "kind": "performance",
+      "type": "privacy",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "dashboard",
+      "title": "WordPress dashboard pages",
+      "description": "Manage Zadex settings, theme templates, components, submissions, fonts, icons, site kits and roles from WordPress.",
+      "group": "admin",
+      "kind": "admin",
+      "type": "dashboard",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "edit-entry",
+      "title": "Edit with Zadex",
+      "description": "Open the builder from the pages list, WordPress editor or admin bar.",
+      "group": "admin",
+      "kind": "admin",
+      "type": "edit-entry",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "safe-html",
+      "title": "Safe HTML & no custom scripts",
+      "description": "HTML elements reject scripts. Custom CSS or JavaScript entry is not available.",
+      "group": "performance",
+      "kind": "code",
+      "type": "safe-html",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "deactivation",
+      "title": "Designs retained on deactivation",
+      "description": "Deactivation shows standard WordPress content; the saved Zadex design returns when the plugin is reactivated.",
+      "group": "admin",
+      "kind": "workflow",
+      "type": "deactivation",
+      "widget": false,
+      "keywords": []
+    },
+    {
+      "id": "widget-accordion",
+      "title": "Accordion",
+      "description": "Collapsible items, each a droppable container. Single or multiple open, default open item, animated with full keyboard support.",
+      "group": "elements",
+      "subcategory": "layout",
+      "kind": "accordion",
+      "type": "accordion",
+      "widget": true,
+      "keywords": [
+        "collapse",
+        "expand",
+        "faq",
+        "toggle",
+        "nested"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-add-to-cart",
+      "title": "Add To Cart",
+      "description": "Add-to-cart form of the current product: quantity, variation selects for variable products, grouped and external products. Optional AJAX add to cart.",
+      "group": "commerce",
+      "subcategory": "woocommerce",
+      "kind": "commerce",
+      "type": "add-to-cart",
+      "widget": true,
+      "keywords": [
+        "woocommerce",
+        "product",
+        "add to cart",
+        "buy",
+        "quantity",
+        "variation",
+        "cart"
+      ],
+      "requirement": "Requires WooCommerce"
+    },
+    {
+      "id": "widget-alert",
+      "title": "Alert",
+      "description": "A colored notice (info, success, warning, danger) with a title, description and optional dismiss button.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "notice",
+      "type": "alert",
+      "widget": true,
+      "keywords": [
+        "notice",
+        "message",
+        "warning",
+        "info",
+        "success",
+        "danger",
+        "dismiss"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-animated-headline",
+      "title": "Animated Headline",
+      "description": "A headline with a hand-drawn highlight (circle, underline, strike ...) or rotating words (typing, flip, clip ...). Screen readers get the full sentence.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "edit",
+      "type": "animated-headline",
+      "widget": true,
+      "keywords": [
+        "animated-headline",
+        "headline",
+        "heading",
+        "rotating",
+        "typing",
+        "highlight",
+        "animated text",
+        "title"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-archive-posts",
+      "title": "Archive posts",
+      "description": "The posts of the current archive, blog or search query as cards, with pagination. Outside an archive it lists the latest posts.",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "collection",
+      "type": "archive-posts",
+      "widget": true,
+      "keywords": [
+        "archive",
+        "posts",
+        "blog",
+        "loop",
+        "category",
+        "search results",
+        "pagination",
+        "list"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-archive-title",
+      "title": "Archive title",
+      "description": "The title of the current archive (category, tag, author, date, post type), the blog or the search results.",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "dynamic",
+      "type": "archive-title",
+      "widget": true,
+      "keywords": [
+        "archive",
+        "title",
+        "category name",
+        "tag",
+        "search results",
+        "heading"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-author-box",
+      "title": "Author box",
+      "description": "The author of the current post: avatar, name, biography and a link to their posts.",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "dynamic",
+      "type": "author-box",
+      "widget": true,
+      "keywords": [
+        "author",
+        "bio",
+        "avatar",
+        "about the author",
+        "byline"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-bio-links",
+      "title": "Link in Bio",
+      "description": "A stack (or grid) of large link buttons with an icon and sub-label, for link-in-bio pages.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "links",
+      "type": "bio-links",
+      "widget": true,
+      "keywords": [
+        "bio-links",
+        "link in bio",
+        "linktree",
+        "links",
+        "profile",
+        "buttons",
+        "social"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-blockquote",
+      "title": "Blockquote",
+      "description": "A styled quotation with author, source link and a Tweet button that shares the quote.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "notice",
+      "type": "blockquote",
+      "widget": true,
+      "keywords": [
+        "quote",
+        "blockquote",
+        "cite",
+        "citation",
+        "tweet",
+        "twitter",
+        "pull quote"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-breadcrumbs",
+      "title": "Breadcrumbs",
+      "description": "Home › parents › current page. Uses the Yoast SEO or Rank Math breadcrumbs when one of them is active.",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "navigation",
+      "type": "breadcrumbs",
+      "widget": true,
+      "keywords": [
+        "breadcrumbs",
+        "trail",
+        "navigation",
+        "path",
+        "yoast",
+        "rank math",
+        "seo"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-button",
+      "title": "Button",
+      "description": "A call-to-action button with icon, size presets and hover styles.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "links",
+      "type": "button",
+      "widget": true,
+      "keywords": [
+        "link",
+        "cta",
+        "call to action",
+        "click"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-call-to-action",
+      "title": "Call to Action",
+      "description": "A promo box with an image (classic: above or beside the content, cover: behind it), ribbon, icon, title, text and button, hover effects, optionally clickable as a whole.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "notice",
+      "type": "call-to-action",
+      "widget": true,
+      "keywords": [
+        "call-to-action",
+        "cta",
+        "banner",
+        "promo",
+        "box",
+        "ribbon",
+        "image box",
+        "card"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-cart",
+      "title": "Cart",
+      "description": "WooCommerce's cart ([woocommerce_cart]): items table, coupon, cross-sells and totals, with styling for tables, inputs, buttons and notices.",
+      "group": "commerce",
+      "subcategory": "woocommerce",
+      "kind": "commerce",
+      "type": "cart",
+      "widget": true,
+      "keywords": [
+        "woocommerce",
+        "cart",
+        "basket",
+        "shopping cart",
+        "totals",
+        "coupon"
+      ],
+      "requirement": "Requires WooCommerce"
+    },
+    {
+      "id": "widget-checkout",
+      "title": "Checkout",
+      "description": "WooCommerce's checkout ([woocommerce_checkout]): billing / shipping fields, order review and payment, with styling controls.",
+      "group": "commerce",
+      "subcategory": "woocommerce",
+      "kind": "commerce",
+      "type": "checkout",
+      "widget": true,
+      "keywords": [
+        "woocommerce",
+        "checkout",
+        "payment",
+        "billing",
+        "order"
+      ],
+      "requirement": "Requires WooCommerce"
+    },
+    {
+      "id": "widget-code-highlight",
+      "title": "Code Highlight",
+      "description": "A syntax-highlighted code snippet with line numbers, highlighted lines, a copy button and light or dark themes.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "code",
+      "type": "code-highlight",
+      "widget": true,
+      "keywords": [
+        "code",
+        "syntax",
+        "highlight",
+        "snippet",
+        "pre",
+        "programming",
+        "developer"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-comments",
+      "title": "Comments",
+      "description": "The comments and the comment form of the current post (the theme's comments template when it has one).",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "form",
+      "type": "comments",
+      "widget": true,
+      "keywords": [
+        "comments",
+        "discussion",
+        "reply",
+        "comment form",
+        "replies"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-container",
+      "title": "Container",
+      "description": "Flexible box that holds other elements. Direction, alignment and gap are responsive.",
+      "group": "elements",
+      "subcategory": "layout",
+      "kind": "layout",
+      "type": "container",
+      "widget": true,
+      "keywords": [
+        "section",
+        "flex",
+        "box",
+        "row",
+        "column",
+        "wrapper"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-countdown",
+      "title": "Countdown",
+      "description": "A countdown to a date (site timezone) or an evergreen timer per visitor, with days / hours / minutes / seconds, labels, separators and actions when it ends: hide, show a message, redirect or open a popup.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "countdown",
+      "type": "countdown",
+      "widget": true,
+      "keywords": [
+        "countdown",
+        "timer",
+        "clock",
+        "deadline",
+        "evergreen",
+        "launch",
+        "sale",
+        "urgency"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-counter",
+      "title": "Counter",
+      "description": "An animated number that counts from start to end when it scrolls into view, with prefix, suffix, separator and title.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "metric",
+      "type": "counter",
+      "widget": true,
+      "keywords": [
+        "number",
+        "count",
+        "stats",
+        "statistics",
+        "animate",
+        "milestone"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-divider",
+      "title": "Divider",
+      "description": "A horizontal line with style, weight, width and alignment, optionally with text or an icon in the middle.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "layout",
+      "type": "divider",
+      "widget": true,
+      "keywords": [
+        "separator",
+        "line",
+        "hr",
+        "rule",
+        "horizontal"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-facebook",
+      "title": "Facebook",
+      "description": "Facebook page plugin, comments, embedded post or video, like and share buttons. The Facebook SDK loads only when the widget becomes visible or after a click, with an optional privacy notice.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "embed",
+      "type": "facebook",
+      "widget": true,
+      "keywords": [
+        "facebook",
+        "fb",
+        "page plugin",
+        "comments",
+        "embed",
+        "post",
+        "video",
+        "like",
+        "share",
+        "social"
+      ],
+      "requirement": "Optional external service"
+    },
+    {
+      "id": "widget-featured-image",
+      "title": "Featured image",
+      "description": "The featured image of the current post, with an optional caption and link.",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "media",
+      "type": "featured-image",
+      "widget": true,
+      "keywords": [
+        "featured image",
+        "thumbnail",
+        "post image",
+        "cover",
+        "hero"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-flip-box",
+      "title": "Flip Box",
+      "description": "A card with a front and a back side that flips, slides, pushes, zooms or fades on hover, tap or keyboard focus. Use the Show back side button on the canvas to edit the back.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "flip",
+      "type": "flip-box",
+      "widget": true,
+      "keywords": [
+        "flip-box",
+        "flip",
+        "card",
+        "hover",
+        "back",
+        "front",
+        "3d",
+        "reveal"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-form",
+      "title": "Form",
+      "description": "Form builder: any number of fields (text, email, select, radio, checkbox, upload ...), multi-step wizard, validation in the browser and on the server, actions after submit (email, redirect, popup, stored submissions).",
+      "group": "elements",
+      "subcategory": "site",
+      "kind": "form",
+      "type": "form",
+      "widget": true,
+      "keywords": [
+        "form",
+        "contact",
+        "multi-step",
+        "steps",
+        "wizard",
+        "upload",
+        "survey",
+        "subscribe",
+        "lead"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-form-basic",
+      "title": "Contact Form",
+      "description": "A lightweight name / email / message form. Submissions are sent by email through the REST API with honeypot and rate limiting.",
+      "group": "elements",
+      "subcategory": "site",
+      "kind": "form",
+      "type": "form-basic",
+      "widget": true,
+      "keywords": [
+        "form-basic",
+        "form",
+        "contact",
+        "email",
+        "message",
+        "subscribe"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-gallery",
+      "title": "Gallery",
+      "description": "A responsive grid of images with captions, hover effects and lightbox links. Images are lazy loaded.",
+      "group": "elements",
+      "subcategory": "media",
+      "kind": "media",
+      "type": "gallery",
+      "widget": true,
+      "keywords": [
+        "gallery",
+        "images",
+        "grid",
+        "photos",
+        "lightbox",
+        "masonry"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-gallery-pro",
+      "title": "Gallery Pro",
+      "description": "Several galleries in one widget with a filter bar: grid, justified or masonry layouts, captions, hover animations, lightbox and per-image links. Images are lazy loaded.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "collection",
+      "type": "gallery-pro",
+      "widget": true,
+      "keywords": [
+        "gallery",
+        "galleries",
+        "justified",
+        "masonry",
+        "filter",
+        "filterable",
+        "lightbox",
+        "images",
+        "photos",
+        "portfolio"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-google-maps",
+      "title": "Google Maps",
+      "description": "Embeds a Google Map for an address (no API key needed). Responsive height, map type and scroll protection.",
+      "group": "elements",
+      "subcategory": "media",
+      "kind": "embed",
+      "type": "google-maps",
+      "widget": true,
+      "keywords": [
+        "google-maps",
+        "map",
+        "google",
+        "location",
+        "address",
+        "directions"
+      ],
+      "requirement": "Optional external service"
+    },
+    {
+      "id": "widget-grid",
+      "title": "Grid",
+      "description": "CSS grid container. Columns, rows, gaps and auto-flow are responsive; children get column/row span controls in their Advanced tab.",
+      "group": "elements",
+      "subcategory": "layout",
+      "kind": "layout",
+      "type": "grid",
+      "widget": true,
+      "keywords": [
+        "columns",
+        "rows",
+        "layout",
+        "css grid",
+        "template",
+        "cells"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-heading",
+      "title": "Heading",
+      "description": "A heading with an HTML tag, alignment, color and typography. Double-click to edit inline.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "edit",
+      "type": "heading",
+      "widget": true,
+      "keywords": [
+        "title",
+        "h1",
+        "h2",
+        "text",
+        "headline"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-hotspot",
+      "title": "Hotspot",
+      "description": "An image with clickable points that show tooltips. Drag the points on the canvas to place them.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "hotspot",
+      "type": "hotspot",
+      "widget": true,
+      "keywords": [
+        "hotspot",
+        "image",
+        "tooltip",
+        "points",
+        "pins",
+        "annotate",
+        "map",
+        "product tour"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-html",
+      "title": "HTML",
+      "description": "Custom HTML markup, limited to the tags allowed in post content. Scripts, styles and event handlers are removed.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "code",
+      "type": "html",
+      "widget": true,
+      "keywords": [
+        "code",
+        "markup",
+        "embed",
+        "custom"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-icon",
+      "title": "Icon",
+      "description": "A Font Awesome icon (or custom SVG) with size, colors, shape and rotation.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "links",
+      "type": "icon",
+      "widget": true,
+      "keywords": [
+        "font awesome",
+        "symbol",
+        "glyph",
+        "svg"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-icon-box",
+      "title": "Icon Box",
+      "description": "An icon with a title and description, stacked or side by side. Optional link.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "links",
+      "type": "icon-box",
+      "widget": true,
+      "keywords": [
+        "feature",
+        "service",
+        "icon",
+        "title",
+        "description",
+        "card"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-icon-list",
+      "title": "Icon list",
+      "description": "A list of items with an icon, text and optional link. Vertical or inline layout with optional dividers.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "links",
+      "type": "icon-list",
+      "widget": true,
+      "keywords": [
+        "list",
+        "bullets",
+        "features",
+        "checklist",
+        "icons",
+        "links"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-image",
+      "title": "Image",
+      "description": "An image from the media library with size, alignment, link or lightbox, caption and hover effects.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "media",
+      "type": "image",
+      "widget": true,
+      "keywords": [
+        "photo",
+        "picture",
+        "media",
+        "img",
+        "lightbox",
+        "figure"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-image-box",
+      "title": "Image Box",
+      "description": "An image with a title and description, side by side or stacked. Optional link.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "media",
+      "type": "image-box",
+      "widget": true,
+      "keywords": [
+        "card",
+        "feature",
+        "image",
+        "title",
+        "description",
+        "media box"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-image-carousel",
+      "title": "Image Carousel",
+      "description": "A responsive image slider with arrows, dots, autoplay, loop and swipe. Powered by a tiny dependency-free runtime.",
+      "group": "elements",
+      "subcategory": "media",
+      "kind": "carousel",
+      "type": "image-carousel",
+      "widget": true,
+      "keywords": [
+        "image-carousel",
+        "carousel",
+        "slider",
+        "slideshow",
+        "images",
+        "gallery"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-login",
+      "title": "Login",
+      "description": "The WordPress login form (posts to wp-login.php) with remember me, lost password link and redirects. Logged-in visitors see a message with a log out link.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "form",
+      "type": "login",
+      "widget": true,
+      "keywords": [
+        "login",
+        "log in",
+        "sign in",
+        "account",
+        "user",
+        "password",
+        "member"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-loop-carousel",
+      "title": "Loop Carousel",
+      "description": "A slider of posts of any post type, each rendered with a loop item template from the Theme Builder.",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "carousel",
+      "type": "loop-carousel",
+      "widget": true,
+      "keywords": [
+        "loop",
+        "posts",
+        "carousel",
+        "slider",
+        "query",
+        "cpt",
+        "products"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-loop-filter",
+      "title": "Taxonomy Filter",
+      "description": "Filters a Loop Grid or Loop Carousel on the page by the terms of a taxonomy, without reloading the page.",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "collection",
+      "type": "loop-filter",
+      "widget": true,
+      "keywords": [
+        "filter",
+        "taxonomy",
+        "category",
+        "tags",
+        "terms",
+        "loop",
+        "ajax"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-loop-grid",
+      "title": "Loop Grid",
+      "description": "Lists posts of any post type with a loop item template from the Theme Builder: query, responsive columns, masonry, pagination, load more and infinite scroll.",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "collection",
+      "type": "loop-grid",
+      "widget": true,
+      "keywords": [
+        "loop",
+        "posts",
+        "grid",
+        "query",
+        "archive",
+        "blog",
+        "cpt",
+        "products",
+        "masonry",
+        "pagination",
+        "load more"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-lottie",
+      "title": "Lottie",
+      "description": "Lightweight Lottie (JSON) animation drawn on a canvas, played on load, hover, click, when visible or linked to scrolling.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "motion",
+      "type": "lottie",
+      "widget": true,
+      "keywords": [
+        "animation",
+        "json",
+        "bodymovin",
+        "lottiefiles",
+        "motion",
+        "vector"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-media-carousel",
+      "title": "Media Carousel",
+      "description": "Images and videos in a carousel, a slideshow with thumbnails or a coverflow, with a lightbox that plays videos.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "carousel",
+      "type": "media-carousel",
+      "widget": true,
+      "keywords": [
+        "media",
+        "carousel",
+        "slider",
+        "slideshow",
+        "coverflow",
+        "video",
+        "images",
+        "lightbox",
+        "thumbnails"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-mega-menu",
+      "title": "Mega menu",
+      "description": "A navigation whose items open a dropdown panel holding any elements (full width or boxed), on hover or click; an accordion on mobile.",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "navigation",
+      "type": "mega-menu",
+      "widget": true,
+      "keywords": [
+        "mega menu",
+        "menu",
+        "navigation",
+        "dropdown",
+        "header",
+        "nested"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-menu-anchor",
+      "title": "Menu Anchor",
+      "description": "An invisible anchor target for in-page links (#id) with smooth scrolling.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "anchor",
+      "type": "menu-anchor",
+      "widget": true,
+      "keywords": [
+        "anchor",
+        "scroll",
+        "jump",
+        "id",
+        "target",
+        "one page"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-menu-cart",
+      "title": "Menu Cart",
+      "description": "Cart icon with item count and subtotal for headers; opens WooCommerce's mini cart in an off-canvas panel or a dropdown. Updates live through WooCommerce's cart fragments.",
+      "group": "commerce",
+      "subcategory": "woocommerce",
+      "kind": "commerce",
+      "type": "menu-cart",
+      "widget": true,
+      "keywords": [
+        "woocommerce",
+        "mini cart",
+        "cart icon",
+        "header",
+        "basket",
+        "menu cart"
+      ],
+      "requirement": "Requires WooCommerce"
+    },
+    {
+      "id": "widget-my-account",
+      "title": "My Account",
+      "description": "WooCommerce's account page ([woocommerce_my_account]): login / register, dashboard, orders, addresses and account details.",
+      "group": "commerce",
+      "subcategory": "woocommerce",
+      "kind": "commerce",
+      "type": "my-account",
+      "widget": true,
+      "keywords": [
+        "woocommerce",
+        "account",
+        "login",
+        "register",
+        "orders",
+        "dashboard"
+      ],
+      "requirement": "Requires WooCommerce"
+    },
+    {
+      "id": "widget-nav-menu",
+      "title": "Nav menu",
+      "description": "A WordPress menu (Appearance → Menus): horizontal, vertical or dropdown, with submenus and a hamburger toggle below a breakpoint.",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "navigation",
+      "type": "nav-menu",
+      "widget": true,
+      "keywords": [
+        "menu",
+        "navigation",
+        "nav",
+        "header",
+        "hamburger",
+        "dropdown",
+        "wordpress menu"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-off-canvas",
+      "title": "Off-Canvas",
+      "description": "A panel that slides in from a side of the screen. Open it with its button or any link to #zx-off-canvas:<element id>. Inside a loop item each item opens its own panel.",
+      "group": "elements",
+      "subcategory": "layout",
+      "kind": "popup",
+      "type": "off-canvas",
+      "widget": true,
+      "keywords": [
+        "off-canvas",
+        "offcanvas",
+        "drawer",
+        "panel",
+        "sidebar",
+        "slide in",
+        "menu",
+        "modal"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-paypal-button",
+      "title": "PayPal button",
+      "description": "Buy now, Donate or Subscribe with PayPal Standard (a form posted to PayPal; no API keys).",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "payment",
+      "type": "paypal-button",
+      "widget": true,
+      "keywords": [
+        "paypal",
+        "payment",
+        "buy now",
+        "donate",
+        "subscribe",
+        "checkout",
+        "pay"
+      ],
+      "requirement": "Optional external service"
+    },
+    {
+      "id": "widget-portfolio",
+      "title": "Portfolio",
+      "description": "A filterable grid of posts of any post type: image tiles with the title on hover and a filter bar of taxonomy terms that filters instantly, without reloading.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "collection",
+      "type": "portfolio",
+      "widget": true,
+      "keywords": [
+        "portfolio",
+        "projects",
+        "filterable",
+        "filter",
+        "grid",
+        "works",
+        "gallery",
+        "posts",
+        "cpt",
+        "isotope"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-post-content",
+      "title": "Post content",
+      "description": "The content of the current post (the_content: blocks, shortcodes and Zadex layouts). Use it in single templates.",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "dynamic",
+      "type": "post-content",
+      "widget": true,
+      "keywords": [
+        "content",
+        "post",
+        "body",
+        "the_content",
+        "single",
+        "article"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-post-excerpt",
+      "title": "Post excerpt",
+      "description": "The excerpt of the current post (the manual excerpt, or the first words of the content).",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "dynamic",
+      "type": "post-excerpt",
+      "widget": true,
+      "keywords": [
+        "excerpt",
+        "summary",
+        "post",
+        "intro",
+        "teaser"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-post-info",
+      "title": "Post info",
+      "description": "Meta data of the current post: date, time, author, comments, terms or a custom text, each with an icon.",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "dynamic",
+      "type": "post-info",
+      "widget": true,
+      "keywords": [
+        "meta",
+        "post meta",
+        "date",
+        "author",
+        "comments",
+        "categories",
+        "tags",
+        "byline"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-post-navigation",
+      "title": "Post navigation",
+      "description": "Links to the previous and next post, with labels, titles and arrows.",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "navigation",
+      "type": "post-navigation",
+      "widget": true,
+      "keywords": [
+        "previous",
+        "next",
+        "navigation",
+        "adjacent posts",
+        "pagination"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-post-title",
+      "title": "Post title",
+      "description": "The title of the current post (single templates) with an HTML tag and an optional link to the post.",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "dynamic",
+      "type": "post-title",
+      "widget": true,
+      "keywords": [
+        "title",
+        "post",
+        "page title",
+        "single",
+        "heading",
+        "h1"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-posts",
+      "title": "Posts",
+      "description": "Lists posts of any post type as classic, card or full content items: query, responsive columns, masonry, meta, excerpt, pagination, load more and infinite scroll.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "collection",
+      "type": "posts",
+      "widget": true,
+      "keywords": [
+        "posts",
+        "blog",
+        "cards",
+        "grid",
+        "query",
+        "masonry",
+        "pagination",
+        "load more",
+        "infinite",
+        "excerpt",
+        "archive"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-price-list",
+      "title": "Price List",
+      "description": "A menu-style list of items with title, price, description, image and link, joined by a dotted, dashed or solid separator.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "notice",
+      "type": "price-list",
+      "widget": true,
+      "keywords": [
+        "price",
+        "menu",
+        "list",
+        "pricing",
+        "restaurant",
+        "services",
+        "cost"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-price-table",
+      "title": "Price Table",
+      "description": "A pricing plan card: header, price with currency and period, original price, feature list with icons and tooltips, button, footer text, ribbon and a featured highlight.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "notice",
+      "type": "price-table",
+      "widget": true,
+      "keywords": [
+        "price",
+        "pricing",
+        "plan",
+        "table",
+        "package",
+        "subscription",
+        "features"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-product-categories",
+      "title": "Product Categories",
+      "description": "A grid of product categories with image, name and product count (the current product's categories, top level or chosen ones).",
+      "group": "commerce",
+      "subcategory": "woocommerce",
+      "kind": "collection",
+      "type": "product-categories",
+      "widget": true,
+      "keywords": [
+        "woocommerce",
+        "categories",
+        "product categories",
+        "shop"
+      ],
+      "requirement": "Requires WooCommerce"
+    },
+    {
+      "id": "widget-product-data-tabs",
+      "title": "Product Data Tabs",
+      "description": "WooCommerce's product tabs: description, additional information and reviews (plus tabs added by plugins).",
+      "group": "commerce",
+      "subcategory": "woocommerce",
+      "kind": "tabs",
+      "type": "product-data-tabs",
+      "widget": true,
+      "keywords": [
+        "woocommerce",
+        "product",
+        "tabs",
+        "description",
+        "reviews",
+        "additional information"
+      ],
+      "requirement": "Requires WooCommerce"
+    },
+    {
+      "id": "widget-product-images",
+      "title": "Product Images",
+      "description": "The product gallery with WooCommerce's own zoom, lightbox and thumbnail slider scripts.",
+      "group": "commerce",
+      "subcategory": "woocommerce",
+      "kind": "media",
+      "type": "product-images",
+      "widget": true,
+      "keywords": [
+        "woocommerce",
+        "product",
+        "gallery",
+        "images",
+        "zoom",
+        "lightbox",
+        "slider"
+      ],
+      "requirement": "Requires WooCommerce"
+    },
+    {
+      "id": "widget-product-meta",
+      "title": "Product Meta",
+      "description": "SKU, categories and tags of the current product.",
+      "group": "commerce",
+      "subcategory": "woocommerce",
+      "kind": "dynamic",
+      "type": "product-meta",
+      "widget": true,
+      "keywords": [
+        "woocommerce",
+        "product",
+        "meta",
+        "sku",
+        "categories",
+        "tags"
+      ],
+      "requirement": "Requires WooCommerce"
+    },
+    {
+      "id": "widget-product-price",
+      "title": "Product Price",
+      "description": "The product price (sale price with the regular one struck through; variable products show the range).",
+      "group": "commerce",
+      "subcategory": "woocommerce",
+      "kind": "commerce",
+      "type": "product-price",
+      "widget": true,
+      "keywords": [
+        "woocommerce",
+        "product",
+        "price",
+        "sale",
+        "amount"
+      ],
+      "requirement": "Requires WooCommerce"
+    },
+    {
+      "id": "widget-product-rating",
+      "title": "Product Rating",
+      "description": "The product's average rating (stars) and the reviews link.",
+      "group": "commerce",
+      "subcategory": "woocommerce",
+      "kind": "metric",
+      "type": "product-rating",
+      "widget": true,
+      "keywords": [
+        "woocommerce",
+        "product",
+        "rating",
+        "reviews",
+        "stars"
+      ],
+      "requirement": "Requires WooCommerce"
+    },
+    {
+      "id": "widget-product-related",
+      "title": "Related Products",
+      "description": "Products related to the current one (same categories / tags), as product cards.",
+      "group": "commerce",
+      "subcategory": "woocommerce",
+      "kind": "collection",
+      "type": "product-related",
+      "widget": true,
+      "keywords": [
+        "woocommerce",
+        "product",
+        "related",
+        "similar",
+        "cross sell"
+      ],
+      "requirement": "Requires WooCommerce"
+    },
+    {
+      "id": "widget-product-short-description",
+      "title": "Short Description",
+      "description": "The product's short description.",
+      "group": "commerce",
+      "subcategory": "woocommerce",
+      "kind": "dynamic",
+      "type": "product-short-description",
+      "widget": true,
+      "keywords": [
+        "woocommerce",
+        "product",
+        "excerpt",
+        "short description",
+        "summary"
+      ],
+      "requirement": "Requires WooCommerce"
+    },
+    {
+      "id": "widget-product-stock",
+      "title": "Product Stock",
+      "description": "Stock status of the current product (\"In stock\", \"3 in stock\", \"Out of stock\", backorders).",
+      "group": "commerce",
+      "subcategory": "woocommerce",
+      "kind": "commerce",
+      "type": "product-stock",
+      "widget": true,
+      "keywords": [
+        "woocommerce",
+        "product",
+        "stock",
+        "inventory",
+        "availability"
+      ],
+      "requirement": "Requires WooCommerce"
+    },
+    {
+      "id": "widget-product-title",
+      "title": "Product Title",
+      "description": "The current product's name (single product templates; the editor previews the template's preview product).",
+      "group": "commerce",
+      "subcategory": "woocommerce",
+      "kind": "dynamic",
+      "type": "product-title",
+      "widget": true,
+      "keywords": [
+        "woocommerce",
+        "product",
+        "title",
+        "name",
+        "shop"
+      ],
+      "requirement": "Requires WooCommerce"
+    },
+    {
+      "id": "widget-product-upsells",
+      "title": "Upsells",
+      "description": "The current product's up-sells, as product cards.",
+      "group": "commerce",
+      "subcategory": "woocommerce",
+      "kind": "collection",
+      "type": "product-upsells",
+      "widget": true,
+      "keywords": [
+        "woocommerce",
+        "product",
+        "upsells",
+        "you may also like"
+      ],
+      "requirement": "Requires WooCommerce"
+    },
+    {
+      "id": "widget-products",
+      "title": "Products",
+      "description": "A grid of products: latest, on sale, featured, by category / tag, chosen ids, best selling, top rated or the current archive query; columns, rows, pagination and card styling.",
+      "group": "commerce",
+      "subcategory": "woocommerce",
+      "kind": "collection",
+      "type": "products",
+      "widget": true,
+      "keywords": [
+        "woocommerce",
+        "products",
+        "shop",
+        "grid",
+        "loop",
+        "catalog",
+        "archive",
+        "sale",
+        "featured",
+        "best selling"
+      ],
+      "requirement": "Requires WooCommerce"
+    },
+    {
+      "id": "widget-progress-bar",
+      "title": "Progress bar",
+      "description": "A labelled bar that fills to a percentage when it scrolls into view. Accessible role=progressbar.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "metric",
+      "type": "progress-bar",
+      "widget": true,
+      "keywords": [
+        "progress",
+        "skill",
+        "percentage",
+        "bar",
+        "meter",
+        "loading"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-purchase-summary",
+      "title": "Purchase Summary",
+      "description": "Order details for the thank-you page (the checkout \"order received\" endpoint): overview, items, totals and addresses. The editor previews the latest order.",
+      "group": "commerce",
+      "subcategory": "woocommerce",
+      "kind": "commerce",
+      "type": "purchase-summary",
+      "widget": true,
+      "keywords": [
+        "woocommerce",
+        "thank you",
+        "order received",
+        "order summary",
+        "purchase"
+      ],
+      "requirement": "Requires WooCommerce"
+    },
+    {
+      "id": "widget-read-more",
+      "title": "Read More",
+      "description": "Marks the excerpt boundary (like <!--more-->). On archive pages the content is cut here and a \"Read more\" link is appended.",
+      "group": "elements",
+      "subcategory": "site",
+      "kind": "anchor",
+      "type": "read-more",
+      "widget": true,
+      "keywords": [
+        "read-more",
+        "read more",
+        "more",
+        "excerpt",
+        "boundary",
+        "archive"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-reading-progress",
+      "title": "Reading Progress",
+      "description": "A bar fixed to the top or bottom of the screen that fills while the visitor reads the page or a chosen content area.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "metric",
+      "type": "reading-progress",
+      "widget": true,
+      "keywords": [
+        "reading",
+        "progress",
+        "scroll",
+        "bar",
+        "indicator",
+        "position"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-reviews",
+      "title": "Reviews",
+      "description": "Customer reviews in a slider: name, title, image, star rating, text and a source icon (Google, Facebook, X, Trustpilot or your own).",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "carousel",
+      "type": "reviews",
+      "widget": true,
+      "keywords": [
+        "reviews",
+        "rating",
+        "stars",
+        "testimonial",
+        "carousel",
+        "google",
+        "facebook",
+        "social proof"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-search",
+      "title": "Instant Search",
+      "description": "A search box that shows matching posts and pages while typing (keyboard navigation, thumbnails, \"View all results\"). Without JavaScript it is a normal WordPress search form.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "search",
+      "type": "search",
+      "widget": true,
+      "keywords": [
+        "search",
+        "instant search",
+        "live search",
+        "ajax search",
+        "autocomplete",
+        "find"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-search-form",
+      "title": "Search form",
+      "description": "A WordPress search form: input with a text or icon button, or an icon that opens a full-screen search.",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "search",
+      "type": "search-form",
+      "widget": true,
+      "keywords": [
+        "search",
+        "search box",
+        "find",
+        "input",
+        "full screen search"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-share-buttons",
+      "title": "Share Buttons",
+      "description": "Buttons that share the current page on social networks, by email, print it or copy its link. Optional native share sheet on mobile.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "links",
+      "type": "share-buttons",
+      "widget": true,
+      "keywords": [
+        "share",
+        "social",
+        "facebook",
+        "twitter",
+        "x",
+        "linkedin",
+        "whatsapp",
+        "telegram",
+        "pinterest",
+        "reddit",
+        "email",
+        "print",
+        "copy link"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-shortcode",
+      "title": "Shortcode",
+      "description": "Renders any WordPress shortcode. The preview is rendered by the server.",
+      "group": "elements",
+      "subcategory": "site",
+      "kind": "code",
+      "type": "shortcode",
+      "widget": true,
+      "keywords": [
+        "shortcode",
+        "wordpress",
+        "embed",
+        "plugin",
+        "code"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-sidebar",
+      "title": "Sidebar",
+      "description": "Renders a registered WordPress widget area (sidebar). The preview is rendered by the server.",
+      "group": "elements",
+      "subcategory": "site",
+      "kind": "navigation",
+      "type": "sidebar",
+      "widget": true,
+      "keywords": [
+        "sidebar",
+        "widget area",
+        "widgets",
+        "wordpress"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-site-logo",
+      "title": "Site logo",
+      "description": "The site logo (the Customizer logo or a chosen image) linking to the home page.",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "dynamic",
+      "type": "site-logo",
+      "widget": true,
+      "keywords": [
+        "logo",
+        "brand",
+        "site",
+        "header",
+        "identity",
+        "custom logo"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-site-title",
+      "title": "Site title",
+      "description": "The site title (Settings → General), optionally with the tagline, linking to the home page.",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "dynamic",
+      "type": "site-title",
+      "widget": true,
+      "keywords": [
+        "site name",
+        "title",
+        "brand",
+        "blog name",
+        "tagline",
+        "header"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-sitemap",
+      "title": "Sitemap",
+      "description": "Lists of the site's pages, posts, categories and tags, with a depth for hierarchical lists.",
+      "group": "elements",
+      "subcategory": "theme",
+      "kind": "navigation",
+      "type": "sitemap",
+      "widget": true,
+      "keywords": [
+        "sitemap",
+        "site map",
+        "pages",
+        "posts",
+        "categories",
+        "tags",
+        "index",
+        "html sitemap"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-slides",
+      "title": "Slides",
+      "description": "A full-width hero slider: per-slide background, Ken Burns, overlay, heading, text and button, with slide or fade transitions, autoplay and accessible controls.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "carousel",
+      "type": "slides",
+      "widget": true,
+      "keywords": [
+        "slides",
+        "slider",
+        "hero",
+        "carousel",
+        "slideshow",
+        "banner",
+        "ken burns"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-social-icons",
+      "title": "Social Icons",
+      "description": "A row of social network links with official brand colours (Font Awesome brand icons), shapes and hover animations.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "links",
+      "type": "social-icons",
+      "widget": true,
+      "keywords": [
+        "social-icons",
+        "social",
+        "share",
+        "facebook",
+        "instagram",
+        "twitter",
+        "linkedin",
+        "youtube",
+        "links"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-soundcloud",
+      "title": "SoundCloud",
+      "description": "Embeds a SoundCloud track or playlist with the visual player and its options.",
+      "group": "elements",
+      "subcategory": "media",
+      "kind": "embed",
+      "type": "soundcloud",
+      "widget": true,
+      "keywords": [
+        "soundcloud",
+        "audio",
+        "music",
+        "player",
+        "embed",
+        "track",
+        "playlist"
+      ],
+      "requirement": "Optional external service"
+    },
+    {
+      "id": "widget-spacer",
+      "title": "Spacer",
+      "description": "Empty vertical space with a responsive height.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "layout",
+      "type": "spacer",
+      "widget": true,
+      "keywords": [
+        "space",
+        "gap",
+        "empty",
+        "blank",
+        "height"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-star-rating",
+      "title": "Star Rating",
+      "description": "A star rating on a 5 or 10 scale with partial stars, marked/unmarked colors and an optional title.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "metric",
+      "type": "star-rating",
+      "widget": true,
+      "keywords": [
+        "stars",
+        "review",
+        "score",
+        "rate",
+        "testimonial"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-stripe-button",
+      "title": "Stripe button",
+      "description": "Take payments with a Stripe Payment Link, or a Checkout Session created on the server.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "payment",
+      "type": "stripe-button",
+      "widget": true,
+      "keywords": [
+        "stripe",
+        "payment",
+        "checkout",
+        "buy",
+        "pay",
+        "payment link"
+      ],
+      "requirement": "Optional external service"
+    },
+    {
+      "id": "widget-svg",
+      "title": "SVG",
+      "description": "Inline SVG markup with size, fill color and an optional link. Scripts and event handlers are removed.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "code",
+      "type": "svg",
+      "widget": true,
+      "keywords": [
+        "vector",
+        "inline svg",
+        "shape",
+        "logo",
+        "graphic"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-table-of-contents",
+      "title": "Table of Contents",
+      "description": "Lists the headings of the page with links to them: nested or flat, numbered, collapsible, sticky, with smooth scrolling and the current heading highlighted.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "navigation",
+      "type": "table-of-contents",
+      "widget": true,
+      "keywords": [
+        "toc",
+        "table of contents",
+        "contents",
+        "headings",
+        "index",
+        "anchor",
+        "summary",
+        "navigation"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-tabs",
+      "title": "Tabs",
+      "description": "Tabbed content. Each tab is a droppable container; horizontal or vertical navigation with keyboard support.",
+      "group": "elements",
+      "subcategory": "layout",
+      "kind": "tabs",
+      "type": "tabs",
+      "widget": true,
+      "keywords": [
+        "tab",
+        "switch",
+        "panels",
+        "nested",
+        "toggle content"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-template",
+      "title": "Template",
+      "description": "Inserts a saved template (My templates) or a theme template. Edit the template once and every page using it updates.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "reuse",
+      "type": "template",
+      "widget": true,
+      "keywords": [
+        "template",
+        "saved",
+        "library",
+        "reusable",
+        "global",
+        "section",
+        "block",
+        "embed"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-testimonial",
+      "title": "Testimonial",
+      "description": "A customer quote with image, name and role. Image above, inside the meta row or aside the content.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "notice",
+      "type": "testimonial",
+      "widget": true,
+      "keywords": [
+        "quote",
+        "review",
+        "customer",
+        "feedback",
+        "cite",
+        "rating"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-testimonial-carousel",
+      "title": "Testimonial Carousel",
+      "description": "Customer quotes in a slider: content, image, name and title with default or speech-bubble skins and five image layouts.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "carousel",
+      "type": "testimonial-carousel",
+      "widget": true,
+      "keywords": [
+        "testimonial",
+        "carousel",
+        "slider",
+        "quote",
+        "review",
+        "customer",
+        "feedback"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-text",
+      "title": "Text",
+      "description": "Rich text with bold, italic, links, lists and headings. Double-click to edit inline.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "edit",
+      "type": "text",
+      "widget": true,
+      "keywords": [
+        "paragraph",
+        "rich text",
+        "editor",
+        "content",
+        "wysiwyg",
+        "body"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-text-path",
+      "title": "Text Path",
+      "description": "Text that follows a curve: wave, arc, circle, line or your own SVG path.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "edit",
+      "type": "text-path",
+      "widget": true,
+      "keywords": [
+        "text-path",
+        "text path",
+        "curved text",
+        "svg",
+        "circle",
+        "wave",
+        "arc"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-toggle",
+      "title": "Toggle",
+      "description": "Collapsible list where every item can be open at once; all items start closed. Same items and styling as the Accordion.",
+      "group": "elements",
+      "subcategory": "layout",
+      "kind": "accordion",
+      "type": "toggle",
+      "widget": true,
+      "keywords": [
+        "collapse",
+        "expand",
+        "faq",
+        "accordion",
+        "show hide"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-video",
+      "title": "Video",
+      "description": "YouTube, Vimeo or self-hosted video with autoplay, mute, loop, poster image and aspect ratio.",
+      "group": "elements",
+      "subcategory": "basic",
+      "kind": "embed",
+      "type": "video",
+      "widget": true,
+      "keywords": [
+        "youtube",
+        "vimeo",
+        "movie",
+        "player",
+        "embed",
+        "mp4"
+      ],
+      "requirement": null
+    },
+    {
+      "id": "widget-video-playlist",
+      "title": "Video Playlist",
+      "description": "A video player with a clickable list of YouTube, Vimeo or self-hosted videos, thumbnails, durations and autoplay of the next video.",
+      "group": "elements",
+      "subcategory": "Advanced · free",
+      "kind": "embed",
+      "type": "video-playlist",
+      "widget": true,
+      "keywords": [
+        "video",
+        "playlist",
+        "youtube",
+        "vimeo",
+        "course",
+        "lessons",
+        "series",
+        "player"
+      ],
+      "requirement": null
+    }
+  ]
+}

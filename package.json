@@ -1,0 +1,9 @@
+{
+  "name": "zadex-official-website",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {"dev": "vite --host 127.0.0.1 --port 5186 --strictPort", "build": "vite build", "preview": "vite preview --host 127.0.0.1 --port 4186", "verify:features": "node scripts/verify-feature-lab.mjs", "verify:i18n": "node scripts/verify-i18n.mjs", "i18n:extract": "node scripts/extract-i18n.mjs", "catalog:features": "node scripts/build-feature-catalog.mjs"},
+  "dependencies": {"vue": "^3.5.13", "lucide-vue-next": "^0.468.0"},
+  "devDependencies": {"vite": "^6.1.0", "@vitejs/plugin-vue": "^5.2.1"}
+}
