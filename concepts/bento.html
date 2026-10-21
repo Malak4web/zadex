@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Concept 3 · Bento playground</title>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700&family=Sora:wght@400;500;700&family=Tajawal:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./shared.css">
+<style>
+.section{padding:96px 0 140px}
+.intro{display:flex;justify-content:space-between;align-items:end;gap:30px}
+.intro small{display:block;font:500 10px var(--mono);color:var(--blue);margin-bottom:16px}
+.intro h2{font:500 52px/1.12 Sora,sans-serif;letter-spacing:-.04em}
+.intro h2 span{color:var(--soft)}
+.intro p{font-size:13px;line-height:1.8;color:var(--soft);max-width:330px}
+.bento{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:250px;gap:14px;margin-top:48px;grid-template-areas:"live live count theme" "live live resp rtl" "comp comp pop woo" "loop loop form free"}
+.tile{position:relative;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;overflow:hidden;transition:border-color .2s,transform .25s cubic-bezier(.3,.7,.2,1),box-shadow .25s}
+.tile:hover{border-color:#3565eb66;transform:translateY(-3px);box-shadow:0 18px 40px #1b2a4512}
+.label{font:500 10px var(--mono);color:var(--soft);display:flex;align-items:center;gap:6px}
+.label:before{content:'';width:5px;height:5px;border-radius:50%;background:var(--blue)}
+.stage{flex:1;display:grid;place-items:center;min-height:0;padding:10px 0}
+.tile h3{font:500 16px/1.35 Sora,sans-serif;letter-spacing:-.3px}
+.tile p{font-size:12px;color:var(--soft);line-height:1.6;margin-top:4px}
+.chip{font:500 10px var(--mono);border:1px solid var(--line);border-radius:6px;padding:5px 8px;background:#fff;color:var(--soft)}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chips{display:flex;gap:4px;flex-wrap:wrap;justify-content:center}
+
+/* live editing */
+.live .stage{place-items:stretch;padding:16px 0}
+.page{background:var(--canvas);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:10px;position:relative}
+.page .nav-l{display:flex;justify-content:space-between;font-size:10px;color:var(--soft);padding-bottom:10px;border-bottom:1px solid var(--line)}
+.page .nav-l b{color:var(--ink)}
+.typed{font:500 40px/1.12 Sora,sans-serif;letter-spacing:-1.4px;min-height:2.3em;margin-top:14px;align-self:flex-start;position:relative;padding:2px 8px;margin-left:-8px;border:1px solid var(--blue)}
+.typed:after{content:'';display:inline-block;width:2px;height:.9em;background:var(--blue);margin-left:3px;vertical-align:-.08em;animation:blink 1s steps(1) infinite}
+.typed .tagl{position:absolute;left:-1px;top:-20px;font:500 9px var(--mono);background:var(--blue);color:#fff;padding:3px 6px;border-radius:4px 4px 0 0}
+@keyframes blink{50%{opacity:0}}
+.page .sub{font-size:12px;color:var(--soft)}
+.page .mbtn{align-self:flex-start;margin-top:6px;font-size:11px;padding:9px 14px;border-radius:7px;background:var(--blue);color:#fff;transition:background .4s}
+.page .lines{display:flex;gap:8px;margin-top:auto}.page .lines i{flex:1;height:44px;border-radius:8px;background:#fff}
+
+/* count */
+.count{background:var(--blue);border-color:var(--blue);color:#fff}
+.count .label{color:#d5e0ff}.count .label:before{background:#fff}
+.count .num{font:500 84px/1 Sora,sans-serif;letter-spacing:-.05em}
+.count p{color:#d5e0ff}
+.marquee{overflow:hidden;margin:0 -18px;mask:linear-gradient(90deg,transparent,#000 15%,#000 85%,transparent)}
+.marquee div{display:flex;gap:6px;width:max-content;animation:slide 26s linear infinite}
+.marquee span{font:500 10px var(--mono);padding:5px 8px;border-radius:6px;background:#ffffff1f;white-space:nowrap}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* theme builder */
+.wire{width:100%;max-width:170px;display:grid;gap:5px}
+.wire i{display:flex;align-items:center;justify-content:center;border-radius:5px;background:var(--canvas);font:500 9px var(--mono);color:transparent;transition:all .35s}
+.wire i:nth-child(1){height:22px}.wire i:nth-child(2){height:70px}.wire i:nth-child(3){height:22px}
+.wire i.on{background:#3565eb14;outline:1px solid var(--blue);color:var(--blue)}
+
+/* responsive */
+.devwrap{height:118px;width:100%;display:grid;place-items:center}
+.dev{height:100%;border:1.5px solid var(--ink);border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:5px;transition:width .45s cubic-bezier(.3,.7,.2,1)}
+.dev i{display:block;border-radius:3px;background:var(--canvas)}.dev i:first-child{height:14px;background:var(--blue);width:60%}.dev i{height:8px}
+.dev .row{display:flex;gap:4px;flex:1}.dev .row i{flex:1;height:auto;min-width:16px}
+
+/* rtl */
+.rtlcard{width:100%;max-width:190px;background:var(--canvas);border-radius:10px;padding:12px;transition:all .3s}
+.rtlcard b{display:block;font:500 15px Sora,sans-serif}
+.rtlcard span{display:block;font-size:10px;color:var(--soft);margin:4px 0 10px}
+.rtlcard em{font-style:normal;font-size:10px;background:var(--blue);color:#fff;padding:5px 9px;border-radius:5px}
+.rtlcard[dir=rtl] b,.rtlcard[dir=rtl] span{font-family:Tajawal,sans-serif}
+.rtlcard[dir=rtl] b{font-size:17px;font-weight:700}
+
+/* components */
+.comp .stage{grid-template-columns:1.1fr 1.6fr;gap:24px;align-items:center;place-items:center stretch}
+.master{border:1px solid var(--blue);border-radius:10px;padding:12px;position:relative}
+.master:before{content:'Main component';position:absolute;top:-9px;left:10px;font:500 9px var(--mono);background:#fff;color:var(--blue);padding:0 5px}
+.mini{border-radius:8px;padding:10px;background:var(--canvas);display:grid;gap:6px}
+.mini i{display:block;height:7px;border-radius:3px;background:#dfe3ec}.mini i:first-child{width:50%;height:9px;background:var(--ink)}
+.mini u{display:block;height:16px;width:46%;border-radius:4px;background:var(--c,#3565eb);transition:background .4s}
+.swatches{display:flex;gap:6px;margin-top:10px}
+.swatches button{width:18px;height:18px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);padding:0}
+.swatches button.on{box-shadow:0 0 0 2px var(--ink)}
+.instances{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+
+/* popup */
+.pop .stage{position:relative}
+.modal{position:absolute;inset:6px 0;background:#1a1d2366;border-radius:10px;display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal div{background:#fff;border-radius:9px;padding:14px;width:78%;transform:scale(.9) translateY(8px);transition:transform .3s cubic-bezier(.3,.7,.2,1);text-align:center}
+.modal.on{opacity:1;pointer-events:auto}.modal.on div{transform:none}
+.modal b{display:block;font:500 13px Sora,sans-serif}.modal span{display:block;font-size:10px;color:var(--soft);margin:4px 0 10px}
+.small-btn{font-size:11px;font-weight:500;padding:8px 12px;border-radius:7px;border:0;background:var(--blue);color:#fff}
+.small-btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+
+/* woo */
+.product{display:flex;gap:12px;align-items:center;width:100%}
+.product .img{width:64px;height:76px;border-radius:9px;background:linear-gradient(160deg,#dfe7ff,#b9c9f7)}
+.product b{display:block;font:500 13px Sora,sans-serif}.product span{display:block;font-size:11px;color:var(--soft);margin:2px 0 8px}
+.cart{position:absolute;top:16px;right:16px;font:500 10px var(--mono);background:var(--canvas);border-radius:20px;padding:5px 9px}
+.cart.bump{animation:bump .35s}
+@keyframes bump{40%{transform:scale(1.2);background:var(--blue);color:#fff}}
+
+/* loop */
+.loop .stage{place-items:stretch}
+.posts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-content:start}
+.post{border-radius:8px;background:var(--canvas);padding:7px;animation:in .45s both cubic-bezier(.3,.7,.2,1)}
+.post i{display:block;height:40px;border-radius:5px;background:var(--h)}
+.post b{display:block;font:500 9px var(--mono);color:var(--soft);margin-top:6px}
+@keyframes in{from{opacity:0;transform:translateY(10px)}}
+.loop-foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+
+/* form */
+.field{width:100%;display:grid;gap:6px}
+.field input{font:inherit;font-size:12px;border:1px solid var(--line);border-radius:7px;padding:9px 10px;outline:none;transition:border-color .2s}
+.field input:focus{border-color:var(--blue)}
+.field small{font-size:10px;min-height:13px;color:var(--soft)}
+.field.bad input{border-color:#d64545}.field.bad small{color:#d64545}.field.ok small{color:#1f8a5b}
+
+/* free */
+.free{background:var(--ink);border-color:var(--ink);color:#fff}
+.free .label{color:#9aa4b8}
+.free .price{font:500 64px/1 Sora,sans-serif;letter-spacing:-.04em}
+.free .price span{color:var(--blue)}
+.free p{color:#9aa4b8}
+
+@media (max-width:1050px){.bento{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:"live live" "live live" "count theme" "resp rtl" "comp comp" "pop woo" "loop loop" "form free"}}
+@media (max-width:620px){.bento{grid-template-columns:1fr;grid-auto-rows:auto;grid-template-areas:"live" "count" "theme" "resp" "rtl" "comp" "pop" "woo" "loop" "form" "free"}.tile{min-height:250px}.intro{flex-direction:column;align-items:start}.intro h2{font-size:38px}.comp .stage{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="header"><a class="brand" href="#">Zadex<i></i></a><nav class="nav"><a href="#">In action</a><a href="#">Feature playground</a><a href="#">Why free?</a><a href="#">FAQs</a></nav><a class="btn" href="https://wordpress.org/plugins/zadex/">Get Zadex free ↗</a></header>
+
+<section class="section">
+ <div class="intro"><div><small>● Every tile is live. Go ahead, click.</small><h2>Everything you need.<br><span>Nothing locked away.</span></h2></div><p>The whole builder, from the first heading to the checkout page. Play with each piece right here, then do it for real on your site.</p></div>
+
+ <div class="bento">
+  <article class="tile live" style="grid-area:live">
+   <span class="label">Live editing</span>
+   <div class="stage"><div class="page">
+    <div class="nav-l"><b>studio.</b><span>Work · About · Contact</span></div>
+    <div class="typed" id="typed"><span class="tagl">Heading</span><span id="typedText"></span></div>
+    <div class="sub">Edit it where it lives. No back end, no guessing.</div>
+    <span class="mbtn" id="mbtn">Let's talk</span>
+    <div class="lines"><i></i><i></i><i></i></div>
+   </div></div>
+   <h3>Edit right on the real page</h3><p>Click, type, see it instantly. What you see is exactly what visitors get.</p>
+  </article>
+
+  <article class="tile count" style="grid-area:count">
+   <span class="label">Elements</span>
+   <div class="stage"><span class="num" id="num">0</span></div>
+   <div class="marquee"><div id="marq"></div></div>
+   <p style="margin-top:12px">Ready-made elements, all free.</p>
+  </article>
+
+  <article class="tile" style="grid-area:theme">
+   <span class="label">Theme builder</span>
+   <div class="stage"><div class="wire" id="wire"><i>Header</i><i>Single post</i><i>Footer</i></div></div>
+   <h3>Design the whole site</h3><p>Headers, footers, posts, archives, 404.</p>
+  </article>
+
+  <article class="tile" style="grid-area:resp">
+   <span class="label">Responsive</span>
+   <div class="stage" style="gap:10px"><div class="devwrap"><div class="dev" id="dev" style="width:190px"><i></i><i></i><div class="row"><i></i><i></i><i></i></div></div></div>
+   <div class="chips" id="devs"><button class="chip on" data-w="190">Desktop</button><button class="chip" data-w="120">Tablet</button><button class="chip" data-w="66">Mobile</button></div></div>
+   <h3>Tuned for every screen</h3>
+  </article>
+
+  <article class="tile" style="grid-area:rtl">
+   <span class="label">Arabic · RTL</span>
+   <div class="stage" style="gap:10px"><div class="rtlcard" id="rtl" dir="ltr"><b>Hello, world</b><span>Your story, your language.</span><em>Read more</em></div>
+   <div class="chips"><button class="chip on" data-dir="ltr">English</button><button class="chip" data-dir="rtl">العربية</button></div></div>
+   <h3>Right-to-left, built in</h3>
+  </article>
+
+  <article class="tile comp" style="grid-area:comp">
+   <span class="label">Reusable components</span>
+   <div class="stage">
+    <div><div class="master"><div class="mini"><i></i><i></i><i></i><u></u></div></div>
+     <div class="swatches" id="sw"><button class="on" style="background:#3565eb" data-c="#3565eb" aria-label="Blue"></button><button style="background:#1a1d23" data-c="#1a1d23" aria-label="Ink"></button><button style="background:#7c95e8" data-c="#7c95e8" aria-label="Light blue"></button></div></div>
+    <div class="instances"><div class="mini"><i></i><i></i><u></u></div><div class="mini"><i></i><i></i><u></u></div><div class="mini"><i></i><i></i><u></u></div></div>
+   </div>
+   <h3>Change it once. It updates everywhere.</h3><p>Pick a color on the main component and watch every copy follow.</p>
+  </article>
+
+  <article class="tile pop" style="grid-area:pop">
+   <span class="label">Popups</span>
+   <div class="stage"><button class="small-btn" id="openPop">Open popup</button>
+    <div class="modal" id="modal"><div><b>Before you go</b><span>Get new posts by email.</span><button class="small-btn ghost" id="closePop">Close</button></div></div></div>
+   <h3>Popups with real triggers</h3>
+  </article>
+
+  <article class="tile" style="grid-area:woo">
+   <span class="label">WooCommerce</span>
+   <span class="cart" id="cart">Cart · 0</span>
+   <div class="stage"><div class="product"><div class="img"></div><div><b>Linen tote</b><span>$24.00</span><button class="small-btn" id="add">Add to cart</button></div></div></div>
+   <h3>Store pages, your way</h3>
+  </article>
+
+  <article class="tile loop" style="grid-area:loop">
+   <span class="label">Dynamic content</span>
+   <div class="stage"><div><div class="posts" id="posts"></div><div class="loop-foot"><span class="chip">Query · Posts · newest</span><button class="small-btn ghost" id="more">Load more</button></div></div></div>
+   <h3>Real WordPress data, in your design</h3><p>Loop grids, custom fields, filters and pagination.</p>
+  </article>
+
+  <article class="tile" style="grid-area:form">
+   <span class="label">Forms</span>
+   <div class="stage"><label class="field" id="field"><span style="font-size:11px;font-weight:500">Email</span><input id="email" placeholder="you@studio.com" autocomplete="off"><small id="msg">Try typing an email</small></label></div>
+   <h3>Forms that check as you type</h3>
+  </article>
+
+  <article class="tile free" style="grid-area:free">
+   <span class="label">Price</span>
+   <div class="stage"><span class="price">$0<span>.</span></span></div>
+   <h3>Every tile here is free</h3><p>No premium tier. No locked features.</p>
+  </article>
+ </div>
+</section>
+</div>
+
+<nav class="concept-tag"><a href="./live-canvas.html">Live canvas</a><a href="./blueprint.html">Blueprint</a><a href="./bento.html" aria-current="page">Bento</a></nav>
+
+<script>
+const $=id=>document.getElementById(id);
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* live editing: a heading that rewrites itself */
+const words=['Make it bold.','Make it yours.','Make it real.'];let wi=0;
+async function typeLoop(){const t=$('typedText');for(;;){const w=words[wi++%words.length];
+ for(let i=0;i<=w.length;i++){t.textContent=w.slice(0,i);await new Promise(r=>setTimeout(r,reduce?0:70))}
+ $('mbtn').style.background=wi%2?'#1a1d23':'#3565eb';
+ await new Promise(r=>setTimeout(r,1800));
+ for(let i=w.length;i>=0&&!reduce;i--){t.textContent=w.slice(0,i);await new Promise(r=>setTimeout(r,28))}}}
+typeLoop();
+
+/* 102 elements */
+const names=['Heading','Button','Image','Gallery','Slider','Tabs','Accordion','Countdown','Form','Map','Video','Icon box','Testimonial','Price table','Flip box','Menu','Search','Loop grid','Progress','Alert'];
+$('marq').innerHTML=[...names,...names].map(n=>`<span>${n}</span>`).join('');
+new IntersectionObserver(([e],o)=>{if(!e.isIntersecting)return;o.disconnect();let n=0;const s=performance.now();(function f(t){n=Math.min(102,Math.round(102*Math.min(1,(t-s)/1200)**.6));$('num').textContent=n;if(n<102)requestAnimationFrame(f)})(s)}).observe($('num'));
+
+/* theme builder */
+const parts=[...$('wire').children];let pi=0;setInterval(()=>{parts.forEach((p,i)=>p.classList.toggle('on',i===pi%3));pi++},1300);
+
+/* responsive */
+$('devs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;[...$('devs').children].forEach(c=>c.classList.toggle('on',c===b));$('dev').style.width=b.dataset.w+'px'});
+
+/* rtl */
+const copy={ltr:['Hello, world','Your story, your language.','Read more'],rtl:['أهلاً بالعالم','قصتك، بلغتك.','اقرأ المزيد']};
+document.querySelectorAll('[data-dir]').forEach(b=>b.onclick=()=>{const d=b.dataset.dir,c=$('rtl');c.dir=d;[...c.children].forEach((el,i)=>el.textContent=copy[d][i]);document.querySelectorAll('[data-dir]').forEach(x=>x.classList.toggle('on',x===b))});
+
+/* components */
+$('sw').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;[...$('sw').children].forEach(c=>c.classList.toggle('on',c===b));document.querySelector('.comp').style.setProperty('--c',b.dataset.c)});
+
+/* popup */
+$('openPop').onclick=()=>$('modal').classList.add('on');$('closePop').onclick=()=>$('modal').classList.remove('on');
+
+/* woo */
+let items=0;$('add').onclick=()=>{const c=$('cart');c.textContent='Cart · '+ ++items;c.classList.remove('bump');void c.offsetWidth;c.classList.add('bump')};
+
+/* loop */
+const hues=['#dfe7ff','#c9d6fb','#e8ebf2','#b9c9f7','#d6defa','#eef1f8'];let pc=0;
+function addPosts(n){for(let i=0;i<n;i++){const d=document.createElement('div');d.className='post';d.style.animationDelay=i*60+'ms';d.innerHTML=`<i style="--h:${hues[pc%hues.length]}"></i><b>Post ${String(++pc).padStart(2,'0')}</b>`;$('posts').append(d)}if(pc>=8)$('more').textContent='Reset'}
+addPosts(4);$('more').onclick=()=>{if(pc>=8){$('posts').innerHTML='';pc=0;$('more').textContent='Load more';addPosts(4)}else addPosts(4)};
+
+/* form */
+$('email').oninput=e=>{const v=e.target.value,f=$('field');f.classList.remove('bad','ok');if(!v){$('msg').textContent='Try typing an email';return}if(/^\S+@\S+\.\S+$/.test(v)){f.classList.add('ok');$('msg').textContent='Looks good'}else{f.classList.add('bad');$('msg').textContent='That email looks incomplete'}};
+</script>
+</body>
+</html>

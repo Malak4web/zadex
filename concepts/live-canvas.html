@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Concept 1 · Live canvas</title>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700&family=Sora:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./shared.css">
+<style>
+.hero{position:relative;padding:72px 0 0;background-image:radial-gradient(#c7cedd 1px,transparent 1px);background-size:22px 22px;background-position:-11px -11px}
+.hero:before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,var(--canvas));pointer-events:none}
+.intro{position:relative;display:grid;grid-template-columns:1.3fr .7fr;gap:60px;align-items:end}
+h1{font:500 clamp(62px,6.7vw,96px)/1.09 Sora,sans-serif;letter-spacing:-.04em}
+h1 span{display:inline-block}
+.blue{color:var(--blue)}
+.aside{max-width:340px;justify-self:end}
+.lead{font-size:19px;line-height:1.6;letter-spacing:-.3px}
+.desc{font-size:13px;color:var(--soft);line-height:1.85;margin-top:13px}
+.aside .btn{margin-top:20px}
+.note{display:block;font-size:11px;color:var(--soft);margin-top:12px}
+[data-el]{cursor:default;outline:none}
+[data-el][contenteditable=true]{cursor:text;caret-color:var(--blue)}
+
+/* editor overlay */
+.overlay{position:absolute;inset:0;pointer-events:none;z-index:5}
+.hover,.sel{position:absolute;transition:all .28s cubic-bezier(.3,.7,.2,1)}
+.hover{border:1px dashed #3565eb99;opacity:0}
+.sel{border:1px solid var(--blue);opacity:0}
+.sel b{position:absolute;width:7px;height:7px;background:#fff;border:1px solid var(--blue)}
+.sel b:nth-child(1){left:-4px;top:-4px}.sel b:nth-child(2){right:-4px;top:-4px}.sel b:nth-child(3){left:-4px;bottom:-4px}.sel b:nth-child(4){right:-4px;bottom:-4px}
+.dims{position:absolute;left:50%;bottom:-26px;transform:translateX(-50%);font:500 10px var(--mono);color:#fff;background:var(--blue);padding:3px 6px;border-radius:4px;white-space:nowrap}
+.toolbar{position:absolute;display:flex;align-items:center;gap:2px;padding:4px;background:var(--ink);border-radius:10px;box-shadow:0 12px 30px #1a1d2333;pointer-events:auto;opacity:0;transform:translateY(6px);transition:opacity .2s,transform .2s,left .28s cubic-bezier(.3,.7,.2,1),top .28s cubic-bezier(.3,.7,.2,1);z-index:6}
+.toolbar.on,.sel.on,.hover.on{opacity:1;transform:none}
+.toolbar .tag{font:500 10px var(--mono);color:#fff;background:var(--blue);padding:6px 8px;border-radius:7px;margin-right:4px}
+.toolbar button{display:grid;place-items:center;min-width:30px;height:30px;border:0;border-radius:7px;background:transparent;color:#c9d0de;font-size:12px}
+.toolbar button:hover,.toolbar button.on{background:#ffffff1a;color:#fff}
+.toolbar .sw{width:14px;height:14px;border-radius:50%;border:2px solid #ffffff40}
+.toolbar .sep{width:1px;height:18px;background:#ffffff26;margin:0 4px}
+
+.ghost{position:absolute;z-index:8;pointer-events:none;left:0;top:0;transition:transform .9s cubic-bezier(.5,0,.2,1);will-change:transform}
+.ghost svg{display:block;filter:drop-shadow(0 2px 3px #0003)}
+.ghost span{position:absolute;left:16px;top:18px;font:500 10px 'Public Sans';color:#fff;background:var(--blue);padding:3px 7px;border-radius:5px 5px 5px 1px}
+.ghost.click svg{transform:scale(.85)}
+
+.hint{position:relative;display:flex;align-items:center;gap:10px;margin-top:38px;font-size:11px;color:var(--soft)}
+.hint kbd{font:500 10px var(--mono);border:1px solid var(--line);background:#fff;border-radius:4px;padding:2px 5px;color:var(--ink)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 4px #3565eb22;animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 7px #3565eb00}}
+
+.statusbar{position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:22px;padding:10px 14px;background:#fff;border:1px solid var(--line);border-bottom:0;border-radius:13px 13px 0 0;font:500 10px var(--mono);color:var(--soft)}
+.statusbar>div{display:flex;align-items:center;gap:16px}
+.statusbar .devices{display:flex;gap:2px;background:var(--canvas);border-radius:6px;padding:2px}
+.statusbar .devices span{padding:4px 8px;border-radius:5px}.statusbar .devices span:first-child{background:#fff;color:var(--ink)}
+.saved{color:var(--blue)}
+.film{position:relative;background:#fff;border:1px solid var(--line);border-radius:0 0 13px 13px;overflow:hidden;box-shadow:0 15px 40px #1b2a4510}
+.film video{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;background:#fff}
+@media (max-width:900px){.intro{grid-template-columns:1fr;gap:28px}.aside{justify-self:start}.statusbar .devices{display:none}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="header"><a class="brand" href="#">Zadex<i></i></a><nav class="nav"><a href="#">In action</a><a href="#">Feature playground</a><a href="#">Why free?</a><a href="#">FAQs</a></nav><a class="btn" href="https://wordpress.org/plugins/zadex/">Get Zadex free ↗</a></header>
+
+<section class="hero" id="hero">
+ <div class="intro">
+  <h1><span data-el="Heading" data-w="h1">Your ideas.</span><br><span class="blue" data-el="Heading" data-w="h1">Made real.</span></h1>
+  <div class="aside">
+   <p class="lead" data-el="Text">That website in your head?<br>Bring it to life, right on the page.</p>
+   <p class="desc" data-el="Text">Meet Zadex. A free visual builder for WordPress, with the freedom to make every detail yours.</p>
+   <a class="btn" data-el="Button" href="https://wordpress.org/plugins/zadex/">Start creating, for free ↗</a>
+   <span class="note">All the features. No premium upgrade.</span>
+  </div>
+ </div>
+
+ <div class="hint"><span class="dot"></span><span id="hintText">This hero is a live Zadex canvas. Click anything to select it, <kbd>double‑click</kbd> to edit text.</span></div>
+
+ <div class="overlay" aria-hidden="true">
+  <div class="hover" id="hover"></div>
+  <div class="sel" id="sel"><b></b><b></b><b></b><b></b><span class="dims" id="dims"></span></div>
+ </div>
+ <div class="toolbar" id="toolbar" role="toolbar" aria-label="Element tools">
+  <span class="tag" id="tag">Heading</span>
+  <button data-color="#3565eb" aria-label="Zadex blue"><span class="sw" style="background:#3565eb"></span></button>
+  <button data-color="#1a1d23" aria-label="Ink"><span class="sw" style="background:#1a1d23"></span></button>
+  <button data-color="#5b6472" aria-label="Soft gray"><span class="sw" style="background:#5b6472"></span></button>
+  <span class="sep"></span>
+  <button data-act="bold" aria-label="Bold"><b>B</b></button>
+  <button data-act="italic" aria-label="Italic"><i>I</i></button>
+  <button data-act="edit" aria-label="Edit text">Edit</button>
+ </div>
+ <div class="ghost" id="ghost"><svg width="18" height="22" viewBox="0 0 18 22"><path d="M1 1l15 11.5-6.6.9 3.9 7.4-3 1.4-3.8-7.5L1 19z" fill="#1a1d23" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg><span>Zadex</span></div>
+
+ <div class="statusbar"><div><span class="saved">● Editing</span><span>Home page</span><span>Section › Hero › Video</span></div><div><span class="devices"><span>Desktop</span><span>Tablet</span><span>Mobile</span></span><span>Saved</span></div></div>
+ <div class="film"><video src="/media/zadex-in-action.mp4" poster="/media/zadex-editor-poster.jpg" autoplay muted loop playsinline></video></div>
+</section>
+<div style="height:120px"></div>
+</div>
+
+<nav class="concept-tag"><a href="./live-canvas.html" aria-current="page">Live canvas</a><a href="./blueprint.html">Blueprint</a><a href="./bento.html">Bento</a></nav>
+
+<script>
+const hero=document.getElementById('hero'),hoverBox=document.getElementById('hover'),sel=document.getElementById('sel'),dims=document.getElementById('dims'),bar=document.getElementById('toolbar'),tag=document.getElementById('tag'),ghost=document.getElementById('ghost');
+const els=[...hero.querySelectorAll('[data-el]')];
+let current=null,demo=true;
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function box(el){const r=el.getBoundingClientRect(),h=hero.getBoundingClientRect();return{x:r.left-h.left,y:r.top-h.top,w:r.width,h:r.height}}
+function place(node,el,pad=8){const b=box(el);Object.assign(node.style,{left:b.x-pad+'px',top:b.y-pad+'px',width:b.w+pad*2+'px',height:b.h+pad*2+'px'});return b}
+function select(el){
+ current=el;els.forEach(e=>{if(e!==el)e.contentEditable=false});
+ const b=place(sel,el);sel.classList.add('on');
+ dims.textContent=`${el.dataset.el} · ${Math.round(b.w)} × ${Math.round(b.h)}`;
+ tag.textContent=el.dataset.el;
+ bar.classList.add('on');
+ const bw=bar.offsetWidth,hw=hero.offsetWidth;
+ bar.style.left=Math.max(0,Math.min(b.x-8,hw-bw))+'px';
+ bar.style.top=Math.max(4,b.y-58)+'px';
+ bar.querySelector('[data-act=bold]').classList.toggle('on',getComputedStyle(el).fontWeight>=700);
+ bar.querySelector('[data-act=italic]').classList.toggle('on',getComputedStyle(el).fontStyle==='italic');
+}
+function apply(kind,val){
+ if(!current)return;
+ if(kind==='color'){current.dataset.el==='Button'?current.style.background=val:current.style.color=val}
+ if(kind==='bold')current.style.fontWeight=getComputedStyle(current).fontWeight>=700?'':'700';
+ if(kind==='italic')current.style.fontStyle=getComputedStyle(current).fontStyle==='italic'?'':'italic';
+ if(kind==='edit'){current.contentEditable=true;current.focus();document.getSelection().selectAllChildren(current)}
+ requestAnimationFrame(()=>select(current));
+}
+function stopDemo(){if(!demo)return;demo=false;ghost.style.opacity=0;document.getElementById('hintText').innerHTML='Your turn. Select, recolor, or <kbd>double‑click</kbd> to rewrite the headline.'}
+
+els.forEach(el=>{
+ el.addEventListener('mouseenter',()=>{if(el!==current){place(hoverBox,el,6);hoverBox.classList.add('on')}});
+ el.addEventListener('mouseleave',()=>hoverBox.classList.remove('on'));
+ el.addEventListener('click',e=>{if(el.tagName==='A'&&el.contentEditable!=='true'){e.preventDefault()}stopDemo();hoverBox.classList.remove('on');select(el)});
+ el.addEventListener('dblclick',()=>{stopDemo();select(el);apply('edit')});
+ el.addEventListener('input',()=>select(el));
+});
+bar.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;stopDemo();b.dataset.color?apply('color',b.dataset.color):apply(b.dataset.act)});
+document.addEventListener('pointerdown',e=>{if(!e.target.closest('[data-el],.toolbar')){sel.classList.remove('on');bar.classList.remove('on');current&&(current.contentEditable=false);current=null}});
+addEventListener('resize',()=>current&&select(current));
+
+/* guided demo: a ghost cursor edits the hero once, then hands over */
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function moveTo(el,dx=.5,dy=.6){const b=box(el);ghost.style.transform=`translate(${b.x+b.w*dx}px,${b.y+b.h*dy}px)`}
+async function click(){ghost.classList.add('click');await wait(160);ghost.classList.remove('click')}
+async function run(){
+ if(reduce){ghost.remove();return}
+ const [l1,l2,lead,,button]=els,sw=c=>bar.querySelector(`[data-color="${c}"]`);
+ ghost.style.transform=`translate(${hero.offsetWidth*.55}px,${hero.offsetHeight*.15}px)`;
+ await wait(900);if(!demo)return;
+ moveTo(l2,.8);await wait(1000);if(!demo)return;await click();select(l2);
+ await wait(700);if(!demo)return;moveTo(sw('#1a1d23'));await wait(950);if(!demo)return;await click();current.style.color='#1a1d23';
+ await wait(500);if(!demo)return;moveTo(bar.querySelector('[data-act=italic]'));await wait(900);if(!demo)return;await click();current.style.fontStyle='italic';select(l2);
+ await wait(700);if(!demo)return;moveTo(sw('#3565eb'));await wait(900);if(!demo)return;await click();current.style.color='#3565eb';current.style.fontStyle='';select(l2);
+ await wait(600);if(!demo)return;moveTo(button,.7);await wait(1100);if(!demo)return;await click();select(button);
+ await wait(1400);if(!demo)return;stopDemo();
+}
+addEventListener('load',()=>{select(els[1]);sel.classList.remove('on');bar.classList.remove('on');run()});
+</script>
+</body>
+</html>

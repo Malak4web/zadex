@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Concept 2 · Blueprint</title>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700&family=Sora:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./shared.css">
+<style>
+body{background:#fff}
+.header{border-bottom-style:dashed;border-color:#3565eb40}
+.hero{position:relative;padding:28px 0 0;cursor:crosshair}
+.hero:before{content:'';position:absolute;inset:0 -64px;background-image:linear-gradient(#3565eb0d 1px,transparent 1px),linear-gradient(90deg,#3565eb0d 1px,transparent 1px);background-size:8px 8px;pointer-events:none;mask:linear-gradient(#000 70%,transparent)}
+.cols{position:absolute;inset:0;display:grid;grid-template-columns:repeat(12,1fr);gap:24px;pointer-events:none;transition:opacity .3s;z-index:0}
+.cols span{background:#3565eb08;border-inline:1px solid #3565eb14}
+.guides-off .cols,.guides-off .ann,.guides-off .xh{opacity:0}
+.mono{font:500 10px/1.4 var(--mono);color:var(--blue);letter-spacing:.02em}
+.meta{position:relative;display:flex;justify-content:space-between;align-items:center;gap:16px;z-index:1}
+.meta>div{display:flex;gap:22px}
+.meta b{font-weight:500;color:var(--ink)}
+.toggle{font:500 10px var(--mono);border:1px solid #3565eb55;color:var(--blue);background:#fff;border-radius:6px;padding:6px 9px}
+.toggle:hover{background:#3565eb0d}
+.intro{position:relative;display:grid;grid-template-columns:1.3fr .7fr;gap:60px;align-items:end;margin-top:64px;z-index:1}
+.h1wrap{position:relative}
+h1{font:500 clamp(62px,6.7vw,96px)/1.09 Sora,sans-serif;letter-spacing:-.04em;position:relative}
+h1 .blue{color:var(--blue);position:relative}
+h1 .blue:after{content:'';position:absolute;inset:4px -10px -4px -10px;border:1px solid #3565eb80}
+.ann{transition:opacity .3s}
+.base{position:absolute;inset:0;background:repeating-linear-gradient(transparent 0 calc(1.09em - 1px),#3565eb40 calc(1.09em - 1px) 1.09em);font-size:clamp(62px,6.7vw,96px);pointer-events:none}
+.lh{position:absolute;left:-30px;top:0;height:1.09em;font-size:clamp(62px,6.7vw,96px);border-left:1px solid var(--blue);width:8px;border-top:1px solid var(--blue);border-bottom:1px solid var(--blue)}
+.lh span{position:absolute;left:-6px;top:50%;transform:translate(-100%,-50%) rotate(-90deg);transform-origin:right center;white-space:nowrap}
+.callout{position:absolute;right:-8px;top:-34px;display:flex;align-items:center;gap:8px}
+.callout:before{content:'';width:46px;height:1px;background:var(--blue)}
+.callout span{background:var(--blue);color:#fff;padding:3px 6px;border-radius:3px}
+.aside{max-width:360px;justify-self:end}
+.lead{font-size:19px;line-height:1.6;letter-spacing:-.3px}
+.spec{margin:22px 0 0;padding:0;list-style:none;border-top:1px solid var(--ink)}
+.spec li{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:12px}
+.spec li span:first-child{font:500 10px var(--mono);color:var(--soft);text-transform:uppercase;letter-spacing:.06em;padding-top:2px}
+.spec li b{font-weight:500}
+.cta{display:flex;align-items:center;gap:14px;margin-top:22px}
+.cta .mono{color:var(--soft)}
+.gap{position:relative;height:56px;margin-left:calc(50% - 1px);width:1px;background:var(--blue);z-index:1}
+.gap:before,.gap:after{content:'';position:absolute;left:-4px;width:9px;height:1px;background:var(--blue)}.gap:before{top:0}.gap:after{bottom:0}
+.gap span{position:absolute;left:10px;top:50%;transform:translateY(-50%)}
+.frame{position:relative;padding:14px;z-index:1}
+.rule{position:absolute;display:flex;align-items:center;justify-content:center}
+.rule.top{left:14px;right:14px;top:-6px;height:12px;border-inline:1px solid var(--blue)}
+.rule.top:before{content:'';position:absolute;inset:50% 0 auto;height:1px;background:var(--blue)}
+.rule.side{top:14px;bottom:14px;right:-10px;width:12px;border-block:1px solid var(--blue)}
+.rule.side:before{content:'';position:absolute;inset:0 50% 0 auto;width:1px;background:var(--blue)}
+.rule span{position:relative;background:#fff;padding:0 6px}
+.rule.side span{writing-mode:vertical-rl;padding:6px 0}
+.crop{position:absolute;width:18px;height:18px;border-color:var(--ink);border-style:solid;border-width:0}
+.crop.a{left:0;top:0;border-left-width:1px;border-top-width:1px}.crop.b{right:0;top:0;border-right-width:1px;border-top-width:1px}.crop.c{left:0;bottom:0;border-left-width:1px;border-bottom-width:1px}.crop.d{right:0;bottom:0;border-right-width:1px;border-bottom-width:1px}
+.film{background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.film video{display:block;width:100%;aspect-ratio:16/9;object-fit:contain}
+.caption{display:flex;justify-content:space-between;margin-top:12px;position:relative;z-index:1}
+.caption span:last-child{color:var(--soft)}
+.xh{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0;transition:opacity .2s}
+.hero:hover .xh{opacity:1}.guides-off .hero:hover .xh{opacity:0}
+.xh i{position:absolute;background:#3565eb66}
+.xh .v{top:0;bottom:0;width:1px}.xh .h{left:-64px;right:-64px;height:1px}
+.xh span{position:absolute;background:var(--ink);color:#fff;padding:3px 6px;border-radius:3px;white-space:nowrap}
+.draw{animation:draw 1s .3s both cubic-bezier(.3,.7,.2,1)}
+@keyframes draw{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0)}}
+@media (max-width:900px){.intro{grid-template-columns:1fr;gap:28px}.aside{justify-self:start}.lh,.callout{display:none}.meta>div span:nth-child(n+2){display:none}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="header"><a class="brand" href="#">Zadex<i></i></a><nav class="nav"><a href="#">In action</a><a href="#">Feature playground</a><a href="#">Why free?</a><a href="#">FAQs</a></nav><a class="btn" href="https://wordpress.org/plugins/zadex/">Get Zadex free ↗</a></header>
+
+<section class="hero" id="hero">
+ <div class="cols" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+ <div class="meta mono"><div><span>ZDX / 01 · <b>Hero</b></span><span>Frame 1440 × auto</span><span>12 col · 24 gutter</span></div><button class="toggle" id="toggle" aria-pressed="true">Guides: on</button></div>
+
+ <div class="intro">
+  <div class="h1wrap">
+   <div class="base ann" aria-hidden="true"></div>
+   <div class="lh ann mono draw" aria-hidden="true"><span>LH 1.09</span></div>
+   <div class="callout ann mono draw" aria-hidden="true"><span>H1 · Sora 500 · −4%</span></div>
+   <h1>Your ideas.<br><span class="blue">Made real.</span></h1>
+  </div>
+  <div class="aside">
+   <p class="lead">That website in your head? Bring it to life, right on the page.</p>
+   <ul class="spec">
+    <li><span>Price</span><b>Free. Every feature, no premium tier.</b></li>
+    <li><span>Elements</span><b>102, ready on the canvas</b></li>
+    <li><span>Scope</span><b>Pages, theme parts, popups, WooCommerce</b></li>
+    <li><span>Languages</span><b>Arabic with full RTL</b></li>
+    <li><span>Requires</span><b>WordPress 6.5+ · PHP 8.0+</b></li>
+   </ul>
+   <div class="cta"><a class="btn" href="https://wordpress.org/plugins/zadex/">Start creating, for free ↗</a><span class="mono">v · wordpress.org</span></div>
+  </div>
+ </div>
+
+ <div class="gap ann" aria-hidden="true"><span class="mono">56</span></div>
+
+ <div class="frame">
+  <i class="crop a"></i><i class="crop b"></i><i class="crop c"></i><i class="crop d"></i>
+  <div class="rule top ann mono" aria-hidden="true"><span>1280 px</span></div>
+  <div class="rule side ann mono" aria-hidden="true"><span>720 px</span></div>
+  <div class="film"><video src="/media/zadex-in-action.mp4" poster="/media/zadex-editor-poster.jpg" autoplay muted loop playsinline></video></div>
+ </div>
+ <div class="caption mono"><span>FIG. 01 · Real editor session, no mockups</span><span>00:23 · loop</span></div>
+
+ <div class="xh" id="xh" aria-hidden="true"><i class="v"></i><i class="h"></i><span class="mono"></span></div>
+</section>
+<div style="height:120px"></div>
+</div>
+
+<nav class="concept-tag"><a href="./live-canvas.html">Live canvas</a><a href="./blueprint.html" aria-current="page">Blueprint</a><a href="./bento.html">Bento</a></nav>
+
+<script>
+const hero=document.getElementById('hero'),xh=document.getElementById('xh'),[v,h]=xh.querySelectorAll('i'),lab=xh.querySelector('span'),tg=document.getElementById('toggle');
+hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;v.style.left=x+'px';h.style.top=y+'px';lab.style.left=x+10+'px';lab.style.top=y+10+'px';lab.textContent=`x ${Math.round(x)}  y ${Math.round(y)}`});
+tg.addEventListener('click',()=>{const off=document.body.classList.toggle('guides-off');tg.textContent='Guides: '+(off?'off':'on');tg.setAttribute('aria-pressed',!off)});
+</script>
+</body>
+</html>
