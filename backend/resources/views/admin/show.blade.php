@@ -240,17 +240,30 @@
             <h1 class="ticket-main-title">{{ $ticket->subject }}</h1>
         </div>
 
-        <div>
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <a href="{{ route('admin.tickets.edit', $ticket) }}" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 4px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                <span>تعديل التذكرة</span>
+            </a>
+
             <!-- Quick status updater -->
-            <form method="POST" action="{{ route('admin.tickets.updateStatus', $ticket) }}" style="display: flex; gap: 8px;">
+            <form method="POST" action="{{ route('admin.tickets.updateStatus', $ticket) }}" style="display: flex; gap: 8px; margin: 0;">
                 @csrf
                 @method('PATCH')
                 <select name="status" class="filter-select" onchange="this.form.submit()">
-                    <option value="open" {{ $ticket->status === 'open' ? 'selected' : '' }}>تغيير الحالة: مفتوحة</option>
-                    <option value="in_progress" {{ $ticket->status === 'in_progress' ? 'selected' : '' }}>تغيير الحالة: قيد المعالجة</option>
-                    <option value="resolved" {{ $ticket->status === 'resolved' ? 'selected' : '' }}>تغيير الحالة: تم الحل</option>
-                    <option value="closed" {{ $ticket->status === 'closed' ? 'selected' : '' }}>تغيير الحالة: مغلقة</option>
+                    <option value="open" {{ $ticket->status === 'open' ? 'selected' : '' }}>الحالة: مفتوحة</option>
+                    <option value="in_progress" {{ $ticket->status === 'in_progress' ? 'selected' : '' }}>الحالة: قيد المعالجة</option>
+                    <option value="resolved" {{ $ticket->status === 'resolved' ? 'selected' : '' }}>الحالة: تم الحل</option>
+                    <option value="closed" {{ $ticket->status === 'closed' ? 'selected' : '' }}>الحالة: مغلقة</option>
                 </select>
+            </form>
+
+            <form method="POST" action="{{ route('admin.tickets.destroy', $ticket) }}" onsubmit="return confirm('هل أنت متأكد من حذف التذكرة {{ $ticket->ticket_number }} نهائياً؟');" style="display: inline; margin: 0;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-sm" style="background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; cursor: pointer; border-radius: 6px;">
+                    حذف
+                </button>
             </form>
         </div>
     </div>

@@ -104,4 +104,126 @@ class TicketTest extends TestCase
 
         $this->assertEquals('in_progress', $ticket->fresh()->status);
     }
+
+    public function test_admin_can_create_ticket_via_form(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('admin.tickets.store'), [
+            'name' => 'Client Khalid',
+            'email' => 'khalid@example.com',
+            'subject' => 'New Setup Inquiry',
+            'category' => 'general',
+            'priority' => 'medium',
+            'status' => 'open',
+            'message' => 'Need help setting up cloud caching.',
+        ]);
+
+        $this->assertDatabaseHas('tickets', [
+            'email' => 'khalid@example.com',
+            'subject' => 'New Setup Inquiry',
+        ]);
+
+        $ticket = Ticket::where('email', 'khalid@example.com')->first();
+        $response->assertRedirect(route('admin.tickets.show', $ticket));
+    }
+
+    public function test_admin_can_edit_ticket_via_form(): void
+    {
+        $user = User::factory()->create();
+
+        $ticket = Ticket::create([
+            'ticket_number' => 'ZX-EDIT1',
+            'name' => 'Original Name',
+            'email' => 'orig@example.com',
+            'subject' => 'Original Subject',
+            'category' => 'bug',
+            'priority' => 'low',
+            'status' => 'open',
+            'message' => 'Original message here',
+        ]);
+
+        $response = $this->actingAs($user)->put(route('admin.tickets.update', $ticket), [
+            'name' => 'Updated Name',
+            'email' => 'updated@example.com',
+            'subject' => 'Updated Subject',
+            'category' => 'feature',
+            'priority' => 'urgent',
+            'status' => 'in_progress',
+            'message' => 'Updated message here',
+        ]);
+
+        $response->assertRedirect(route('admin.tickets.show', $ticket));
+
+        $this->assertDatabaseHas('tickets', [
+            'id' => $ticket->id,
+            'name' => 'Updated Name',
+            'priority' => 'urgent',
+            'status' => 'in_progress',
+        ]);
+    }
+
+    public function test_admin_can_delete_ticket(): void
+    {
+        $user = User::factory()->create();
+
+        $ticket = Ticket::create([
+            'ticket_number' => 'ZX-DEL1',
+            'name' => 'Delete Me',
+            'email' => 'del@example.com',
+            'subject' => 'To be deleted',
+            'category' => 'general',
+            'priority' => 'low',
+            'status' => 'open',
+            'message' => 'Please delete this',
+        ]);
+
+        $response = $this->actingAs($user)->delete(route('admin.tickets.destroy', $ticket));
+        $response->assertRedirect(route('admin.tickets.index'));
+
+        $this->assertDatabaseMissing('tickets', [
+            'id' => $ticket->id,
+        ]);
+    }
+
+    public function test_api_crud_endpoints(): void
+    {
+        // 1. Index
+        $response = $this->getJson('/api/tickets');
+        $response->assertStatus(200);
+        $response->assertJsonStructure(['success', 'tickets']);
+
+        // 2. Update via API
+        $ticket = Ticket::create([
+            'ticket_number' => 'ZX-APICRUD',
+            'name' => 'API User',
+            'email' => 'api@example.com',
+            'subject' => 'API Subject',
+            'category' => 'general',
+            'priority' => 'medium',
+            'status' => 'open',
+            'message' => 'API message text',
+        ]);
+
+        $upResponse = $this->putJson("/api/tickets/{$ticket->ticket_number}", [
+            'subject' => 'Modified API Subject',
+            'status' => 'resolved',
+        ]);
+        $upResponse->assertStatus(200);
+        $this->assertEquals('Modified API Subject', $ticket->fresh()->subject);
+        $this->assertEquals('resolved', $ticket->fresh()->status);
+
+        // 3. Reply via API
+        $replyResponse = $this->postJson("/api/tickets/{$ticket->ticket_number}/reply", [
+            'message' => 'API Reply message here',
+            'status' => 'closed',
+        ]);
+        $replyResponse->assertStatus(200);
+        $this->assertEquals('closed', $ticket->fresh()->status);
+
+        // 4. Delete via API
+        $delResponse = $this->deleteJson("/api/tickets/{$ticket->ticket_number}");
+        $delResponse->assertStatus(200);
+        $this->assertDatabaseMissing('tickets', ['id' => $ticket->id]);
+    }
 }

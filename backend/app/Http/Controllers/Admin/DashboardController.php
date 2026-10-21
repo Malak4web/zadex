@@ -43,6 +43,46 @@ class DashboardController extends Controller
     }
 
     /**
+     * Show form to create a new ticket from dashboard.
+     */
+    public function create(): View
+    {
+        return view('admin.create');
+    }
+
+    /**
+     * Store a newly created ticket.
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:120'],
+            'email' => ['required', 'email', 'max:190'],
+            'subject' => ['required', 'string', 'max:200'],
+            'category' => ['required', 'string', 'in:general,bug,feature,technical,account'],
+            'priority' => ['required', 'string', 'in:low,medium,high,urgent'],
+            'status' => ['required', 'string', 'in:open,in_progress,resolved,closed'],
+            'message' => ['required', 'string', 'min:5', 'max:5000'],
+        ]);
+
+        $ticket = Ticket::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'subject' => $validated['subject'],
+            'category' => $validated['category'],
+            'priority' => $validated['priority'],
+            'status' => $validated['status'],
+            'message' => $validated['message'],
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'resolved_at' => in_array($validated['status'], ['resolved', 'closed']) ? now() : null,
+        ]);
+
+        return redirect()->route('admin.tickets.show', $ticket)
+            ->with('success', "تم إنشاء التذكرة {$ticket->ticket_number} بنجاح.");
+    }
+
+    /**
      * Display ticket detail view.
      */
     public function show(Ticket $ticket): View
@@ -50,6 +90,46 @@ class DashboardController extends Controller
         $ticket->load('replies');
 
         return view('admin.show', compact('ticket'));
+    }
+
+    /**
+     * Show form to edit an existing ticket.
+     */
+    public function edit(Ticket $ticket): View
+    {
+        return view('admin.edit', compact('ticket'));
+    }
+
+    /**
+     * Update the specified ticket in storage.
+     */
+    public function update(Request $request, Ticket $ticket): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:120'],
+            'email' => ['required', 'email', 'max:190'],
+            'subject' => ['required', 'string', 'max:200'],
+            'category' => ['required', 'string', 'in:general,bug,feature,technical,account'],
+            'priority' => ['required', 'string', 'in:low,medium,high,urgent'],
+            'status' => ['required', 'string', 'in:open,in_progress,resolved,closed'],
+            'message' => ['required', 'string', 'min:5', 'max:5000'],
+        ]);
+
+        $ticket->fill([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'subject' => $validated['subject'],
+            'category' => $validated['category'],
+            'priority' => $validated['priority'],
+            'status' => $validated['status'],
+            'message' => $validated['message'],
+            'resolved_at' => in_array($validated['status'], ['resolved', 'closed']) ? ($ticket->resolved_at ?? now()) : null,
+        ]);
+
+        $ticket->save();
+
+        return redirect()->route('admin.tickets.show', $ticket)
+            ->with('success', "تم تحديث بيانات التذكرة {$ticket->ticket_number} بنجاح.");
     }
 
     /**
@@ -117,6 +197,7 @@ class DashboardController extends Controller
     public function destroy(Ticket $ticket): RedirectResponse
     {
         $number = $ticket->ticket_number;
+        $ticket->replies()->delete();
         $ticket->delete();
 
         return redirect()->route('admin.tickets.index')

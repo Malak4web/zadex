@@ -13,13 +13,23 @@ import {
   ExternalLink, 
   LogOut, 
   Trash2, 
-  X,
-  MessageSquare,
-  Shield,
-  Layers,
-  ArrowRight,
-  Filter
+  X, 
+  MessageSquare, 
+  Shield, 
+  Layers, 
+  ArrowRight, 
+  Filter,
+  Plus,
+  Pencil,
+  RefreshCw
 } from 'lucide-vue-next';
+import { 
+  fetchAllTickets, 
+  createTicket as apiCreateTicket, 
+  updateTicket as apiUpdateTicket, 
+  deleteTicket as apiDeleteTicket, 
+  replyToTicket as apiReplyToTicket 
+} from '../services/ticketApi';
 
 const isAuthenticated = ref(false);
 const loginEmail = ref('');
@@ -27,107 +37,56 @@ const loginPassword = ref('');
 const loginError = ref('');
 const rememberMe = ref(true);
 
-const defaultTickets = [
-  {
-    ticket_number: 'ZX-AR701',
-    name: 'أحمد المهدي',
-    email: 'ahmed.mahdi@example.com',
-    subject: 'مشكلة في اتجاه النصوص RTL عند استخدام عناصر معينة',
-    category: 'bug',
-    priority: 'high',
-    status: 'in_progress',
-    message: 'السلام عليكم،\nعند استخدام عنصر شبكة التدوينات (Post Loop Grid) مع اللغة العربية، لاحظت أن اتجاه الأسهم والترقيم يظهر مقلوباً قليلاً في الشاشات الصغيرة.\nأرجو فحص المشكلة ولكم جزيل الشكر.',
-    ip_address: '192.168.1.105',
-    created_at: new Date(Date.now() - 6 * 3600000).toISOString(),
-    replies: [
-      {
-        id: 1,
-        sender_type: 'admin',
-        sender_name: 'فريق الدعم الفني Zadex',
-        message: 'أهلاً بك أخي أحمد،\nنشكرك على ملاحظتك القيمة. تم رصد المشكلة من قبل فريق التطوير، وجارٍ ضبط الـ flex direction في أنماط RTL ليتم تحديثها تلقائياً في الإصدار القادم خلال 24 ساعة بإذن الله.',
-        created_at: new Date(Date.now() - 3 * 3600000).toISOString(),
-      }
-    ]
-  },
-  {
-    ticket_number: 'ZX-FT204',
-    name: 'سارة الشريف',
-    email: 'sara.designer@example.com',
-    subject: 'طلب دعم تصدير واستيراد تصاميم القوالب كملفات JSON',
-    category: 'feature',
-    priority: 'medium',
-    status: 'open',
-    message: 'مرحباً، هل من الممكن إضافة ميزة تتيح حفظ القالب أو القسم كملف جاهز للاستيراد في مواقع أخرى مبنية بـ Zadex؟ هذه الميزة ستكون مفيدة جداً للمصممين الذين يبنون أكثر من موقع.',
-    ip_address: '192.168.1.140',
-    created_at: new Date(Date.now() - 24 * 3600000).toISOString(),
-    replies: []
-  },
-  {
-    ticket_number: 'ZX-TC890',
-    name: 'Marc Dupont',
-    email: 'marc.dupont@example.org',
-    subject: 'Compatibility with WooCommerce 9.4 and PHP 8.3',
-    category: 'technical',
-    priority: 'low',
-    status: 'resolved',
-    message: 'Hello, I just tested Zadex on a staging site with WooCommerce 9.4 and PHP 8.3. Does Zadex support the new High-Performance Order Storage (HPOS) tables out of the box?',
-    ip_address: '82.165.197.1',
-    resolved_at: new Date(Date.now() - 12 * 3600000).toISOString(),
-    created_at: new Date(Date.now() - 48 * 3600000).toISOString(),
-    replies: [
-      {
-        id: 2,
-        sender_type: 'admin',
-        sender_name: 'Zadex Core Support',
-        message: 'Hello Marc,\nYes, Zadex is 100% compatible with HPOS and does not directly mutate internal WooCommerce order tables. All WooCommerce loop and product templates work seamlessly.',
-        created_at: new Date(Date.now() - 14 * 3600000).toISOString(),
-      }
-    ]
-  },
-  {
-    ticket_number: 'ZX-UG015',
-    name: 'خالد ناصر',
-    email: 'khaled.nasser@example.com',
-    subject: 'استفسار عن إمكانية تضمين كود CSS و JavaScript مخصص في كل صفحة',
-    category: 'general',
-    priority: 'urgent',
-    status: 'open',
-    message: 'أحتاج لتضمين مكتبة أنيميشن مخصصة في صفحة الهبوط فقط. هل يوجد تبويب لإدخال Custom CSS/JS لكل صفحة على حدة دون التأثير على كامل الموقع؟',
-    ip_address: '197.38.22.90',
-    created_at: new Date(Date.now() - 1 * 3600000).toISOString(),
-    replies: []
-  }
-];
-
 const tickets = ref([]);
+const isLoadingTickets = ref(false);
 const activeTicket = ref(null);
 const replyMessage = ref('');
 const replyStatus = ref('in_progress');
 const toastMessage = ref('');
+
+// Modals
+const isCreateModalOpen = ref(false);
+const isEditModalOpen = ref(false);
+const isSaving = ref(false);
+
+const createForm = reactive({
+  name: '',
+  email: '',
+  subject: '',
+  category: 'general',
+  priority: 'medium',
+  status: 'open',
+  message: '',
+});
+
+const editForm = reactive({
+  ticket_number: '',
+  name: '',
+  email: '',
+  subject: '',
+  category: 'general',
+  priority: 'medium',
+  status: 'open',
+  message: '',
+});
 
 const filterStatus = ref('all');
 const filterCategory = ref('all');
 const filterPriority = ref('all');
 const searchQuery = ref('');
 
-function loadTickets() {
+async function loadTickets() {
+  isLoadingTickets.value = true;
   try {
-    const saved = localStorage.getItem('zadex_tickets_store');
-    if (saved) {
-      tickets.value = JSON.parse(saved);
-    } else {
-      tickets.value = defaultTickets;
-      saveTickets();
+    const res = await fetchAllTickets();
+    if (res && res.tickets) {
+      tickets.value = res.tickets;
     }
   } catch {
-    tickets.value = defaultTickets;
+    // fallback is handled by fetchAllTickets
+  } finally {
+    isLoadingTickets.value = false;
   }
-}
-
-function saveTickets() {
-  try {
-    localStorage.setItem('zadex_tickets_store', JSON.stringify(tickets.value));
-  } catch {}
 }
 
 onMounted(() => {
@@ -148,6 +107,7 @@ function handleLogin() {
     }
     sessionStorage.setItem('zadex_admin_auth', 'true');
     showToast('تم تسجيل الدخول بنجاح. مرحباً بك في لوحة تحكم Zadex.');
+    loadTickets();
   } else {
     loginError.value = 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
   }
@@ -167,7 +127,7 @@ function showToast(msg) {
 
 // Stats
 const stats = computed(() => {
-  const all = tickets.value;
+  const all = tickets.value || [];
   return {
     total: all.length,
     open: all.filter(t => t.status === 'open').length,
@@ -179,7 +139,7 @@ const stats = computed(() => {
 
 // Filtered Tickets
 const filteredTickets = computed(() => {
-  return tickets.value.filter(t => {
+  return (tickets.value || []).filter(t => {
     if (filterStatus.value !== 'all' && t.status !== filterStatus.value) return false;
     if (filterCategory.value !== 'all' && t.category !== filterCategory.value) return false;
     if (filterPriority.value !== 'all' && t.priority !== filterPriority.value) return false;
@@ -196,6 +156,106 @@ const filteredTickets = computed(() => {
   });
 });
 
+// CREATE TICKET
+function openCreateModal() {
+  createForm.name = '';
+  createForm.email = '';
+  createForm.subject = '';
+  createForm.category = 'general';
+  createForm.priority = 'medium';
+  createForm.status = 'open';
+  createForm.message = '';
+  isCreateModalOpen.value = true;
+}
+
+function closeCreateModal() {
+  isCreateModalOpen.value = false;
+}
+
+async function handleCreateTicket() {
+  if (!createForm.name.trim() || !createForm.email.trim() || !createForm.subject.trim() || !createForm.message.trim()) {
+    alert('يرجى ملء كافة الحقول الإلزامية.');
+    return;
+  }
+
+  isSaving.value = true;
+  try {
+    const res = await apiCreateTicket({
+      name: createForm.name.trim(),
+      email: createForm.email.trim(),
+      subject: createForm.subject.trim(),
+      category: createForm.category,
+      priority: createForm.priority,
+      status: createForm.status,
+      message: createForm.message.trim(),
+    });
+
+    if (res.success && res.ticket) {
+      tickets.value.unshift(res.ticket);
+      isCreateModalOpen.value = false;
+      showToast(`تم إنشاء التذكرة ${res.ticket.ticket_number} بنجاح.`);
+    }
+  } catch (err) {
+    alert('حدث خطأ أثناء حفظ التذكرة.');
+  } finally {
+    isSaving.value = false;
+  }
+}
+
+// EDIT TICKET
+function openEditModal(ticket) {
+  editForm.ticket_number = ticket.ticket_number;
+  editForm.name = ticket.name || '';
+  editForm.email = ticket.email || '';
+  editForm.subject = ticket.subject || '';
+  editForm.category = ticket.category || 'general';
+  editForm.priority = ticket.priority || 'medium';
+  editForm.status = ticket.status || 'open';
+  editForm.message = ticket.message || '';
+  isEditModalOpen.value = true;
+}
+
+function closeEditModal() {
+  isEditModalOpen.value = false;
+}
+
+async function handleUpdateTicket() {
+  if (!editForm.name.trim() || !editForm.email.trim() || !editForm.subject.trim() || !editForm.message.trim()) {
+    alert('يرجى ملء كافة الحقول الإلزامية.');
+    return;
+  }
+
+  isSaving.value = true;
+  try {
+    const res = await apiUpdateTicket(editForm.ticket_number, {
+      name: editForm.name.trim(),
+      email: editForm.email.trim(),
+      subject: editForm.subject.trim(),
+      category: editForm.category,
+      priority: editForm.priority,
+      status: editForm.status,
+      message: editForm.message.trim(),
+    });
+
+    if (res.success && res.ticket) {
+      const idx = tickets.value.findIndex(t => t.ticket_number === editForm.ticket_number);
+      if (idx !== -1) {
+        tickets.value[idx] = { ...tickets.value[idx], ...res.ticket };
+      }
+      if (activeTicket.value?.ticket_number === editForm.ticket_number) {
+        activeTicket.value = { ...activeTicket.value, ...res.ticket };
+      }
+      isEditModalOpen.value = false;
+      showToast(`تم تحديث التذكرة ${editForm.ticket_number} بنجاح.`);
+    }
+  } catch (err) {
+    alert('حدث خطأ أثناء تحديث التذكرة.');
+  } finally {
+    isSaving.value = false;
+  }
+}
+
+// READ DETAILS
 function openTicket(ticket) {
   activeTicket.value = JSON.parse(JSON.stringify(ticket));
   replyStatus.value = ticket.status === 'open' ? 'in_progress' : ticket.status;
@@ -206,56 +266,67 @@ function closeTicketModal() {
   activeTicket.value = null;
 }
 
-function updateTicketStatusDirect(ticket, newStatus) {
+// QUICK STATUS DIRECT
+async function updateTicketStatusDirect(ticket, newStatus) {
   ticket.status = newStatus;
-  if (newStatus === 'resolved' || newStatus === 'closed') {
+  if (['resolved', 'closed'].includes(newStatus)) {
     ticket.resolved_at = new Date().toISOString();
   } else {
     ticket.resolved_at = null;
   }
-  saveTickets();
-  showToast(`تم تحديث حالة التذكرة ${ticket.ticket_number} بنجاح.`);
+  await apiUpdateTicket(ticket.ticket_number, { status: newStatus });
+  showToast(`تم تغيير حالة التذكرة ${ticket.ticket_number} إلى ${newStatus}.`);
 }
 
-function submitReply() {
-  if (!replyMessage.value.trim()) return;
+// REPLY
+async function submitReply() {
+  if (!replyMessage.value.trim() || !activeTicket.value) return;
 
-  const target = tickets.value.find(t => t.ticket_number === activeTicket.value.ticket_number);
-  if (!target) return;
+  const targetNum = activeTicket.value.ticket_number;
+  const msg = replyMessage.value.trim();
+  const st = replyStatus.value;
 
-  if (!target.replies) target.replies = [];
+  try {
+    const res = await apiReplyToTicket(targetNum, {
+      message: msg,
+      status: st,
+      sender_name: 'فريق دعم Zadex',
+      sender_type: 'admin'
+    });
 
-  const newReply = {
-    id: Date.now(),
-    sender_type: 'admin',
-    sender_name: 'فريق دعم Zadex',
-    message: replyMessage.value.trim(),
-    created_at: new Date().toISOString()
-  };
+    if (res.success && res.reply) {
+      if (!activeTicket.value.replies) activeTicket.value.replies = [];
+      activeTicket.value.replies.push(res.reply);
+      activeTicket.value.status = st;
 
-  target.replies.push(newReply);
-  target.status = replyStatus.value;
-  if (replyStatus.value === 'resolved' || replyStatus.value === 'closed') {
-    target.resolved_at = new Date().toISOString();
+      const target = tickets.value.find(t => t.ticket_number === targetNum);
+      if (target) {
+        if (!target.replies) target.replies = [];
+        target.replies.push(res.reply);
+        target.status = st;
+      }
+      replyMessage.value = '';
+      showToast('تم إرسال الرد وتحديث التذكرة بنجاح.');
+    }
+  } catch {
+    alert('حدث خطأ أثناء إرسال الرد.');
   }
-
-  // update modal view
-  activeTicket.value.replies.push(newReply);
-  activeTicket.value.status = replyStatus.value;
-
-  replyMessage.value = '';
-  saveTickets();
-  showToast('تم إرسال الرد وتحديث التذكرة بنجاح.');
 }
 
-function deleteTicket(ticketNumber) {
+// DELETE
+async function handleDeleteTicket(ticketNumber) {
   if (!confirm(`هل أنت متأكد من حذف التذكرة ${ticketNumber} نهائياً؟`)) return;
-  tickets.value = tickets.value.filter(t => t.ticket_number !== ticketNumber);
-  saveTickets();
-  if (activeTicket.value?.ticket_number === ticketNumber) {
-    activeTicket.value = null;
+
+  try {
+    await apiDeleteTicket(ticketNumber);
+    tickets.value = tickets.value.filter(t => t.ticket_number !== ticketNumber);
+    if (activeTicket.value?.ticket_number === ticketNumber) {
+      activeTicket.value = null;
+    }
+    showToast(`تم حذف التذكرة ${ticketNumber} بنجاح.`);
+  } catch {
+    alert('حدث خطأ أثناء حذف التذكرة.');
   }
-  showToast(`تم حذف التذكرة ${ticketNumber} بنجاح.`);
 }
 
 function timeAgo(dateString) {
@@ -300,26 +371,26 @@ function timeAgo(dateString) {
               v-model="loginEmail" 
               type="email" 
               required 
-              placeholder="admin@zadex.com" 
-              dir="ltr"
+              placeholder="name@example.com"
+              autocomplete="username"
             />
           </div>
 
           <div class="form-group">
-            <label for="admin-pass">كلمة المرور</label>
+            <label for="admin-password">كلمة المرور</label>
             <input 
-              id="admin-pass" 
+              id="admin-password" 
               v-model="loginPassword" 
               type="password" 
               required 
-              placeholder="••••••••" 
-              dir="ltr"
+              placeholder="••••••••"
+              autocomplete="current-password"
             />
           </div>
 
           <div class="remember-row">
             <label class="checkbox-label">
-              <input type="checkbox" v-model="rememberMe" />
+              <input v-model="rememberMe" type="checkbox" />
               <span>تذكرني على هذا الجهاز</span>
             </label>
           </div>
@@ -342,6 +413,16 @@ function timeAgo(dateString) {
         </div>
 
         <div class="topbar-actions">
+          <button type="button" class="btn btn-primary btn-sm" @click="openCreateModal">
+            <Plus :size="15" />
+            <span>إنشاء تذكرة جديدة</span>
+          </button>
+
+          <button type="button" class="btn btn-secondary btn-sm" :disabled="isLoadingTickets" @click="loadTickets" title="تحديث التذاكر">
+            <RefreshCw :size="14" :class="{ 'spin-anim': isLoadingTickets }" />
+            <span>تحديث</span>
+          </button>
+
           <span class="admin-user-pill">
             <Shield :size="14" />
             <span>Zadex Admin</span>
@@ -463,8 +544,14 @@ function timeAgo(dateString) {
         <!-- Table Card -->
         <div class="table-card">
           <div class="table-header-title">
-            <h2>التذاكر الواردة ({{ filteredTickets.length }})</h2>
-            <span style="font-size: 12px; color: var(--muted)">تحديث فوري ومباشر</span>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <h2>التذاكر الواردة ({{ filteredTickets.length }})</h2>
+              <span style="font-size: 12px; color: #5a6474">تحديث فوري ومباشر مع قاعدة البيانات</span>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm" @click="openCreateModal">
+              <Plus :size="14" />
+              <span>+ تذكرة جديدة</span>
+            </button>
           </div>
 
           <div v-if="filteredTickets.length > 0" class="table-responsive">
@@ -479,7 +566,7 @@ function timeAgo(dateString) {
                   <th>الحالة</th>
                   <th>الردود</th>
                   <th>التاريخ</th>
-                  <th>إجراء</th>
+                  <th style="min-width: 140px;">إجراءات CRUD</th>
                 </tr>
               </thead>
               <tbody>
@@ -510,9 +597,17 @@ function timeAgo(dateString) {
                     </span>
                   </td>
                   <td>
-                    <span class="badge" :class="'badge-' + ticket.status">
-                      {{ ticket.status === 'open' ? 'مفتوحة' : ticket.status === 'in_progress' ? 'قيد المعالجة' : ticket.status === 'resolved' ? 'تم الحل' : 'مغلقة' }}
-                    </span>
+                    <select 
+                      :value="ticket.status" 
+                      class="mini-status-select" 
+                      :class="'badge-' + ticket.status"
+                      @change="updateTicketStatusDirect(ticket, $event.target.value)"
+                    >
+                      <option value="open">مفتوحة</option>
+                      <option value="in_progress">قيد المعالجة</option>
+                      <option value="resolved">تم الحل</option>
+                      <option value="closed">مغلقة</option>
+                    </select>
                   </td>
                   <td>
                     <span class="replies-count">
@@ -525,9 +620,18 @@ function timeAgo(dateString) {
                     </span>
                   </td>
                   <td>
-                    <button type="button" class="btn btn-secondary btn-sm" @click="openTicket(ticket)">
-                      عرض والرد
-                    </button>
+                    <div class="row-actions">
+                      <button type="button" class="btn btn-secondary btn-sm" @click="openTicket(ticket)" title="عرض المحادثة والرد">
+                        عرض
+                      </button>
+                      <button type="button" class="btn btn-secondary btn-sm" @click="openEditModal(ticket)" title="تعديل بيانات التذكرة">
+                        <Pencil :size="13" />
+                        <span>تعديل</span>
+                      </button>
+                      <button type="button" class="btn btn-danger btn-sm" @click="handleDeleteTicket(ticket.ticket_number)" title="حذف التذكرة">
+                        <Trash2 :size="13" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -537,12 +641,175 @@ function timeAgo(dateString) {
           <div v-else class="empty-state">
             <Layers :size="48" />
             <h3>لا توجد تذاكر تطابق هذا البحث</h3>
-            <p>جرّب تعديل الفلاتر أو البحث بكلمة مختلفة.</p>
+            <p>جرّب تعديل الفلاتر أو البحث بكلمة مختلفة أو قم بإنشاء تذكرة جديدة.</p>
+            <button type="button" class="btn btn-primary" style="margin-top: 14px;" @click="openCreateModal">
+              <Plus :size="16" />
+              <span>إنشاء تذكرة جديدة الآن</span>
+            </button>
           </div>
         </div>
       </main>
 
-      <!-- Ticket Detail Modal -->
+      <!-- CREATE TICKET MODAL -->
+      <div v-if="isCreateModalOpen" class="modal-backdrop" @click.self="closeCreateModal">
+        <div class="modal-box modal-form-box">
+          <div class="modal-header">
+            <div>
+              <h2 class="modal-subject">إنشاء تذكرة دعم جديدة</h2>
+              <p style="font-size: 13px; color: #5a6474; margin-top: 4px;">إضافة تذكرة يدوياً إلى النظام وقاعدة البيانات</p>
+            </div>
+            <button type="button" class="btn-close" @click="closeCreateModal">
+              <X :size="20" />
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <form @submit.prevent="handleCreateTicket" class="form-stack">
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label>اسم العميل <span class="req">*</span></label>
+                  <input v-model="createForm.name" type="text" required placeholder="مثال: محمد أحمد" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label>البريد الإلكتروني للعميل <span class="req">*</span></label>
+                  <input v-model="createForm.email" type="email" required placeholder="client@example.com" class="form-input" dir="ltr" style="text-align: right;" />
+                </div>
+              </div>
+
+              <div class="form-grid-3">
+                <div class="form-group">
+                  <label>القسم / التصنيف</label>
+                  <select v-model="createForm.category" class="form-input">
+                    <option value="general">استفسار عام</option>
+                    <option value="bug">خطأ تقني</option>
+                    <option value="feature">طلب ميزة</option>
+                    <option value="technical">توافق تقني</option>
+                    <option value="account">حساب وتراخيص</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>الأولوية</label>
+                  <select v-model="createForm.priority" class="form-input">
+                    <option value="low">منخفضة</option>
+                    <option value="medium">متوسطة</option>
+                    <option value="high">مرتفعة</option>
+                    <option value="urgent">عاجلة جداً</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>الحالة الأولية</label>
+                  <select v-model="createForm.status" class="form-input">
+                    <option value="open">مفتوحة</option>
+                    <option value="in_progress">قيد المعالجة</option>
+                    <option value="resolved">تم الحل</option>
+                    <option value="closed">مغلقة</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>عنوان وموضوع التذكرة <span class="req">*</span></label>
+                <input v-model="createForm.subject" type="text" required placeholder="موضوع المشكلة أو الاستفسار" class="form-input" />
+              </div>
+
+              <div class="form-group">
+                <label>تفاصيل المشكلة والرسالة <span class="req">*</span></label>
+                <textarea v-model="createForm.message" rows="5" required placeholder="اكتب تفاصيل التذكرة بدقة..." class="form-input"></textarea>
+              </div>
+
+              <div class="modal-footer-actions">
+                <button type="button" class="btn btn-secondary" @click="closeCreateModal">إلغاء</button>
+                <button type="submit" class="btn btn-primary" :disabled="isSaving">
+                  <span>{{ isSaving ? 'جارٍ الحفظ...' : 'حفظ وإنشاء التذكرة' }}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- EDIT TICKET MODAL -->
+      <div v-if="isEditModalOpen" class="modal-backdrop" @click.self="closeEditModal">
+        <div class="modal-box modal-form-box">
+          <div class="modal-header">
+            <div>
+              <div class="modal-tags">
+                <span class="code-tag">{{ editForm.ticket_number }}</span>
+                <span class="badge" :class="'badge-' + editForm.status">تعديل التذكرة</span>
+              </div>
+              <h2 class="modal-subject" style="margin-top: 6px;">تعديل بيانات التذكرة</h2>
+            </div>
+            <button type="button" class="btn-close" @click="closeEditModal">
+              <X :size="20" />
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <form @submit.prevent="handleUpdateTicket" class="form-stack">
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label>اسم العميل <span class="req">*</span></label>
+                  <input v-model="editForm.name" type="text" required class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label>البريد الإلكتروني للعميل <span class="req">*</span></label>
+                  <input v-model="editForm.email" type="email" required class="form-input" dir="ltr" style="text-align: right;" />
+                </div>
+              </div>
+
+              <div class="form-grid-3">
+                <div class="form-group">
+                  <label>القسم / التصنيف</label>
+                  <select v-model="editForm.category" class="form-input">
+                    <option value="general">استفسار عام</option>
+                    <option value="bug">خطأ تقني</option>
+                    <option value="feature">طلب ميزة</option>
+                    <option value="technical">توافق تقني</option>
+                    <option value="account">حساب وتراخيص</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>الأولوية</label>
+                  <select v-model="editForm.priority" class="form-input">
+                    <option value="low">منخفضة</option>
+                    <option value="medium">متوسطة</option>
+                    <option value="high">مرتفعة</option>
+                    <option value="urgent">عاجلة جداً</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>الحالة</label>
+                  <select v-model="editForm.status" class="form-input">
+                    <option value="open">مفتوحة</option>
+                    <option value="in_progress">قيد المعالجة</option>
+                    <option value="resolved">تم الحل</option>
+                    <option value="closed">مغلقة</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>عنوان وموضوع التذكرة <span class="req">*</span></label>
+                <input v-model="editForm.subject" type="text" required class="form-input" />
+              </div>
+
+              <div class="form-group">
+                <label>تفاصيل المشكلة والرسالة <span class="req">*</span></label>
+                <textarea v-model="editForm.message" rows="5" required class="form-input"></textarea>
+              </div>
+
+              <div class="modal-footer-actions">
+                <button type="button" class="btn btn-secondary" @click="closeEditModal">إلغاء</button>
+                <button type="submit" class="btn btn-primary" :disabled="isSaving">
+                  <span>{{ isSaving ? 'جارٍ الحفظ...' : 'حفظ التعديلات' }}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW TICKET DETAIL & REPLY MODAL -->
       <div v-if="activeTicket" class="modal-backdrop" @click.self="closeTicketModal">
         <div class="modal-box">
           <div class="modal-header">
@@ -558,9 +825,15 @@ function timeAgo(dateString) {
               </div>
               <h2 class="modal-subject">{{ activeTicket.subject }}</h2>
             </div>
-            <button type="button" class="btn-close" @click="closeTicketModal">
-              <X :size="20" />
-            </button>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <button type="button" class="btn btn-secondary btn-sm" @click="openEditModal(activeTicket)">
+                <Pencil :size="13" />
+                <span>تعديل التذكرة</span>
+              </button>
+              <button type="button" class="btn-close" @click="closeTicketModal">
+                <X :size="20" />
+              </button>
+            </div>
           </div>
 
           <div class="modal-body">
@@ -568,7 +841,7 @@ function timeAgo(dateString) {
             <div class="inquiry-card">
               <div class="inquiry-head">
                 <div class="author-info">
-                  <div class="avatar">{{ activeTicket.name.charAt(0) }}</div>
+                  <div class="avatar">{{ (activeTicket.name || 'ع').charAt(0) }}</div>
                   <div>
                     <h4>{{ activeTicket.name }} <span class="author-email">({{ activeTicket.email }})</span></h4>
                     <span class="inquiry-time">{{ new Date(activeTicket.created_at).toLocaleString('ar-EG') }}</span>
@@ -618,7 +891,7 @@ function timeAgo(dateString) {
                 </div>
 
                 <div class="modal-btns">
-                  <button type="button" class="btn btn-danger btn-sm" @click="deleteTicket(activeTicket.ticket_number)">
+                  <button type="button" class="btn btn-danger btn-sm" @click="handleDeleteTicket(activeTicket.ticket_number)">
                     <Trash2 :size="14" />
                     <span>حذف التذكرة</span>
                   </button>
@@ -651,18 +924,27 @@ function timeAgo(dateString) {
 .toast-alert {
   position: fixed;
   top: 20px;
-  right: 20px;
-  z-index: 9999;
-  background: #10b981;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #11151c;
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 50px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   display: flex;
   align-items: center;
   gap: 10px;
   font-size: 14px;
   font-weight: 500;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.25s, transform 0.25s;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+  transform: translate(-50%, -10px);
 }
 
 /* Login View */
@@ -691,9 +973,9 @@ function timeAgo(dateString) {
 
 .brand-logo {
   font-family: 'Sora', sans-serif;
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 700;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.8px;
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -702,8 +984,8 @@ function timeAgo(dateString) {
 }
 
 .brand-dot {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   background: #3565eb;
   border-radius: 50%;
   display: inline-block;
@@ -737,25 +1019,56 @@ function timeAgo(dateString) {
   font-size: 13px;
   font-weight: 600;
   margin-bottom: 6px;
+  color: #11151c;
 }
 
-.form-group input {
+.req {
+  color: #ef4444;
+}
+
+.form-group input,
+.form-input {
   width: 100%;
-  padding: 11px 14px;
+  padding: 10px 14px;
   border: 1px solid #e2e6ed;
   border-radius: 8px;
   font-size: 14px;
   font-family: inherit;
   background: #fdfdfd;
   color: #11151c;
+  transition: all 0.15s;
   box-sizing: border-box;
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-input:focus {
   outline: none;
   border-color: #3565eb;
   box-shadow: 0 0 0 3px rgba(53, 101, 235, 0.1);
   background: #fff;
+}
+
+textarea.form-input {
+  resize: vertical;
+}
+
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .form-grid-2,
+  .form-grid-3 {
+    grid-template-columns: 1fr;
+  }
 }
 
 .remember-row {
@@ -794,47 +1107,53 @@ function timeAgo(dateString) {
 }
 
 .badge-tickets {
-  font-size: 11px;
-  font-weight: 600;
-  padding: 3px 8px;
-  background: #ebf0fe;
+  background: #eef2ff;
   color: #3565eb;
-  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
 }
 
 .topbar-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .admin-user-pill {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
+  background: #f1f5f9;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
   font-weight: 600;
-  color: #1e3a8a;
-  background: #eff6ff;
-  padding: 4px 10px;
-  border-radius: 6px;
+  color: #334155;
 }
 
-/* Container */
+.spin-anim {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
 .container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 32px 24px;
+  padding: 24px;
   width: 100%;
-  box-sizing: border-box;
 }
 
-/* Stats Grid */
+/* Stats */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 16px;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .stat-card {
@@ -844,21 +1163,25 @@ function timeAgo(dateString) {
   padding: 18px 20px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.04);
 }
 
 .stat-label {
   font-size: 13px;
   color: #5a6474;
-  font-weight: 500;
 }
 
 .stat-number {
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 700;
   font-family: 'Sora', sans-serif;
   color: #11151c;
-  line-height: 1.1;
 }
 
 .stat-number.open { color: #059669; }
@@ -871,8 +1194,8 @@ function timeAgo(dateString) {
   background: #ffffff;
   border: 1px solid #e2e6ed;
   border-radius: 12px;
-  padding: 18px 20px;
-  margin-bottom: 24px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -881,74 +1204,76 @@ function timeAgo(dateString) {
 .status-tabs {
   display: flex;
   gap: 8px;
-  flex-wrap: wrap;
-  border-bottom: 1px solid #f0f3f7;
-  padding-bottom: 14px;
+  border-bottom: 1px solid #e2e6ed;
+  padding-bottom: 12px;
+  overflow-x: auto;
 }
 
 .status-tab {
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 500;
+  background: none;
   border: 0;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
   color: #5a6474;
-  background: #f8fafc;
   cursor: pointer;
+  white-space: nowrap;
+  font-family: inherit;
   transition: all 0.15s;
+}
+
+.status-tab:hover {
+  background: #f1f5f9;
+  color: #11151c;
 }
 
 .status-tab.active {
   background: #3565eb;
-  color: white;
+  color: #ffffff;
 }
 
 .filter-row {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
-  align-items: center;
 }
 
 .search-input-group {
-  flex: 1;
-  min-width: 240px;
   position: relative;
-}
-
-.search-input {
-  width: 100%;
-  padding: 9px 38px 9px 14px;
-  border: 1px solid #e2e6ed;
-  border-radius: 8px;
-  font-size: 14px;
-  font-family: inherit;
-  background: #f8fafc;
-  color: #11151c;
-  box-sizing: border-box;
+  flex: 1;
+  min-width: 260px;
 }
 
 .search-icon {
   position: absolute;
-  right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: #5a6474;
-  pointer-events: none;
+  right: 12px;
+  color: #94a3b8;
 }
 
-.filter-select {
-  padding: 9px 14px;
+.search-input {
+  width: 100%;
+  padding: 9px 36px 9px 12px;
   border: 1px solid #e2e6ed;
   border-radius: 8px;
   font-size: 13px;
   font-family: inherit;
-  background: #f8fafc;
-  color: #11151c;
-  cursor: pointer;
+  box-sizing: border-box;
 }
 
-/* Table Card */
+.filter-select {
+  padding: 8px 14px;
+  border: 1px solid #e2e6ed;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 13px;
+  font-family: inherit;
+  color: #11151c;
+}
+
+/* Table */
 .table-card {
   background: #ffffff;
   border: 1px solid #e2e6ed;
@@ -967,6 +1292,7 @@ function timeAgo(dateString) {
 .table-header-title h2 {
   font-size: 16px;
   font-weight: 700;
+  margin: 0;
 }
 
 .table-responsive {
@@ -976,24 +1302,54 @@ function timeAgo(dateString) {
 .tickets-table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 13px;
   text-align: right;
-  font-size: 14px;
 }
 
 .tickets-table th {
   background: #f8fafc;
-  padding: 12px 18px;
-  font-weight: 600;
+  padding: 12px 16px;
   color: #5a6474;
-  font-size: 12px;
+  font-weight: 600;
   border-bottom: 1px solid #e2e6ed;
   white-space: nowrap;
 }
 
 .tickets-table td {
-  padding: 14px 18px;
-  border-bottom: 1px solid #f0f3f7;
+  padding: 14px 16px;
+  border-bottom: 1px solid #f1f5f9;
   vertical-align: middle;
+}
+
+.tickets-table tr:hover {
+  background: #fcfdfe;
+}
+
+.code-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  color: #3565eb;
+  background: #eef2ff;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  display: inline-block;
+  direction: ltr;
+}
+
+.customer-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.customer-name {
+  font-weight: 600;
+  color: #11151c;
+}
+
+.customer-email {
+  font-size: 12px;
+  color: #5a6474;
 }
 
 .ticket-subject-cell {
@@ -1001,16 +1357,16 @@ function timeAgo(dateString) {
 }
 
 .ticket-subject-link {
-  color: #11151c;
-  font-weight: 600;
   background: none;
   border: 0;
   padding: 0;
   text-align: right;
+  font-size: 13px;
+  font-weight: 600;
+  color: #11151c;
   cursor: pointer;
+  font-family: inherit;
   display: block;
-  margin-bottom: 2px;
-  font-size: 14px;
 }
 
 .ticket-subject-link:hover {
@@ -1023,30 +1379,7 @@ function timeAgo(dateString) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.customer-info {
-  display: flex;
-  flex-direction: column;
-}
-.customer-name {
-  font-weight: 600;
-  font-size: 13px;
-}
-.customer-email {
-  font-size: 12px;
-  color: #5a6474;
-  font-family: 'Public Sans', sans-serif;
-}
-
-.code-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  font-weight: 600;
-  color: #3565eb;
-  background: #ebf0fe;
-  padding: 2px 6px;
-  border-radius: 4px;
+  margin-top: 3px;
 }
 
 .meta-badge {
@@ -1064,6 +1397,22 @@ function timeAgo(dateString) {
 .ticket-date {
   font-size: 12px;
   color: #5a6474;
+}
+
+.row-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.mini-status-select {
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 /* Badges */
@@ -1092,10 +1441,10 @@ function timeAgo(dateString) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   border-radius: 8px;
   text-decoration: none;
   cursor: pointer;
@@ -1110,7 +1459,7 @@ function timeAgo(dateString) {
 .btn-secondary { background: #ffffff; border-color: #e2e6ed; color: #11151c; }
 .btn-secondary:hover { background: #f8fafc; }
 
-.btn-danger { background: #fee2e2; color: #b91c1c; }
+.btn-danger { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
 .btn-danger:hover { background: #ef4444; color: white; }
 
 .btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 6px; }
@@ -1148,6 +1497,10 @@ function timeAgo(dateString) {
   box-shadow: 0 25px 50px rgba(0,0,0,0.15);
 }
 
+.modal-form-box {
+  max-width: 680px;
+}
+
 .modal-header {
   padding: 20px 24px;
   border-bottom: 1px solid #e2e6ed;
@@ -1172,6 +1525,7 @@ function timeAgo(dateString) {
 .modal-subject {
   font-size: 18px;
   font-weight: 700;
+  margin: 0;
 }
 
 .btn-close {
@@ -1180,6 +1534,10 @@ function timeAgo(dateString) {
   cursor: pointer;
   color: #5a6474;
   padding: 4px;
+}
+
+.btn-close:hover {
+  color: #11151c;
 }
 
 .modal-body {
@@ -1258,46 +1616,43 @@ function timeAgo(dateString) {
 .thread-title {
   font-size: 14px;
   font-weight: 700;
-  color: #5a6474;
+  margin: 0;
 }
 
 .reply-item {
-  background: #f8fafc;
-  border: 1px solid #e2e6ed;
+  background: #f1f5f9;
   border-radius: 10px;
   padding: 14px;
 }
 
 .reply-item.admin-reply {
-  background: #f0f5ff;
-  border-color: #d0deff;
+  background: #eff6ff;
+  border-right: 3px solid #3565eb;
 }
 
 .reply-head {
   display: flex;
   justify-content: space-between;
   font-size: 12px;
+  margin-bottom: 8px;
   color: #5a6474;
-  margin-bottom: 6px;
 }
 
 .reply-msg {
   font-size: 14px;
-  line-height: 1.7;
+  line-height: 1.6;
   white-space: pre-wrap;
 }
 
 .reply-box {
-  background: #ffffff;
-  border: 1px solid #e2e6ed;
-  border-radius: 12px;
-  padding: 18px;
+  border-top: 1px solid #e2e6ed;
+  padding-top: 20px;
 }
 
 .reply-box h4 {
   font-size: 14px;
   font-weight: 700;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .reply-textarea {
@@ -1307,29 +1662,43 @@ function timeAgo(dateString) {
   border-radius: 8px;
   font-size: 14px;
   font-family: inherit;
-  box-sizing: border-box;
-  margin-bottom: 14px;
   resize: vertical;
+  box-sizing: border-box;
 }
 
 .reply-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  margin-top: 14px;
   flex-wrap: wrap;
+  gap: 12px;
 }
 
 .status-change-group {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   font-size: 13px;
+  color: #5a6474;
 }
 
 .modal-btns {
   display: flex;
-  align-items: center;
   gap: 10px;
+}
+
+.modal-footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e6ed;
+}
+
+.form-stack {
+  display: flex;
+  flex-direction: column;
 }
 </style>

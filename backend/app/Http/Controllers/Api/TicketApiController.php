@@ -11,6 +11,31 @@ use Illuminate\Support\Facades\Validator;
 class TicketApiController extends Controller
 {
     /**
+     * List all support tickets with optional filters.
+     */
+    public function index(Request $request): JsonResponse
+    {
+        $filters = [
+            'status' => $request->query('status', 'all'),
+            'priority' => $request->query('priority', 'all'),
+            'category' => $request->query('category', 'all'),
+            'search' => $request->query('search', ''),
+        ];
+
+        $tickets = Ticket::with(['replies' => function ($query) {
+            $query->select('id', 'ticket_id', 'sender_type', 'sender_name', 'message', 'created_at')->orderBy('id', 'asc');
+        }])
+            ->filter($filters)
+            ->latest()
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'tickets' => $tickets,
+        ]);
+    }
+
+    /**
      * Submit a new support ticket.
      */
     public function store(Request $request): JsonResponse
@@ -21,7 +46,8 @@ class TicketApiController extends Controller
             'subject' => ['required', 'string', 'max:200'],
             'category' => ['nullable', 'string', 'in:general,bug,feature,technical,account'],
             'priority' => ['nullable', 'string', 'in:low,medium,high,urgent'],
-            'message' => ['required', 'string', 'min:10', 'max:5000'],
+            'message' => ['required', 'string', 'min:5', 'max:5000'],
+            'status' => ['nullable', 'string', 'in:open,in_progress,resolved,closed'],
         ]);
 
         if ($validator->fails()) {
@@ -43,22 +69,15 @@ class TicketApiController extends Controller
             'message' => $validated['message'],
             'ip_address' => $request->ip(),
             'user_agent' => $request->userAgent(),
-            'status' => 'open',
+            'status' => $validated['status'] ?? 'open',
         ]);
+
+        $ticket->load('replies');
 
         return response()->json([
             'success' => true,
-            'message' => 'Ticket submitted successfully',
-            'ticket' => [
-                'ticket_number' => $ticket->ticket_number,
-                'name' => $ticket->name,
-                'email' => $ticket->email,
-                'subject' => $ticket->subject,
-                'category' => $ticket->category,
-                'priority' => $ticket->priority,
-                'status' => $ticket->status,
-                'created_at' => $ticket->created_at->toISOString(),
-            ],
+            'message' => 'Ticket created successfully',
+            'ticket' => $ticket,
         ], 201);
     }
 
@@ -68,7 +87,7 @@ class TicketApiController extends Controller
     public function show(string $ticketNumber): JsonResponse
     {
         $ticket = Ticket::with(['replies' => function ($query) {
-            $query->select('id', 'ticket_id', 'sender_type', 'sender_name', 'message', 'created_at');
+            $query->select('id', 'ticket_id', 'sender_type', 'sender_name', 'message', 'created_at')->orderBy('id', 'asc');
         }])->where('ticket_number', strtoupper($ticketNumber))->first();
 
         if (!$ticket) {
@@ -80,17 +99,145 @@ class TicketApiController extends Controller
 
         return response()->json([
             'success' => true,
-            'ticket' => [
-                'ticket_number' => $ticket->ticket_number,
-                'name' => $ticket->name,
-                'subject' => $ticket->subject,
-                'category' => $ticket->category,
-                'priority' => $ticket->priority,
-                'status' => $ticket->status,
-                'created_at' => $ticket->created_at->toISOString(),
-                'resolved_at' => $ticket->resolved_at?->toISOString(),
-                'replies' => $ticket->replies,
-            ],
+            'ticket' => $ticket,
+        ]);
+    }
+
+    /**
+     * Update an existing ticket.
+     */
+    public function update(Request $request, string $ticketNumber): JsonResponse
+    {
+        $ticket = Ticket::where('ticket_number', strtoupper($ticketNumber))->first();
+
+        if (!$ticket) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ticket not found',
+            ], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => ['nullable', 'string', 'max:120'],
+            'email' => ['nullable', 'email', 'max:190'],
+            'subject' => ['nullable', 'string', 'max:200'],
+            'category' => ['nullable', 'string', 'in:general,bug,feature,technical,account'],
+            'priority' => ['nullable', 'string', 'in:low,medium,high,urgent'],
+            'status' => ['nullable', 'string', 'in:open,in_progress,resolved,closed'],
+            'message' => ['nullable', 'string', 'min:5', 'max:5000'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $validated = $validator->validated();
+
+        if (isset($validated['name'])) $ticket->name = $validated['name'];
+        if (isset($validated['email'])) $ticket->email = $validated['email'];
+        if (isset($validated['subject'])) $ticket->subject = $validated['subject'];
+        if (isset($validated['category'])) $ticket->category = $validated['category'];
+        if (isset($validated['priority'])) $ticket->priority = $validated['priority'];
+        if (isset($validated['message'])) $ticket->message = $validated['message'];
+
+        if (isset($validated['status'])) {
+            $ticket->status = $validated['status'];
+            if (in_array($validated['status'], ['resolved', 'closed'])) {
+                $ticket->resolved_at = $ticket->resolved_at ?? now();
+            } else {
+                $ticket->resolved_at = null;
+            }
+        }
+
+        $ticket->save();
+        $ticket->load('replies');
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Ticket updated successfully',
+            'ticket' => $ticket,
+        ]);
+    }
+
+    /**
+     * Delete a ticket.
+     */
+    public function destroy(string $ticketNumber): JsonResponse
+    {
+        $ticket = Ticket::where('ticket_number', strtoupper($ticketNumber))->first();
+
+        if (!$ticket) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ticket not found',
+            ], 404);
+        }
+
+        $ticket->replies()->delete();
+        $ticket->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Ticket deleted successfully',
+        ]);
+    }
+
+    /**
+     * Add a reply to a ticket.
+     */
+    public function reply(Request $request, string $ticketNumber): JsonResponse
+    {
+        $ticket = Ticket::where('ticket_number', strtoupper($ticketNumber))->first();
+
+        if (!$ticket) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ticket not found',
+            ], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'message' => ['required', 'string', 'min:2', 'max:5000'],
+            'sender_name' => ['nullable', 'string', 'max:100'],
+            'sender_type' => ['nullable', 'string', 'in:admin,customer'],
+            'status' => ['nullable', 'string', 'in:open,in_progress,resolved,closed'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $validated = $validator->validated();
+
+        $reply = $ticket->replies()->create([
+            'sender_type' => $validated['sender_type'] ?? 'admin',
+            'sender_name' => !empty($validated['sender_name']) ? $validated['sender_name'] : 'فريق دعم Zadex',
+            'message' => $validated['message'],
+        ]);
+
+        if (!empty($validated['status']) && $validated['status'] !== $ticket->status) {
+            $ticket->status = $validated['status'];
+            if (in_array($validated['status'], ['resolved', 'closed'])) {
+                $ticket->resolved_at = now();
+            } else {
+                $ticket->resolved_at = null;
+            }
+            $ticket->save();
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Reply posted successfully',
+            'reply' => $reply,
+            'ticket_status' => $ticket->status,
         ]);
     }
 }

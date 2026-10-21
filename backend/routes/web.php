@@ -23,7 +23,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Authenticated Dashboard Routes
     Route::middleware('auth')->prefix('tickets')->name('tickets.')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('index');
+        Route::get('/create', [DashboardController::class, 'create'])->name('create');
+        Route::post('/', [DashboardController::class, 'store'])->name('store');
         Route::get('/{ticket}', [DashboardController::class, 'show'])->name('show');
+        Route::get('/{ticket}/edit', [DashboardController::class, 'edit'])->name('edit');
+        Route::put('/{ticket}', [DashboardController::class, 'update'])->name('update');
         Route::post('/{ticket}/reply', [DashboardController::class, 'reply'])->name('reply');
         Route::patch('/{ticket}/status', [DashboardController::class, 'updateStatus'])->name('updateStatus');
         Route::delete('/{ticket}', [DashboardController::class, 'destroy'])->name('destroy');

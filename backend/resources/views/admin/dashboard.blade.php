@@ -323,8 +323,13 @@
     <!-- Tickets Table -->
     <div class="table-card">
         <div class="table-header-title">
-            <h2>قائمة التذاكر المستلمة ({{ $tickets->total() }})</h2>
-            <span style="font-size: 12px; color: var(--muted)">محدث تلقائياً</span>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <h2>قائمة التذاكر المستلمة ({{ $tickets->total() }})</h2>
+                <span style="font-size: 12px; color: var(--muted)">محدث تلقائياً</span>
+            </div>
+            <a href="{{ route('admin.tickets.create') }}" class="btn btn-primary btn-sm" style="text-decoration: none;">
+                + تذكرة جديدة
+            </a>
         </div>
 
         @if($tickets->count() > 0)
@@ -404,9 +409,21 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.tickets.show', $ticket) }}" class="btn btn-secondary btn-sm">
-                                        عرض والرد
-                                    </a>
+                                    <div style="display: flex; gap: 6px; align-items: center;">
+                                        <a href="{{ route('admin.tickets.show', $ticket) }}" class="btn btn-secondary btn-sm" title="عرض التذكرة والرد">
+                                            عرض
+                                        </a>
+                                        <a href="{{ route('admin.tickets.edit', $ticket) }}" class="btn btn-secondary btn-sm" title="تعديل بيانات التذكرة">
+                                            تعديل
+                                        </a>
+                                        <form method="POST" action="{{ route('admin.tickets.destroy', $ticket) }}" onsubmit="return confirm('هل أنت متأكد من حذف التذكرة {{ $ticket->ticket_number }} نهائياً؟');" style="display: inline; margin: 0;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm" style="background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; cursor: pointer; border-radius: 6px;" title="حذف">
+                                                حذف
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

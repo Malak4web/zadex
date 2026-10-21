@@ -1,6 +1,7 @@
 <script setup>
 import { ref, reactive } from 'vue';
 import { t } from '../i18n';
+import { createTicket, fetchSingleTicket } from '../services/ticketApi';
 import { 
   LifeBuoy, 
   Send, 
@@ -34,29 +35,6 @@ const form = reactive({
   message: '',
 });
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-
-function saveToAdminStore(ticket) {
-  try {
-    const raw = localStorage.getItem('zadex_tickets_store');
-    const list = raw ? JSON.parse(raw) : [];
-    const fullTicket = {
-      ticket_number: ticket.ticket_number,
-      name: ticket.name || form.name,
-      email: ticket.email || form.email,
-      subject: ticket.subject || form.subject,
-      category: ticket.category || form.category,
-      priority: ticket.priority || form.priority,
-      status: ticket.status || 'open',
-      message: ticket.message || form.message,
-      created_at: ticket.created_at || new Date().toISOString(),
-      replies: ticket.replies || []
-    };
-    list.unshift(fullTicket);
-    localStorage.setItem('zadex_tickets_store', JSON.stringify(list));
-  } catch {}
-}
-
 async function submitTicket() {
   formError.value = '';
   if (!form.name.trim() || !form.email.trim() || !form.subject.trim() || !form.message.trim()) {
@@ -67,45 +45,24 @@ async function submitTicket() {
   isSubmitting.value = true;
 
   try {
-    const res = await fetch(`${API_BASE}/api/tickets`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify(form),
+    const result = await createTicket({
+      name: form.name.trim(),
+      email: form.email.trim(),
+      subject: form.subject.trim(),
+      category: form.category,
+      priority: form.priority,
+      message: form.message.trim(),
     });
 
-    const data = await res.json();
-
-    if (res.ok && data.success) {
-      createdTicket.value = data.ticket;
-      saveToAdminStore(data.ticket);
+    if (result.success && result.ticket) {
+      createdTicket.value = result.ticket;
       submitSuccess.value = true;
       resetForm();
     } else {
-      formError.value = data.message || t('An error occurred while submitting your ticket.');
+      formError.value = result.message || t('An error occurred while submitting your ticket.');
     }
   } catch (err) {
-    // If backend is not currently running locally, provide friendly fallback
-    console.warn('Backend API unavailable, using local mock ticket:', err);
-    const mockNumber = 'ZX-' + Math.random().toString(36).substring(2, 7).toUpperCase();
-    const mockTicket = {
-      ticket_number: mockNumber,
-      name: form.name,
-      email: form.email,
-      subject: form.subject,
-      category: form.category,
-      priority: form.priority,
-      status: 'open',
-      message: form.message,
-      created_at: new Date().toISOString(),
-      replies: []
-    };
-    createdTicket.value = mockTicket;
-    saveToAdminStore(mockTicket);
-    submitSuccess.value = true;
-    resetForm();
+    formError.value = t('An error occurred while submitting your ticket.');
   } finally {
     isSubmitting.value = false;
   }
@@ -124,32 +81,17 @@ async function checkTicketStatus() {
   isSearching.value = true;
 
   try {
-    const res = await fetch(`${API_BASE}/api/tickets/${encodeURIComponent(num)}`, {
-      headers: { 'Accept': 'application/json' },
-    });
-    const data = await res.json();
-
-    if (res.ok && data.success) {
-      searchResult.value = data.ticket;
-      return;
+    const result = await fetchSingleTicket(num);
+    if (result.success && result.ticket) {
+      searchResult.value = result.ticket;
+    } else {
+      searchError.value = result.message || t('No ticket found with this reference number.');
     }
-  } catch {}
-
-  // Fallback to checking local store
-  try {
-    const raw = localStorage.getItem('zadex_tickets_store');
-    if (raw) {
-      const list = JSON.parse(raw);
-      const found = list.find(t => t.ticket_number === num);
-      if (found) {
-        searchResult.value = found;
-        return;
-      }
-    }
-  } catch {}
-
-  searchError.value = t('No ticket found with this reference number.');
-  isSearching.value = false;
+  } catch (err) {
+    searchError.value = t('No ticket found with this reference number.');
+  } finally {
+    isSearching.value = false;
+  }
 }
 
 function copyTicketNumber() {
