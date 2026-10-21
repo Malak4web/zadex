@@ -1,6 +1,6 @@
 <script setup>
 import {t, locale} from "../i18n";
-import {reactive,computed,ref,watch,onBeforeUnmount} from 'vue';
+import {reactive,computed,ref,watch,onMounted,onBeforeUnmount,nextTick} from 'vue';
 import {ArrowRight,ArrowLeft,ArrowUp,ArrowDown,Plus,Minus,Check,X,Copy,Lock,Unlock,Eye,EyeOff,Monitor,Smartphone,Tablet,Star,Heart,Zap,Layers,MousePointer2,ShoppingBag,Play,ChevronRight,ChevronDown,MessageSquare,Link,Search,MapPin,Image,FileText,Send,Download,RotateCcw} from 'lucide-vue-next';
 import {simulationKinds,sceneLabels} from './simulationKinds';
 const props=defineProps({feature:{type:Object,required:true},replay:{type:Number,default:0}});
@@ -8,7 +8,7 @@ const emit=defineEmits(['playing']);
 if(!simulationKinds.includes(props.feature.kind))throw new Error('Unknown demo family: '+props.feature.kind);
 const kind=props.feature.kind,type=props.feature.type;
 const makeState=()=>({text:t('A little space for big ideas.'),size:30,bold:false,align:locale.value==='ar'?'right':'left',color:'#3565eb',gap:16,cols:2,device:'desktop',dark:false,rtl:false,open:false,tab:0,slide:0,amount:25,countdown:5,running:false,quantity:1,cart:0,sale:false,stock:true,submitted:false,step:1,email:'',name:'',error:'',field:'Email',role:'Visitor',logged:false,filter:'All',limit:3,query:'',binding:'Post title',post:0,layout:'Center',action:'Click',shared:t('Make something yours.'),override:'',copies:2,source:'WOFF2',family:'sans-serif',icon:'Star',resolved:false,locked:false,note:t('Can we try a shorter heading?'),notes:[],service:'Email',failed:false,phase:0,historyIndex:0,showMarkup:false,code:'<h3>A fresh idea</h3>\n<script>untrusted()<\/script>',sanitized:false,active:false,added:false,labels:['Overview','Details','Reviews'].map(value=>t(value)),items:[{id:1,label:'Heading',hidden:false,locked:false},{id:2,label:'Image',hidden:false,locked:false},{id:3,label:'Button',hidden:false,locked:false}],selection:1,popupViews:0,allowed:'Member',threshold:50,zoom:100,rotation:0,uploads:false});
-const s=reactive(makeState()),walkStep=ref(-1),walking=ref(false),feedback=ref(''),preview=ref(null);
+const s=reactive(makeState()),walkStep=ref(-1),walking=ref(false),feedback=ref(''),preview=ref(null),root=ref(null),touched=ref(false),finished=ref(false),flash=ref(false);
 function configure(){
  if(kind==='team')s.role='Full access';
  if(kind==='navigation')s.layout='Horizontal';
@@ -26,9 +26,15 @@ configure();
 let generation=0,timer;const waits=new Map();
 const wait=ms=>new Promise(resolve=>{const id=setTimeout(()=>{waits.delete(id);resolve();},ms);waits.set(id,resolve);});
 function stop(){generation++;walking.value=false;emit('playing',false);for(const[id,resolve]of waits){clearTimeout(id);resolve();}waits.clear();}
-function reset(){stop();clearInterval(timer);Object.assign(s,makeState());configure();walkStep.value=-1;feedback.value='';}
+function reset(){stop();clearInterval(timer);Object.assign(s,makeState());configure();walkStep.value=-1;feedback.value='';touched.value=false;finished.value=false;markStart();}
+// Visitors learn the canvas by cause and effect: the first control is marked until they use it, and the preview pulses whenever the example changes.
+function markStart(){nextTick(()=>{const pane=root.value?.querySelector('.sim-control');pane?.querySelector('.sim-start')?.classList.remove('sim-start');pane?.querySelector('input:not([type=hidden]),select,textarea,button,[draggable=true]')?.classList.add('sim-start');});}
+function interact(){if(walking.value)stop();touched.value=true;}
+let flashTimer;
+watch(s,()=>{flash.value=false;requestAnimationFrame(()=>{flash.value=true;clearTimeout(flashTimer);flashTimer=setTimeout(()=>flash.value=false,650);});},{deep:true});
+onMounted(markStart);
 defineExpose({reset});
-onBeforeUnmount(()=>{stop();clearInterval(timer);});
+onBeforeUnmount(()=>{stop();clearInterval(timer);clearTimeout(flashTimer);});
 const labels=sceneLabels[kind];
 const samplePosts=[{title:'A space for good ideas',author:'Alex Morgan',excerpt:'A few thoughts on designing with intention.',category:'Studio',date:'20 October 2026',price:'$24',stock:'12 in stock'},{title:'Every detail has a purpose',author:'Sam Lee',excerpt:'Exploring the details that make a place feel yours.',category:'Work',date:'21 October 2026',price:'$36',stock:'8 in stock'}];
 const post=computed(()=>samplePosts[s.post]);
@@ -98,12 +104,12 @@ case 'embed':s.open=index>0;s.active=index===2;break;
 case 'hotspot':s.tab=index;s.open=index>0;break;
 case 'anchor':s.open=index>0;s.tab=index;break;
 }}
-async function walkthrough(){stop();clearInterval(timer);Object.assign(s,makeState());configure();const token=generation;walking.value=true;emit('playing',true);const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;for(let i=0;i<3;i++){if(token!==generation)return;applyStep(i);if(!reduced)await wait(1350);}if(token===generation){walking.value=false;emit('playing',false);}}
+async function walkthrough(){stop();clearInterval(timer);Object.assign(s,makeState());configure();const token=generation;walking.value=true;emit('playing',true);const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;for(let i=0;i<3;i++){if(token!==generation)return;applyStep(i);if(!reduced)await wait(1350);}if(token===generation){walking.value=false;finished.value=true;emit('playing',false);}}
 watch(()=>props.replay,value=>{if(value>0)walkthrough();},{immediate:true});
 </script>
 <template>
-<div class="sim" :data-kind="kind" @pointerdown="walking&&stop()" @keydown.capture="walking&&stop()" @input.capture="walking&&stop()" @change.capture="walking&&stop()">
- <div class="sim-workspace" :class="{'sim-dark':s.dark,'sim-rtl':s.rtl}" :dir="s.rtl||locale==='ar'?'rtl':'ltr'">
+<div ref="root" class="sim" :class="{'sim-fresh':!touched&&!walking}" :data-kind="kind" :style="{'--sim-controls-label':JSON.stringify(t('Change a setting')),'--sim-preview-label':JSON.stringify(t('Live preview'))}" @pointerdown="interact" @keydown.capture="interact" @input.capture="interact" @change.capture="interact">
+ <div class="sim-workspace" :class="{'sim-dark':s.dark,'sim-rtl':s.rtl,'sim-flash':flash}" :dir="s.rtl||locale==='ar'?'rtl':'ltr'">
   <template v-if="kind==='edit'">
    <div class="sim-control"><label>{{t("Text")}}<input v-model="s.text" maxlength="90" :aria-label='t("Demo heading text")'></label><div class="sim-inline"><label>{{t("Size")}}<input v-model.number="s.size" type="range" min="18" max="42" :aria-label='t("Demo text size")'></label><button :aria-pressed="s.bold" @click="s.bold=!s.bold">{{t("Bold")}}</button></div><div class="sim-segments" :aria-label='t("Text alignment")'><button v-for="a in ['left','center','right']" :key="a" :aria-pressed="s.align===a" @click="s.align=a">{{t(a)}}</button></div></div>
    <div class="sim-sheet"><div class="sim-sample-nav">{{t("Objects & space.")}}<span>{{t("Studio / Work")}}</span></div><h4 class="sim-selected" :style="{fontSize:s.size+'px',fontWeight:s.bold?700:400,textAlign:s.align,transform:type==='text-path'?'rotate(-5deg)':null}">{{s.text||t('Your heading')}}</h4><p>{{t("Click a setting. Make a little change.")}}<br>{{t("See it happen, right here.")}}</p><span class="sim-faux-button">{{t("A little more possibility")}}<ArrowRight :size="13"/></span></div>
@@ -223,8 +229,8 @@ watch(()=>props.replay,value=>{if(value>0)walkthrough();},{immediate:true});
    <div class="sim-control"><label>{{t("Anchor ID")}}<input v-model="s.shared" maxlength="30" :aria-label='t("Example anchor ID")'></label><button @click="jump" class="sim-action">{{t(type==='read-more'?'Read more':'Jump to target')}}<ArrowDown :size="13"/></button></div><div class="sim-sheet"><h4>{{t("A little introduction.")}}</h4><p>{{t("A few words to begin the story.")}}</p><div v-if="s.open" class="sim-anchor-target"><span class="sim-caption">#{{s.shared.replaceAll(' ','-').toLowerCase()}}</span><h4>{{t("And a little more.")}}</h4><p>{{t("The rest of the example content is here, ready to explore.")}}</p></div><span v-else class="sim-caption">{{t("The next part waits below.")}}</span></div>
   </template>
  </div>
- <div class="sim-walkthrough" :aria-label='t("Simulation walkthrough")'><button v-for="(label,index) in labels" :key="label" :aria-pressed="walkStep===index" @click="stop();applyStep(index)"><span>{{t(index+1)}}</span>{{t(label)}}</button></div>
- <p class="sim-status" role="status">{{t(feedback||(walkStep>=0?labels[walkStep]:'Try the controls, or play the guided walkthrough.'))}}</p>
+ <div class="sim-walkthrough" :aria-label='t("Simulation walkthrough")'><button v-for="(label,index) in labels" :key="label" :class="{done:walkStep>index}" :aria-pressed="walkStep===index" @click="stop();applyStep(index)"><span><Check v-if="walkStep>index" :size="11"/><template v-else>{{t(index+1)}}</template></span>{{t(label)}}</button></div>
+ <p class="sim-status" role="status">{{t(finished&&!touched&&!walking?'Your turn. Change any setting and watch the preview update.':feedback||(walkStep>=0?labels[walkStep]:'Start with the highlighted setting, or watch how it works.'))}}</p>
 </div>
 </template>
 

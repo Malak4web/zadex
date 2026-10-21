@@ -29,4 +29,41 @@ export async function setLocale(next,{persist=true}={}){
   }
  }finally{if(id===request)changing.value=false;}
 }
-export async function initializeLocale(){let preferred='en';try{preferred=new URL(location.href).searchParams.get('lang')||localStorage.getItem('zadex-language')||'en';}catch{}await setLocale(preferred,{persist:false});}
+export function detectBrowserLocale(){
+ if(typeof navigator==='undefined')return 'en';
+ const navLanguages=Array.isArray(navigator.languages)&&navigator.languages.length>0
+  ? navigator.languages
+  : [navigator.language||navigator.userLanguage||navigator.browserLanguage].filter(Boolean);
+ const supported=languages.map(([code])=>code);
+ for(const candidate of navLanguages){
+  if(typeof candidate!=='string')continue;
+  const normalized=candidate.trim().replace('_','-');
+  if(!normalized)continue;
+  const lower=normalized.toLowerCase();
+  const exact=supported.find(c=>c.toLowerCase()===lower);
+  if(exact)return exact;
+  const primary=lower.split('-')[0];
+  const primaryMatch=supported.find(c=>c.toLowerCase()===primary);
+  if(primaryMatch)return primaryMatch;
+  const regionalMatch=supported.find(c=>c.toLowerCase().startsWith(primary+'-'));
+  if(regionalMatch)return regionalMatch;
+ }
+ return 'en';
+}
+export async function initializeLocale(){
+ let preferred='en';
+ try{
+  const urlParam=new URL(location.href).searchParams.get('lang');
+  const stored=localStorage.getItem('zadex-language');
+  if(urlParam&&languages.some(([code])=>code===urlParam)){
+   preferred=urlParam;
+  }else if(stored&&languages.some(([code])=>code===stored)){
+   preferred=stored;
+  }else{
+   preferred=detectBrowserLocale();
+  }
+ }catch{
+  preferred=detectBrowserLocale();
+ }
+ await setLocale(preferred,{persist:false});
+}

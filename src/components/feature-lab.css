@@ -10,3 +10,55 @@
 .sim-local-video{width:100%;height:auto;display:block;aspect-ratio:16/9;background:#f4f5f8;border-radius:5px;margin-top:18px}
 .sim button{font-size:11px}.sim-control label,.sim-control>strong{font-size:11px}.sim-control small{font-size:11px}.sim-walkthrough button{font-size:11px}.sim-status,.lab-honesty{font-size:11px}
 
+/* Simplified playground: category tabs, feature chips, then one card that holds the whole demonstration. */
+.lab-picker{margin-top:40px}
+.lab-tabs-row{display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--lab-line)}
+.lab-tabs{flex:1;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;mask:linear-gradient(90deg,#000 92%,transparent);min-width:0}
+.lab-tabs::-webkit-scrollbar{display:none}
+[dir=rtl] .lab-tabs{mask:linear-gradient(270deg,#000 92%,transparent)}
+.lab-tabs button{flex-shrink:0;display:flex;align-items:center;gap:7px;border:0;background:transparent;padding:14px 12px;font-size:13px;font-weight:500;color:var(--lab-muted);white-space:nowrap;box-shadow:inset 0 -2px 0 transparent;transition:color .15s,box-shadow .15s}
+.lab-tabs button small{font-size:10px;font-weight:500;color:#8a93a3;background:#e8ebf1;border-radius:20px;padding:2px 7px}
+.lab-tabs button:hover{color:var(--lab-ink)}
+.lab-tabs button.active{color:var(--lab-ink);box-shadow:inset 0 -2px 0 var(--lab-blue)}
+.lab-tabs button.active small{background:var(--lab-blue);color:#fff}
+.lab-find{flex:1;display:flex;align-items:center;gap:10px;color:var(--lab-muted);padding:6px 4px}
+.lab-find input{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:14px;color:var(--lab-ink);padding:8px 0;outline:none}
+.lab-find-toggle{flex-shrink:0;display:grid;place-items:center;width:38px;height:38px;border:1px solid var(--lab-line);border-radius:10px;background:#fff;color:var(--lab-ink)}
+.lab-find-toggle:hover{border-color:var(--lab-blue);color:var(--lab-blue)}
+.lab-chips{display:flex;flex-wrap:wrap;gap:8px;padding:18px 0 0}
+.lab-chips>button{border:1px solid var(--lab-line);background:#fff;border-radius:999px;padding:9px 15px;font-size:12px;font-weight:500;color:var(--lab-ink);transition:border-color .15s,background .15s,color .15s}
+.lab-chips>button:hover{border-color:#b9c6e8}
+.lab-chips>button.active{background:var(--lab-ink);border-color:var(--lab-ink);color:#fff}
+.lab-chips>.lab-chips-more{background:transparent;border-style:dashed;color:var(--lab-blue)}
+.lab-chips .lab-empty{width:100%;display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--lab-muted);padding:6px 0}
+.lab-chips .lab-empty p{margin:0}
+.lab-stage{margin-top:26px;background:#fff;border:1px solid var(--lab-line);border-radius:18px;overflow:hidden;box-shadow:0 18px 50px #1b2a450d}
+.lab-stage-head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;padding:24px 26px 18px}
+.lab-stage-kicker{font-size:11px;color:var(--lab-blue);font-weight:500}
+.lab-stage-head h3{font:500 28px/1.25 Sora,sans-serif;letter-spacing:-.8px;margin-top:6px}
+.lab-stage-head p{font-size:13px;line-height:1.75;color:var(--lab-muted);margin-top:6px;max-width:620px}
+.lab-stage-head .lab-requirement{color:var(--lab-blue);font-size:12px}
+.lab-stage-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.lab-stage .lab-play{font-size:12px;padding:11px 15px;min-height:40px;border-radius:9px}
+.lab-stage .lab-wake{margin:0 26px 26px}
+.lab-stage .lab-loading{padding:0 26px 26px}
+.feature-lab>.lab-honesty{max-width:none;margin-top:14px}
+html[lang=ar] .lab-stage-head h3{font-family:Tajawal,sans-serif;letter-spacing:0;line-height:1.5}
+/* Inside the card: one hint line, a labeled settings column and a large preview that reacts to every change. */
+.lab-stage .sim{display:flex;flex-direction:column}
+.lab-stage .sim-walkthrough{display:none}
+.lab-stage .sim-status{order:-1;margin:0;padding:10px 26px;min-height:0;font-size:12px;color:var(--lab-ink);background:#f7f9fd;border-top:1px solid #e9ecf3;border-bottom:1px solid #e9ecf3}
+.lab-stage .sim-status:before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--lab-blue);margin-inline-end:9px;vertical-align:1px}
+.lab-stage .sim-workspace{border-radius:0;padding:28px 26px 26px;gap:22px;grid-template-columns:minmax(170px,.62fr) minmax(0,1.38fr);min-height:400px}
+.lab-stage .sim-sheet{min-height:340px;transition:box-shadow .3s}
+.sim-control:before{content:var(--sim-controls-label);grid-column:1/-1;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--lab-muted)}
+.sim-sheet:before{content:var(--sim-preview-label);position:absolute;top:-10px;inset-inline-start:16px;z-index:5;font:600 10px/1 'Public Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--lab-blue);background:#fff;border:1px solid #c9d6fb;border-radius:20px;padding:4px 9px}
+.sim-dark .sim-sheet:before{background:#1a1d23;border-color:#3a4458;color:#9fb6ff}
+html[lang=ar] .sim-control:before,html[lang=ar] .sim-sheet:before{font-family:Tajawal,sans-serif;letter-spacing:0;text-transform:none;font-size:11px}
+.sim-workspace.sim-flash>.sim-sheet{box-shadow:0 0 0 2px #3565eb66,0 8px 24px #3565eb1f}
+.sim-fresh .sim-start{animation:sim-start 1.6s ease-out infinite;position:relative;z-index:1}
+@keyframes sim-start{0%{box-shadow:0 0 0 0 #3565eb73}70%,100%{box-shadow:0 0 0 8px #3565eb00}}
+@media(max-width:900px){.lab-stage .sim-workspace{grid-template-columns:1fr}.lab-stage .sim-sheet{order:-1;min-height:260px}}
+@media(max-width:650px){.lab-picker{margin-top:28px}.lab-tabs button{padding:12px 9px;font-size:12px}.lab-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:16px 16px 4px}.lab-chips::-webkit-scrollbar{display:none}.lab-chips>button{flex-shrink:0}.lab-stage{border-radius:14px;margin-top:18px}.lab-stage-head{flex-direction:column;gap:14px;padding:18px 16px 14px}.lab-stage-head h3{font-size:23px}.lab-stage-actions{width:100%}.lab-stage .lab-play{flex:1;justify-content:center}.lab-stage .sim-status{padding:10px 16px}.lab-stage .sim-workspace{padding:24px 14px 16px}}
+@media(prefers-reduced-motion:reduce){.sim-fresh .sim-start{animation:none;box-shadow:0 0 0 2px #3565eb73}.lab-stage .sim-sheet{transition:none}}
+.lab-stage-sub{text-transform:capitalize}

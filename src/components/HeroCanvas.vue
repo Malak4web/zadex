@@ -109,7 +109,7 @@ onBeforeUnmount(()=>{demo=false;observer?.disconnect();document.removeEventListe
 
 <style>
 .hero-canvas{position:relative}
-.hero{position:relative;background-image:radial-gradient(#c9d0de 1px,transparent 1px);background-size:22px 22px;background-position:-11px -11px}
+.hero{position:relative;overflow-x:clip;background-image:radial-gradient(#c9d0de 1px,transparent 1px);background-size:22px 22px;background-position:-11px -11px}
 .hero:before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,#f4f5f8 78%);pointer-events:none}
 .hero>*{position:relative}
 [data-canvas]{outline:none;cursor:default;border-radius:2px}
@@ -131,8 +131,8 @@ onBeforeUnmount(()=>{demo=false;observer?.disconnect();document.removeEventListe
 .canvas-toolbar button:focus-visible{outline-offset:1px}
 .canvas-toolbar button>span{width:14px;height:14px;border-radius:50%;border:2px solid #ffffff40}
 .canvas-toolbar>i{width:1px;height:18px;background:#ffffff26;margin:0 4px}
-.canvas-ghost{position:absolute;left:0;top:0;z-index:7;pointer-events:none;opacity:0;transition:transform .9s cubic-bezier(.5,0,.2,1),opacity .3s}
-.canvas-ghost.on{opacity:1}
+.canvas-ghost{position:absolute;left:0;top:0;z-index:7;pointer-events:none;opacity:0;visibility:hidden;transition:transform .9s cubic-bezier(.5,0,.2,1),opacity .3s,visibility .3s}
+.canvas-ghost.on{opacity:1;visibility:visible}
 .canvas-ghost svg{display:block;filter:drop-shadow(0 2px 3px #0003);transition:transform .12s}
 .canvas-ghost.pressing svg{transform:scale(.82)}
 .canvas-ghost span{position:absolute;left:16px;top:18px;font:500 10px 'Public Sans',sans-serif;color:#fff;background:var(--blue);padding:3px 7px;border-radius:5px 5px 5px 1px}
