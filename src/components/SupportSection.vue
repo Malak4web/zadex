@@ -36,6 +36,27 @@ const form = reactive({
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
+function saveToAdminStore(ticket) {
+  try {
+    const raw = localStorage.getItem('zadex_tickets_store');
+    const list = raw ? JSON.parse(raw) : [];
+    const fullTicket = {
+      ticket_number: ticket.ticket_number,
+      name: ticket.name || form.name,
+      email: ticket.email || form.email,
+      subject: ticket.subject || form.subject,
+      category: ticket.category || form.category,
+      priority: ticket.priority || form.priority,
+      status: ticket.status || 'open',
+      message: ticket.message || form.message,
+      created_at: ticket.created_at || new Date().toISOString(),
+      replies: ticket.replies || []
+    };
+    list.unshift(fullTicket);
+    localStorage.setItem('zadex_tickets_store', JSON.stringify(list));
+  } catch {}
+}
+
 async function submitTicket() {
   formError.value = '';
   if (!form.name.trim() || !form.email.trim() || !form.subject.trim() || !form.message.trim()) {
@@ -59,6 +80,7 @@ async function submitTicket() {
 
     if (res.ok && data.success) {
       createdTicket.value = data.ticket;
+      saveToAdminStore(data.ticket);
       submitSuccess.value = true;
       resetForm();
     } else {
@@ -68,7 +90,7 @@ async function submitTicket() {
     // If backend is not currently running locally, provide friendly fallback
     console.warn('Backend API unavailable, using local mock ticket:', err);
     const mockNumber = 'ZX-' + Math.random().toString(36).substring(2, 7).toUpperCase();
-    createdTicket.value = {
+    const mockTicket = {
       ticket_number: mockNumber,
       name: form.name,
       email: form.email,
@@ -76,8 +98,12 @@ async function submitTicket() {
       category: form.category,
       priority: form.priority,
       status: 'open',
+      message: form.message,
       created_at: new Date().toISOString(),
+      replies: []
     };
+    createdTicket.value = mockTicket;
+    saveToAdminStore(mockTicket);
     submitSuccess.value = true;
     resetForm();
   } finally {
@@ -105,18 +131,25 @@ async function checkTicketStatus() {
 
     if (res.ok && data.success) {
       searchResult.value = data.ticket;
-    } else {
-      searchError.value = data.message || t('No ticket found with this reference number.');
+      return;
     }
-  } catch (err) {
-    if (createdTicket.value && createdTicket.value.ticket_number === num) {
-      searchResult.value = createdTicket.value;
-    } else {
-      searchError.value = t('Could not connect to ticket service. Make sure backend is running.');
+  } catch {}
+
+  // Fallback to checking local store
+  try {
+    const raw = localStorage.getItem('zadex_tickets_store');
+    if (raw) {
+      const list = JSON.parse(raw);
+      const found = list.find(t => t.ticket_number === num);
+      if (found) {
+        searchResult.value = found;
+        return;
+      }
     }
-  } finally {
-    isSearching.value = false;
-  }
+  } catch {}
+
+  searchError.value = t('No ticket found with this reference number.');
+  isSearching.value = false;
 }
 
 function copyTicketNumber() {
