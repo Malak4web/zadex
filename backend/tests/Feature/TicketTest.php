@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Ticket;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -16,9 +17,33 @@ class TicketTest extends TestCase
         $response->assertRedirect(route('admin.tickets.index'));
     }
 
-    public function test_admin_dashboard_loads_successfully(): void
+    public function test_guest_is_redirected_to_login(): void
     {
         $response = $this->get(route('admin.tickets.index'));
+        $response->assertRedirect(route('admin.login'));
+    }
+
+    public function test_admin_can_login_with_valid_credentials(): void
+    {
+        $user = User::factory()->create([
+            'email' => 'admin@zadex.com',
+            'password' => bcrypt('zadex@2026'),
+        ]);
+
+        $response = $this->post(route('admin.login.post'), [
+            'email' => 'admin@zadex.com',
+            'password' => 'zadex@2026',
+        ]);
+
+        $response->assertRedirect(route('admin.tickets.index'));
+        $this->assertAuthenticatedAs($user);
+    }
+
+    public function test_admin_dashboard_loads_for_authenticated_user(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('admin.tickets.index'));
         $response->assertStatus(200);
         $response->assertSee('Zadex');
     }
@@ -52,6 +77,8 @@ class TicketTest extends TestCase
 
     public function test_can_reply_to_ticket(): void
     {
+        $user = User::factory()->create();
+
         $ticket = Ticket::create([
             'ticket_number' => 'ZX-TEST1',
             'name' => 'John Doe',
@@ -63,7 +90,7 @@ class TicketTest extends TestCase
             'status' => 'open',
         ]);
 
-        $response = $this->post(route('admin.tickets.reply', $ticket), [
+        $response = $this->actingAs($user)->post(route('admin.tickets.reply', $ticket), [
             'message' => 'We are looking into your request.',
             'status' => 'in_progress',
         ]);

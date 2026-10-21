@@ -270,6 +270,11 @@
         </a>
         
         <div class="topbar-actions">
+            @auth
+                <span style="font-size: 13px; color: var(--muted); font-weight: 500;">
+                    مرحباً، <strong>{{ auth()->user()->name }}</strong>
+                </span>
+            @endauth
             <a href="http://localhost:5173" target="_blank" class="btn btn-secondary btn-sm" title="الذهاب إلى الموقع الرئيسي">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                 <span>الموقع الرئيسي</span>
@@ -277,6 +282,15 @@
             <a href="{{ route('admin.tickets.index') }}" class="btn btn-primary btn-sm">
                 <span>قائمة التذاكر</span>
             </a>
+            @auth
+                <form method="POST" action="{{ route('admin.logout') }}" style="display: inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-secondary btn-sm" title="تسجيل الخروج">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                        <span>خروج</span>
+                    </button>
+                </form>
+            @endauth
         </div>
     </header>
 
