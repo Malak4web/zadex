@@ -7,15 +7,11 @@ import {
   Search, 
   CheckCircle2, 
   Copy, 
-  Check, 
-  ExternalLink, 
+  Check,
   Clock, 
   MessageSquare,
   AlertCircle,
-  HelpCircle,
-  Bug,
-  Sparkles,
-  Cpu
+  HelpCircle
 } from 'lucide-vue-next';
 
 const activeTab = ref('new'); // 'new' | 'check'
@@ -370,18 +366,6 @@ function startAnotherTicket() {
           </div>
         </div>
       </div>
-
-      <!-- Dashboard info box for admins -->
-      <div class="admin-link-card">
-        <div class="admin-text">
-          <Sparkles :size="16" class="sparkle-icon" />
-          <span>{{ t('Support staff? Access incoming tickets in real-time:') }}</span>
-        </div>
-        <a :href="`${API_BASE}/admin/tickets`" target="_blank" rel="noopener" class="admin-btn">
-          <span>{{ t('Open Laravel Tickets Dashboard') }}</span>
-          <ExternalLink :size="14" />
-        </a>
-      </div>
     </div>
   </section>
 </template>
@@ -719,49 +703,6 @@ function startAnotherTicket() {
   border-radius: 8px;
 }
 
-/* Admin Link Card */
-.admin-link-card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #f1f5fd;
-  border: 1px solid #d5e2fb;
-  border-radius: 12px;
-  padding: 14px 20px;
-  font-size: 13px;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.admin-text {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #1e3a8a;
-  font-weight: 500;
-}
-
-.sparkle-icon {
-  color: var(--blue, #3565eb);
-}
-
-.admin-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 600;
-  color: var(--blue, #3565eb);
-  background: #fff;
-  padding: 6px 14px;
-  border-radius: 6px;
-  border: 1px solid #cadbfd;
-  transition: all 0.15s;
-}
-
-.admin-btn:hover {
-  background: var(--blue, #3565eb);
-  color: #fff;
-}
 
 @media (max-width: 640px) {
   .form-grid {
