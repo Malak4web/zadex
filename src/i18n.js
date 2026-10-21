@@ -23,8 +23,10 @@ export async function setLocale(next,{persist=true}={}){
   locale.value=next;
   if(typeof document!=='undefined'){
    document.documentElement.lang=next;document.documentElement.dir=next==='ar'?'rtl':'ltr';
-   document.title=t('Zadex — Your ideas, made real.');
-   document.querySelector('meta[name="description"]')?.setAttribute('content',t('A free visual builder for WordPress, with the freedom to make every detail yours.'));
+   if(document.documentElement.dataset.page!=='docs'){
+    document.title=t('Zadex — Your ideas, made real.');
+    document.querySelector('meta[name="description"]')?.setAttribute('content',t('A free visual builder for WordPress, with the freedom to make every detail yours.'));
+   }
    if(persist){try{localStorage.setItem('zadex-language',next);}catch{}const url=new URL(location.href);url.searchParams.set('lang',next);history.replaceState(null,'',url);}
   }
  }finally{if(id===request)changing.value=false;}

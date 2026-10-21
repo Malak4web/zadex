@@ -4,3 +4,7 @@ dist/
 .impeccable/
 .claude/
 *.log
+backend/vendor/
+backend/.env
+backend/database/*.sqlite*
+output/

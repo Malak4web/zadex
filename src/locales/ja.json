@@ -1509,5 +1509,6 @@
   "Show fewer": "表示を減らす",
   "Start with the highlighted setting, or watch how it works.": "ハイライトされた設定から始めるか、使い方を見てみましょう。",
   ".lab-stage": ".lab-stage",
-  "editor": "editor"
+  "editor": "editor",
+  "Documentation": "ドキュメント"
 }

@@ -50,7 +50,21 @@ This validates unique IDs, all categories and families, the complete 102-widget 
 | Output, generated CSS, conditional scripts and privacy | Performance & privacy |
 | Dashboard panels, editor entry and retained designs | WordPress admin |
 
-## Recording
+## Plugin documentation
+
+Open `/docs/?lang=ar` for Arabic or `/docs/?lang=en` for English. The homepage links to Documentation in desktop navigation, mobile navigation and the footer. This is a separate Vite multi-page entry (`docs/index.html`), emitted as `dist/docs/index.html`; it works as a static directory page without an SPA rewrite rule. Serve the entire `dist/` directory so its shared `/assets/` paths resolve.
+
+The documentation includes 30 task-based guides plus the 102 public plugin elements and 2,275 actual manifest control rows. Coverage includes installation, first page, editor/navigation, layout, responsive inheritance, global styles/classes, saving/revisions, Theme Builder, conditions, motion, dynamic fields/loops, popups, forms/integrations/spam, components, transfers, fonts/icons, permissions/notes, WooCommerce, payments, site settings, Arabic, performance/privacy, shortcuts and troubleshooting.
+
+Detailed documentation is authored in English and Arabic. Other marketing languages lead to the English documentation, whose language selector clearly offers English and Arabic; the marketing site's eleven-language support is preserved. The docs bootstrap changes the unsupported URL locale to `en` without replacing the saved marketing language preference. Arabic prose is authored; many field labels and control help texts reuse the plugin's Arabic translation and the existing website glossary. Actual stored defaults, field IDs, keyboard combinations and code snippets remain literal reference values.
+
+`src/docs/guides.js` owns the bilingual editorial material. `npm run docs:reference` reads manifests, the source plugin version and Arabic labels from the development plugin, writing only website data and dictionaries. The generated snapshot documents **0.1.1**, verified from `zadex.php`, rather than the older 0.1.0 noted in FEATURES.md. Update the review date when conducting a new content review. See [documentation evidence](docs/CONTENT_SOURCES.md) for the source map.
+
+The reader supports full-text search, additional search results, element filtering, section deep links (`#installation/requirements`), current-page navigation, previous/next/related guides, copy-link feedback, print styles and invalid-link recovery. Search covers original English element names as well as localized descriptions and controls. The mobile sidebar is an in-flow disclosure; no modal focus trap is needed. Dictionaries are local assets and the docs make no translation-service calls.
+
+Run `npm run verify:docs` to check dictionaries, IDs, related links and every element control row while rendering all 264 page/language combinations. Website regression checks remain `npm run verify:i18n` and `npm run verify:features`; `npm run build` emits both pages. Browser verification covers 1440px, 390px and 320px, Arabic/English switching, translated search/empty/reveal states, section deep links, the keyboard skip link and active-page search/mobile navigation. The finish reviewer scored DOC-F01 (same-hash navigation) resolved and returned **Ship** for this extension. This is local-preview delivery, not a public deployment.
+
+## Recording assets
 
 - `public/media/zadex-in-action.mp4`: approximately 23 seconds, 1280 × 720, silent, looping.
 - `public/media/zadex-in-action.webm`: alternative format. MP4 is preferred because it was verified to decode in the preview browser.
