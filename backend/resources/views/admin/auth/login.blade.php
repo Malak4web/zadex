@@ -170,26 +170,6 @@
         .btn-submit:hover {
             background: var(--primary-hover);
         }
-
-        .credentials-hint {
-            margin-top: 24px;
-            padding-top: 18px;
-            border-top: 1px solid var(--line);
-            background: #f8fafc;
-            border-radius: 8px;
-            padding: 12px;
-            font-size: 12px;
-            color: var(--muted);
-            line-height: 1.6;
-        }
-
-        .cred-code {
-            font-family: var(--font-mono);
-            font-weight: 600;
-            color: var(--primary);
-            direction: ltr;
-            display: inline-block;
-        }
     </style>
 </head>
 <body>
@@ -220,10 +200,10 @@
                     type="email" 
                     id="email" 
                     name="email" 
-                    value="{{ old('email', 'admin@zadex.com') }}" 
+                    value="{{ old('email') }}" 
                     required 
                     autofocus
-                    placeholder="admin@zadex.com"
+                    placeholder="name@example.com"
                 >
             </div>
 
@@ -249,12 +229,6 @@
                 تسجيل الدخول
             </button>
         </form>
-
-        <div class="credentials-hint">
-            <strong>بيانات تسجيل الدخول التجريبية (Admin Credentials):</strong><br>
-            البريد: <span class="cred-code">admin@zadex.com</span><br>
-            كلمة المرور: <span class="cred-code">zadex@2026</span>
-        </div>
     </div>
 </body>
 </html>

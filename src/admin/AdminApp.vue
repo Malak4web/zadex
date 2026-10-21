@@ -22,8 +22,8 @@ import {
 } from 'lucide-vue-next';
 
 const isAuthenticated = ref(false);
-const loginEmail = ref('admin@zadex.com');
-const loginPassword = ref('zadex@2026');
+const loginEmail = ref('');
+const loginPassword = ref('');
 const loginError = ref('');
 const rememberMe = ref(true);
 
@@ -329,12 +329,6 @@ function timeAgo(dateString) {
             <ArrowRight :size="16" />
           </button>
         </form>
-
-        <div class="credentials-hint">
-          <strong>بيانات تسجيل الدخول:</strong><br>
-          البريد: <code class="cred-code">admin@zadex.com</code><br>
-          كلمة المرور: <code class="cred-code">zadex@2026</code>
-        </div>
       </div>
     </div>
 
@@ -777,25 +771,6 @@ function timeAgo(dateString) {
   gap: 8px;
   color: #5a6474;
   cursor: pointer;
-}
-
-.credentials-hint {
-  margin-top: 24px;
-  padding: 12px;
-  border-top: 1px solid #e2e6ed;
-  background: #f8fafc;
-  border-radius: 8px;
-  font-size: 12px;
-  color: #5a6474;
-  line-height: 1.6;
-}
-
-.cred-code {
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 600;
-  color: #3565eb;
-  direction: ltr;
-  display: inline-block;
 }
 
 /* Dashboard */
