@@ -1510,5 +1510,9 @@
   "Start with the highlighted setting, or watch how it works.": "Comece pela configuração destacada ou veja como funciona.",
   ".lab-stage": ".lab-stage",
   "editor": "editor",
-  "Documentation": "Documentação"
+  "Documentation": "Documentação",
+  "Migrate from Elementor": "Migrar do Elementor",
+  "Support": "Suporte",
+  "/docs/?lang=": "/docs/?lang=",
+  "/migrator/?lang=": "/migrator/?lang="
 }

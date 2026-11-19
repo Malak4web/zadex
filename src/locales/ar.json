@@ -1575,7 +1575,7 @@
   "Subject": "موضوع التذكرة",
   "Summary of the question or issue": "ملخص المشكلة أو الاستفسار",
   "Message & Details": "تفاصيل الرسالة",
-  "Please provide as much relevant detail as possible (WordPress version, active theme, steps to reproduce)...": "يرجى ذكر أكبر قدر ممكن من التفاصيل (إصدار ووردبريس، القالب النشط، خطوات تكرار المشكلة)...",
+  "Please provide as much relevant detail as possible (WordPress version, active theme, steps to reproduce)...": "يرجى ذكر أكبر قدر ممكن من التفاصيل (إصدار WordPress، القالب النشط، خطوات تكرار المشكلة)...",
   "All tickets are handled privately by our engineering team.": "تتم معالجة كافة التذاكر بسرية واهتمام من قِبل الفريق الفني.",
   "Submitting ticket…": "جارٍ إرسال التذكرة…",
   "Submit Ticket": "إرسال التذكرة",
@@ -1591,5 +1591,8 @@
   "An error occurred while submitting your ticket.": "حدث خطأ أثناء إرسال تذكرتك.",
   "Please enter a ticket number.": "يرجى كتابة رقم التذكرة.",
   "No ticket found with this reference number.": "لم يتم العثور على تذكرة بهذا الرقم المرجعي.",
-  "Could not connect to ticket service. Make sure backend is running.": "تعذر الاتصال بخدمة التذاكر. تأكد من تشغيل خادم الـ backend."
+  "Could not connect to ticket service. Make sure backend is running.": "تعذر الاتصال بخدمة التذاكر. تأكد من تشغيل خادم الـ backend.",
+  "Migrate from Elementor": "انقل من Elementor",
+  "/docs/?lang=": "/docs/?lang=",
+  "/migrator/?lang=": "/migrator/?lang="
 }

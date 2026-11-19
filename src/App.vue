@@ -10,6 +10,7 @@ import SupportSection from './components/SupportSection.vue';
 import './components/feature-lab.css';
 const download='https://wordpress.org/plugins/zadex/';
 const docsHref=computed(()=>'/docs/?lang='+locale.value);
+const migratorHref=computed(()=>'/migrator/?lang='+locale.value);
 const video=ref(null),playing=ref(false),current=ref(0),duration=ref(22),mobileMenu=ref(false),openQuestion=ref(0),videoError=ref(false);
 const chapters=[{name:'A starting point',detail:'Insert a section',time:0},{name:'Make it yours',detail:'Edit directly on the page',time:7},{name:'Every screen',detail:'Preview. Adjust. Save.',time:17}];
 const activeChapter=computed(()=>current.value>=17?2:current.value>=7?1:0);
@@ -35,10 +36,10 @@ onBeforeUnmount(()=>motionQuery?.removeEventListener('change',respectMotion));
  <div class="site-shell">
  <header class="site-header">
   <a class="brand" href="#" :aria-label='t("Zadex home")'>{{t("Zadex")}}<span class="brand-dot"></span></a>
-  <nav class="desktop-nav" :aria-label='t("Main navigation")'><a href="#in-action">{{t("In action")}}</a><a href="#feature-lab">{{t("Feature playground")}}</a><a href="#free">{{t("Why free?")}}</a><a href="#questions">{{t("FAQs")}}</a><a href="#tickets">{{t("Support")}}</a><a :href="docsHref">{{t("Documentation")}}</a></nav>
+  <nav class="desktop-nav" :aria-label='t("Main navigation")'><a href="#in-action">{{t("In action")}}</a><a href="#feature-lab">{{t("Feature playground")}}</a><a href="#free">{{t("Why free?")}}</a><a href="#questions">{{t("FAQs")}}</a><a href="#tickets">{{t("Support")}}</a><a :href="docsHref">{{t("Documentation")}}</a><a :href="migratorHref">{{t("Migrate from Elementor")}}</a></nav>
   <div class="header-end"><LanguageSwitcher/><a class="button button-primary header-download" :href="download" target="_blank" rel="noopener">{{t("Get Zadex free")}}<ArrowUpRight :size="15" /></a><button class="menu-toggle" :aria-expanded="mobileMenu" aria-controls="mobile-navigation" :aria-label='t("Toggle navigation")' @click="mobileMenu=!mobileMenu"><X v-if="mobileMenu"/><Menu v-else/></button></div>
  </header>
- <nav v-if="mobileMenu" id="mobile-navigation" class="mobile-nav" :aria-label='t("Mobile navigation")'><a href="#in-action" @click="closeMenu">{{t("In action")}}</a><a href="#feature-lab" @click="closeMenu">{{t("Feature playground")}}</a><a href="#free" @click="closeMenu">{{t("Why free?")}}</a><a href="#questions" @click="closeMenu">{{t("FAQs")}}</a><a href="#tickets" @click="closeMenu">{{t("Support")}}</a><a :href="docsHref" @click="closeMenu">{{t("Documentation")}}</a></nav>
+ <nav v-if="mobileMenu" id="mobile-navigation" class="mobile-nav" :aria-label='t("Mobile navigation")'><a href="#in-action" @click="closeMenu">{{t("In action")}}</a><a href="#feature-lab" @click="closeMenu">{{t("Feature playground")}}</a><a href="#free" @click="closeMenu">{{t("Why free?")}}</a><a href="#questions" @click="closeMenu">{{t("FAQs")}}</a><a href="#tickets" @click="closeMenu">{{t("Support")}}</a><a :href="docsHref" @click="closeMenu">{{t("Documentation")}}</a><a :href="migratorHref" @click="closeMenu">{{t("Migrate from Elementor")}}</a></nav>
  <main id="main">
   <section class="hero" aria-labelledby="hero-title">
    <HeroCanvas :download="download"/>
@@ -57,6 +58,6 @@ onBeforeUnmount(()=>motionQuery?.removeEventListener('change',respectMotion));
   <SupportSection />
   <section class="closing"><div class="brand closing-brand">{{t("Zadex")}}<span class="brand-dot"></span></div><h2>{{t("Make the thing you’re imagining.")}}</h2><a class="button button-primary" :href="download" target="_blank" rel="noopener">{{t("Your next website starts here")}}<ArrowUpRight :size="17"/></a><p>{{t("WordPress 6.5+ · PHP 8.0+ · Free to create.")}}</p></section>
  </main>
- <footer class="site-footer"><a class="brand footer-brand" href="#">{{t("Zadex")}}<span class="brand-dot"></span></a><span>{{t("A little imagination goes a long way.")}}</span><a href="#tickets">{{t("Support")}}</a><a :href="docsHref">{{t("Documentation")}}</a><a :href="download" target="_blank" rel="noopener">{{t("Find us on WordPress.org")}}<ArrowUpRight :size="14"/></a></footer>
+ <footer class="site-footer"><a class="brand footer-brand" href="#">{{t("Zadex")}}<span class="brand-dot"></span></a><span>{{t("A little imagination goes a long way.")}}</span><a href="#tickets">{{t("Support")}}</a><a :href="docsHref">{{t("Documentation")}}</a><a :href="migratorHref">{{t("Migrate from Elementor")}}</a><a :href="download" target="_blank" rel="noopener">{{t("Find us on WordPress.org")}}<ArrowUpRight :size="14"/></a></footer>
  </div>
 </template>

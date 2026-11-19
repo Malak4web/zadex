@@ -14,6 +14,7 @@ export default defineConfig({
       input: {
         main: fileURLToPath(new URL('./index.html', import.meta.url)),
         docs: fileURLToPath(new URL('./docs/index.html', import.meta.url)),
+        migrator: fileURLToPath(new URL('./migrator/index.html', import.meta.url)),
         admin: fileURLToPath(new URL('./admin/index.html', import.meta.url)),
         adminLogin: fileURLToPath(new URL('./admin/login/index.html', import.meta.url)),
       },

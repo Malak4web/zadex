@@ -1510,5 +1510,9 @@
   "Start with the highlighted setting, or watch how it works.": "ハイライトされた設定から始めるか、使い方を見てみましょう。",
   ".lab-stage": ".lab-stage",
   "editor": "editor",
-  "Documentation": "ドキュメント"
+  "Documentation": "ドキュメント",
+  "Migrate from Elementor": "Elementor から移行",
+  "Support": "サポート",
+  "/docs/?lang=": "/docs/?lang=",
+  "/migrator/?lang=": "/migrator/?lang="
 }

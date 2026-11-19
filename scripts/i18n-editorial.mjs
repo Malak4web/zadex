@@ -151,6 +151,10 @@ row('+{count} more','+{count} أخرى|+{count} más|+{count} weitere|ほか {co
 row('Show fewer','عرض أقل|Mostrar menos|Weniger anzeigen|表示を減らす|Afficher moins|Mostrar menos|Mostra meno|Minder tonen|Pokaż mniej|Свернуть');
 row('Start with the highlighted setting, or watch how it works.','ابدأ بالإعداد المميّز، أو شوف بتشتغل إزاي.|Empieza por el ajuste resaltado o mira cómo funciona.|Beginne mit der hervorgehobenen Einstellung oder sieh dir an, wie es funktioniert.|ハイライトされた設定から始めるか、使い方を見てみましょう。|Commencez par le réglage mis en évidence, ou regardez comment ça marche.|Comece pela configuração destacada ou veja como funciona.|Inizia dall’impostazione evidenziata o guarda come funziona.|Begin met de gemarkeerde instelling of bekijk hoe het werkt.|Zacznij od wyróżnionego ustawienia lub zobacz, jak to działa.|Начните с выделенной настройки или посмотрите, как это работает.');
 for(const key of ['.lab-stage','editor'])for(const code of codes)(overrides[code]??={})[key]=key;
+// Navigation: Migrator add-on page and support
+row('Migrate from Elementor','انقل من Elementor|Migrar desde Elementor|Von Elementor umziehen|Elementor から移行|Migrer depuis Elementor|Migrar do Elementor|Migra da Elementor|Overstappen van Elementor|Migracja z Elementora|Переход с Elementor');
+row('Support','الدعم الفني|Soporte|Support|サポート|Assistance|Suporte|Assistenza|Ondersteuning|Wsparcie|Поддержка');
+for(const key of ['/docs/?lang=','/migrator/?lang='])for(const code of codes)(overrides[code]??={})[key]=key;
 fs.writeFileSync('scripts/i18n-overrides.json',JSON.stringify(overrides,null,2)+'\n');
 for(const [locale,values] of Object.entries(overrides)){const path=`src/locales/${locale}.json`;if(fs.existsSync(path)){
  const messages=JSON.parse(fs.readFileSync(path,'utf8'));Object.assign(messages,values);

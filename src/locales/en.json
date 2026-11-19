@@ -11,6 +11,8 @@
   "/ 3 slides": "/ 3 slides",
   "/ Sample WordPress data": "/ Sample WordPress data",
   "/ example item": "/ example item",
+  "/docs/?lang=": "/docs/?lang=",
+  "/migrator/?lang=": "/migrator/?lang=",
   "102 elements": "102 elements",
   "12 column structures": "12 column structures",
   "12 in stock": "12 in stock",
@@ -358,6 +360,7 @@
   "Dismiss notice": "Dismiss notice",
   "Display conditions": "Display conditions",
   "Divider": "Divider",
+  "Documentation": "Documentation",
   "Donate": "Donate",
   "Don’t just read about it.": "Don’t just read about it.",
   "Download sample JSON": "Download sample JSON",
@@ -678,6 +681,7 @@
   "Menu Anchor": "Menu Anchor",
   "Menu Cart": "Menu Cart",
   "Meta data of the current post: date, time, author, comments, terms or a custom text, each with an icon.": "Meta data of the current post: date, time, author, comments, terms or a custom text, each with an icon.",
+  "Migrate from Elementor": "Migrate from Elementor",
   "Mobile": "Mobile",
   "Mobile menu": "Mobile menu",
   "Mobile navigation": "Mobile navigation",
@@ -1057,6 +1061,7 @@
   "Submission inbox & CSV": "Submission inbox & CSV",
   "Submissions": "Submissions",
   "Subscribe": "Subscribe",
+  "Support": "Support",
   "Switch the content": "Switch the content",
   "Switch the editor chrome to a dark appearance while keeping the page in view.": "Switch the editor chrome to a dark appearance while keeping the page in view.",
   "Switch to mobile": "Switch to mobile",
@@ -1448,6 +1453,5 @@
   "· SKU: DEMO-01": "· SKU: DEMO-01",
   "“A little detail changes everything.”": "“A little detail changes everything.”",
   "“Make the everyday feel considered.”": "“Make the everyday feel considered.”",
-  "“Room for a different perspective.”": "“Room for a different perspective.”",
-  "Documentation": "Documentation"
+  "“Room for a different perspective.”": "“Room for a different perspective.”"
 }
